@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>page2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.2.1.min.js"></script>
+    <script language="javascript">
+        $(document).ready(function() {
+            $("#send").click(function () {
+                $.ajax({
+                    url: 'rest/thepath',
+                    type: 'POST',
+                    data: $("#inText").val(),
+
+                    contentType: "text/plain", //'application/json; charset=utf-8',
+                    //dataType: 'json',
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+ <input id="inText" type="text"/>
+ <button id="send"> Send data </button>
+
+</body>
+</html>
