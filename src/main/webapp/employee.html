@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>guest</title>
+    <title>employee</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<link rel="stylesheet" type="text/css" href="style.css"> -->
@@ -25,7 +25,7 @@
             getDishes();
         });
 
-//test comment
+        //test comment
 
         function getDishes() {
             $.get("rest/thepath/dishes/appetizer", function(appetizers){
@@ -97,7 +97,7 @@
                 <legend> Personalia: </legend>
                 Name: <input type="text" name="name"><br>
 
-
+                <h1> TEST</h1>
                 Number of guests:
                 <select>
                     <option value="1">1</option>
@@ -114,63 +114,70 @@
 
 
 
-            </fieldset><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </fieldset>
+            <legend> Menu: </legend>
+            Appetizer:
+
+            <select id="appetizer">
+
+            </select><br>
+
+            Main Course:
+            <select id="maincourse">
+
+            </select><br>
+            Dessert:
+            <select id="dessert">
+
+            </select><br>
+
+
 
             <fieldset>
 
 
-                    <legend> Menu: </legend>
 
-                    Appetizer:
-                    <select id="appetizer">
-                    </select><br>
 
-                    Main Course:
-                    <select id="maincourse">
-                    </select><br>
 
-                    Dessert:
-                    <select id="dessert">
-                    </select><br>
+            </fieldset>
 
-                    Drinks:
-                    <select id="drinks">
-                    </select><br>
+            <legend> Payment: </legend>
+            Cardnumber:
+            Exp. date
+            cvs:
 
 
 
 
 
-
-
-
-
-            </fieldset><br>
             <fieldset>
 
-                    <legend> Payment: </legend>
-                        Cardnumber: <input type="text" name="cardnumber"><br>
-                        Exp. date <input type="text" name="exp_date"><br>
-                        CVS: <input type="text" name="cvs"><br><br>
-
-
-
-
-
-
-
-
-                    <input id="submit" type="submit" value="Confirm reservation"><br>
+                <input id="submit" type="submit" value="Confirm reservation"><br>
             </fieldset>
         </form>
 
 
-        </div>
-
-
-
-
     </div>
+
+
+
+
+</div>
 
 
 </div><br>

@@ -38,10 +38,20 @@
     }
 }*/
 
+.carousel-inner, #googleMap {
+    border: 1px solid #dddddd;
+    /*box-shadow: 0px 0px 0px 10px #AAA;
+    border-radius: 7px;
+    -moz-border-radius: 7px;
+    /*-webkit-border-radius: 7px;*/
+}
+
+
+
 .top-bar {
     position: absolute;
     width: 100%;
-    left: 60%;
+    left: 80%;
     margin: auto;
     margin-right: 1%;
 }
