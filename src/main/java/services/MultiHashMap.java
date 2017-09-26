@@ -26,13 +26,13 @@ public class MultiHashMap implements Serializable {
         if(map.get(date) == null) {
             map.put(date, new HashMap<Integer, HashMap<Integer, Order>>());
         }
-        if(map.get(date).get(bordnr) == null){
-            map.get(date).put(bordnr,new HashMap<Integer, Order>());
+        if(map.get(date).get(slotnr) == null){
+            map.get(date).put(slotnr,new HashMap<Integer, Order>());
         }
-        if(map.get(date).get(bordnr).containsKey(slotnr))
+        if(map.get(date).get(slotnr).containsKey(bordnr))
             return false;
         else{
-            map.get(date).get(bordnr).put(slotnr, value);
+            map.get(date).get(slotnr).put(bordnr, value);
             return true;
         }
 
@@ -43,6 +43,6 @@ public class MultiHashMap implements Serializable {
     }
 
     public boolean isFree(String dato, int bordnr, int slotnr){
-        return !(map.containsKey(dato) && map.get(dato).containsKey(bordnr) && map.get(dato).get(bordnr).containsKey(slotnr));
+        return !(map.containsKey(dato) && map.get(dato).containsKey(slotnr) && map.get(dato).get(slotnr).containsKey(bordnr));
     }
 }
