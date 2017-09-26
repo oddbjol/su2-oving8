@@ -12,6 +12,11 @@ public class Dish implements Serializable {
     Dish (){
     }
 
+    Dish(String name, int prize){
+        this.name=name;
+        this.prize= prize;
+    }
+
     public String getName() {
         return name;
     }

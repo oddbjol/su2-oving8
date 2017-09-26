@@ -18,9 +18,10 @@ import java.util.HashMap;
 
 public class AService {
 
-    static ArrayList<String> appetizer= new ArrayList<String>();
-    static ArrayList<String> maincourse= new ArrayList<String>();
-    static ArrayList<String> dessert= new ArrayList<String>();
+    static ArrayList<Dish> appetizer= new ArrayList<Dish>();
+    static ArrayList<Dish> maincourse= new ArrayList<Dish>();
+    static ArrayList<Dish> dessert= new ArrayList<Dish>();
+    static ArrayList<Dish> drink= new ArrayList<Dish>();
 
     private static MultiHashMap registration = new MultiHashMap();
     //static HashMap<LocalDate, HashMap<Integer, HashMap<Integer, Order>>>registration= new HashMap<LocalDate, HashMap<Integer, HashMap<Integer, Order>>>();
@@ -64,12 +65,14 @@ public class AService {
 
         System.out.println(a + " " + b + " " + c);
 
-        appetizer.add("Fish soup");
-        appetizer.add("Bread");
-        maincourse.add("Burger");
-        maincourse.add("Hallibut");
-        dessert.add("creme brulee");
-        dessert.add("applecake and ice");
+        appetizer.add(new Dish("Fish soup", 100));
+        appetizer.add(new Dish("Bread", 50));
+        maincourse.add(new Dish("Burger", 200));
+        maincourse.add(new Dish("Hallibut", 300));
+        dessert.add(new Dish("creme brulee", 150));
+        dessert.add(new Dish("applecake and ice", 100));
+        drink.add(new Dish("fanta", 50));
+        drink.add(new Dish("cola", 50));
         //registrering.put("25092017", 12, myOrder);
     }
 
@@ -95,6 +98,13 @@ public class AService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDessert(){
         return Response.ok(dessert).build();
+    }
+
+    @GET
+    @Path("/dishes/drink")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDrink(){
+        return Response.ok(drink).build();
     }
 
     @GET

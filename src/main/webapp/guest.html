@@ -48,15 +48,32 @@
 
             });
 
+            $("#guestNumber, #appetizer, #maincourse, #dessert, #drinks").change(function(){
+                var numGuests = $("#guestNumber").val();
+                var appertizer_price = pricelist[$("#appetizer").val()];
+                var mainCourse_price = pricelist[$("#maincourse").val()];
+                var dessert_price = pricelist[$("#dessert").val()];
+                var drink_price = pricelist[$("#drinks").val()];
+
+                var totalCost = numGuests * (appertizer_price + mainCourse_price + dessert_price + drink_price);
+
+                $("#totalCost").val(totalCost);
+            });
+
         });
 
 //test comment
 
+        var pricelist = {};
+
         function getDishes() {
-            $.get("rest/thepath/dishes/appetizer", function (appetizers) {
+            $.get("rest/thepath/dishes/appetizer", function (dishes) {
+
                 //console.dir(appetizers); // For komplekse objekter
-                for (var appetizer of appetizers) {
-                    var option = "<option value='" + appetizer + "'>" + appetizer + "</option>";
+                for (var dish of dishes) {
+                    pricelist[dish.name] = dish.prize;
+                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
+                    console.log(option);
                     //console.log(option); //For strenger og tall
                     $("#appetizer").append(option);
                 }
@@ -64,10 +81,12 @@
 
             });
 
-            $.get("rest/thepath/dishes/maincourse", function (maincourses) {
+            $.get("rest/thepath/dishes/maincourse", function (dishes) {
+
                 //console.dir(appetizers); // For komplekse objekter
-                for (var maincourse of maincourses) {
-                    var option = "<option value='" + maincourse + "'>" + maincourse + "</option>";
+                for (var dish of dishes) {
+                    pricelist[dish.name] = dish.prize;
+                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#maincourse").append(option);
                 }
@@ -75,16 +94,32 @@
 
             });
 
-            $.get("rest/thepath/dishes/dessert", function (desserts) {
+            $.get("rest/thepath/dishes/dessert", function (dishes) {
+
                 //console.dir(appetizers); // For komplekse objekter
-                for (var dessert of desserts) {
-                    var option = "<option value='" + dessert + "'>" + dessert + "</option>";
+                for (var dish of dishes) {
+                    pricelist[dish.name] = dish.prize;
+                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#dessert").append(option);
                 }
 
 
             });
+
+            $.get("rest/thepath/dishes/drink", function (dishes) {
+
+                //console.dir(appetizers); // For komplekse objekter
+                for (var dish of dishes) {
+                    pricelist[dish.name] = dish.prize;
+                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
+                    //console.log(option); //For strenger og tall
+                    $("#drinks").append(option);
+                }
+
+
+            });
+
         }
 
 
@@ -184,7 +219,7 @@
                     </select><br>
 
 
-                    Total Costs: <input type="text" name="totalCost"> <br>
+                    Total Costs: <input type="text" id="totalCost" disabled> <br>
 
                     Your table number: <input type="text" name="tableNumber"> <br>
 
