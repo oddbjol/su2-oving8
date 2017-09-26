@@ -23,15 +23,40 @@
     <script language="javascript">
         $(document).ready(function() {
             getDishes();
+            $("#submit").click(function () {
+                //console.log("Test");
+                var order = {
+                    customerName: $("#name").val(),
+                    numberOfGuests: $("#guestNumber").val(),
+                    appertizer: $("#appetizer").val(),
+                    mainCourse: $("#maincourse").val(),
+                    dessert: $("#dessert").val(),
+
+                };
+                console.dir(order);
+                var url = "rest/thepath/singleOrder/" + $("#serveringdate").val() + "/"+ $("#tableNumber").val() +"/" + $("#timeSlot").val();
+                //console.log(url);
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: JSON.stringify(order),
+                    contentType: 'application/json; charset=utf-8',
+                    //dataType: 'json',
+
+                });
+
+
+            });
+
         });
 
 //test comment
 
         function getDishes() {
-            $.get("rest/thepath/dishes/appetizer", function(appetizers){
+            $.get("rest/thepath/dishes/appetizer", function (appetizers) {
                 //console.dir(appetizers); // For komplekse objekter
-                for(var appetizer of appetizers){
-                    var option ="<option value='" + appetizer + "'>"+appetizer+"</option>";
+                for (var appetizer of appetizers) {
+                    var option = "<option value='" + appetizer + "'>" + appetizer + "</option>";
                     //console.log(option); //For strenger og tall
                     $("#appetizer").append(option);
                 }
@@ -39,10 +64,10 @@
 
             });
 
-            $.get("rest/thepath/dishes/maincourse", function(maincourses){
+            $.get("rest/thepath/dishes/maincourse", function (maincourses) {
                 //console.dir(appetizers); // For komplekse objekter
-                for(var maincourse of maincourses){
-                    var option ="<option value='" + maincourse + "'>"+maincourse+"</option>";
+                for (var maincourse of maincourses) {
+                    var option = "<option value='" + maincourse + "'>" + maincourse + "</option>";
                     //console.log(option); //For strenger og tall
                     $("#maincourse").append(option);
                 }
@@ -50,10 +75,10 @@
 
             });
 
-            $.get("rest/thepath/dishes/dessert", function(desserts){
+            $.get("rest/thepath/dishes/dessert", function (desserts) {
                 //console.dir(appetizers); // For komplekse objekter
-                for(var dessert of desserts){
-                    var option ="<option value='" + dessert + "'>"+dessert+"</option>";
+                for (var dessert of desserts) {
+                    var option = "<option value='" + dessert + "'>" + dessert + "</option>";
                     //console.log(option); //For strenger og tall
                     $("#dessert").append(option);
                 }
@@ -61,6 +86,10 @@
 
             });
         }
+
+
+
+
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -95,11 +124,11 @@
         <form>
             <fieldset>
                 <legend> Personalia: </legend>
-                Name: <input type="text" name="name"><br>
+                Name: <input type="text" id="name"><br>
 
 
                 Number of guests:
-                <select>
+                <select id="guestNumber">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -108,10 +137,19 @@
 
 
                 Servingtime (date and time):
-                <input type="datetime-local" name="serving">
+                <input type="date" id="serveringdate">
                 <!--<input type="submit" value="Send"> -->
 
-
+                <select id="timeSlot">
+                    <option value="0">1200 - 1330 </option>
+                    <option value="1">1330 - 1500 </option>
+                    <option value="2">1500 - 1630 </option>
+                    <option value="3">1630 - 1800 </option>
+                    <option value="4">1800 - 1930 </option>
+                    <option value="5">1930 - 2100 </option>
+                    <option value="6">2100 - 2230 </option>
+                    <option value="7">2230 - 2400 </option>
+                </select><br>
 
 
             </fieldset><br>
@@ -137,7 +175,18 @@
                     <select id="drinks">
                     </select><br>
 
+                    Choose prefered table:
+                    <select id="tableNumber">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select><br>
 
+
+                    Total Costs: <input type="text" name="totalCost"> <br>
+
+                    Your table number: <input type="text" name="tableNumber"> <br>
 
 
 
@@ -150,7 +199,32 @@
 
                     <legend> Payment: </legend>
                         Cardnumber: <input type="text" name="cardnumber"><br>
-                        Exp. date <input type="text" name="exp_date"><br>
+                        Exp. Year:
+                        <select id="cardYear">
+                            <option value="0">2017 </option>
+                            <option value="1">2018 </option>
+                            <option value="2">2019 </option>
+                            <option value="3">2020 </option>
+                            <option value="4">2021 </option>
+                            <option value="5">2022 </option>
+                            <option value="6">2023 </option>
+                            <option value="7">2024 </option>
+                        </select>
+                        Exp. Month:
+                        <select id="cardMonthr">
+                            <option value="0">Jan </option>
+                            <option value="1">Feb </option>
+                            <option value="2">March </option>
+                            <option value="3">April </option>
+                            <option value="4">Mai </option>
+                            <option value="5">June </option>
+                            <option value="6">Juli </option>
+                            <option value="7">Aug </option>
+                            <option value="8">Sept </option>
+                            <option value="9">Oct </option>
+                            <option value="10">Nov </option>
+                            <option value="11">Dec </option>
+                        </select><br>
                         CVS: <input type="text" name="cvs"><br><br>
 
 
@@ -160,7 +234,7 @@
 
 
 
-                    <input id="submit" type="submit" value="Confirm reservation"><br>
+                    <input id="submit" type="button" value="Confirm reservation"><br>
             </fieldset>
         </form>
 
