@@ -23,6 +23,7 @@
     <script language="javascript">
         $(document).ready(function() {
             getDishes();
+
             $("#submit").click(function () {
                 //console.log("Test");
                 var order = {
@@ -86,22 +87,26 @@
 
             });
 
-            $("#guestNumber, #appetizer, #maincourse, #dessert, #drinks").change(function(){
-                var numGuests = $("#guestNumber").val();
-                var appertizer_price = pricelist[$("#appetizer").val()];
-                var mainCourse_price = pricelist[$("#maincourse").val()];
-                var dessert_price = pricelist[$("#dessert").val()];
-                var drink_price = pricelist[$("#drinks").val()];
-
-                var totalCost = numGuests * (appertizer_price + mainCourse_price + dessert_price + drink_price);
-
-                $("#totalCost").val(totalCost);
-            });
+            $("#guestNumber, #appetizer, #maincourse, #dessert, #drinks").change(updateCost);
 
             $("#serveringdate").change(findTable);
             $("#timeSlot").change(findTable);
 
         });
+
+        function updateCost(){
+
+        var numGuests = $("#guestNumber").val();
+        var appertizer_price = pricelist[$("#appetizer").val()];
+        var mainCourse_price = pricelist[$("#maincourse").val()];
+        var dessert_price = pricelist[$("#dessert").val()];
+        var drink_price = pricelist[$("#drinks").val()];
+
+        var totalCost = numGuests * (appertizer_price + mainCourse_price + dessert_price + drink_price);
+
+        $("#totalCost").val(totalCost);
+
+        }
 
         function findTable(){
 
@@ -140,34 +145,42 @@
                     $("#maincourse").append(option);
                 }
 
-
-            });
-
-            $.get("rest/thepath/dishes/dessert", function (dishes) {
+                $.get("rest/thepath/dishes/dessert", function (dishes) {
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                    pricelist[dish.name] = dish.prize;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
-                    //console.log(option); //For strenger og tall
-                    $("#dessert").append(option);
+                pricelist[dish.name] = dish.prize;
+                var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
+                //console.log(option); //For strenger og tall
+                $("#dessert").append(option);
                 }
 
+                    $.get("rest/thepath/dishes/drink", function (dishes) {
 
-            });
-
-            $.get("rest/thepath/dishes/drink", function (dishes) {
-
-                //console.dir(appetizers); // For komplekse objekter
-                for (var dish of dishes) {
+                    //console.dir(appetizers); // For komplekse objekter
+                    for (var dish of dishes) {
                     pricelist[dish.name] = dish.prize;
                     var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#drinks").append(option);
-                }
+                    }
+
+                        updateCost();
+
+
+                    });
+
+
+                });
 
 
             });
+
+
+
+
+
+
 
         }
 
@@ -236,7 +249,7 @@ SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
 
 
 
-%>">>
+%>">
                 <!--<input type="submit" value="Send"> -->
 
                 <select id="timeSlot">
