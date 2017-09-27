@@ -3,6 +3,7 @@ package services;
 import jersey.repackaged.com.google.common.collect.HashBasedTable;
 import jersey.repackaged.com.google.common.collect.HashMultimap;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,6 +26,8 @@ public class AService {
     static ArrayList<Account> myAccount = new ArrayList<Account>();
 
     private static MultiHashMap registration = new MultiHashMap();
+
+    private final static int NUM_TABLES = 10;
     //static HashMap<LocalDate, HashMap<Integer, HashMap<Integer, Order>>>registration= new HashMap<LocalDate, HashMap<Integer, HashMap<Integer, Order>>>();
 
 //    private static synchronized boolean addRegistration(LocalDate date, int table_nr, int slot_nr, Order order){
@@ -177,6 +180,28 @@ public class AService {
         return Response.ok().build();
     }
 
+
+    // return value -1 means free table was not found.
+    @GET
+    @Path("/orders/order/findTable/{date}/{slotnr}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public int findTable(@PathParam("date") String date, @PathParam("slotnr") int slotnr){
+        HashMap<Integer, HashMap<Integer, Order>>  ordersByDate = registration.getOrdersByDate(date);
+        if(ordersByDate == null)
+            return 0;
+
+        HashMap<Integer, Order> ordersBySlot = ordersByDate.get(slotnr);
+        if(ordersBySlot == null)
+            return 0;
+
+        for(int i = 0; i < NUM_TABLES; i++){
+            if(ordersBySlot.get(i) == null)
+                return i;
+        }
+
+        return -1;
+
+    }
 
 }
 

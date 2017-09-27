@@ -174,7 +174,7 @@
         <div class="top-bar">
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
-                <li><a href="guest.html">Guest</a></li>
+                <li><a href="guest.jsp">Guest</a></li>
                 <li><a href="employee.jsp?employeeType=chef">Chef</a></li>
                 <li><a href="employee.jsp?employeeType=waiter">Waiter</a></li>
             </ul>

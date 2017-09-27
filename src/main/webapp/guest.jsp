@@ -1,5 +1,5 @@
-
-<!DOCTYPE html>
+    <%@page import="java.util.Date, java.util.Calendar, java.text.SimpleDateFormat" %>
+        <!DOCTYPE html>
 <html>
 <head>
     <title>guest</title>
@@ -98,7 +98,18 @@
                 $("#totalCost").val(totalCost);
             });
 
+            $("#serveringdate").change(findTable);
+            $("#timeSlot").change(findTable);
+
         });
+
+        function findTable(){
+
+            $.get("rest/thepath/orders/order/findTable/" + $("#serveringdate").val() + "/" + $("#timeSlot").val(), function (tableNumber){
+                $("#tableNumber").val(tableNumber);
+            });
+
+        }
 
 //test comment
 
@@ -180,7 +191,7 @@
         <div class="top-bar">
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
-                <li><a href="guest.html">Guest</a></li>
+                <li><a href="guest.jsp">Guest</a></li>
                 <li><a href="employee.jsp">Chef</a></li>
                 <li><a href="employee.jsp">Waiter</a></li>
             </ul>
@@ -211,7 +222,21 @@
 
 
                 Servingtime (date and time):
-                <input type="date" id="serveringdate">
+                <input type="date" id="serveringdate" value="<%
+
+                Date d = new Date();
+
+Calendar cal = Calendar.getInstance();
+cal.add(Calendar.DATE, 7);
+Date date = cal.getTime();
+SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
+
+
+                out.print(ft.format(date));
+
+
+
+%>">>
                 <!--<input type="submit" value="Send"> -->
 
                 <select id="timeSlot">
@@ -249,18 +274,10 @@
                     <select id="drinks">
                     </select><br>
 
-                    Choose prefered table:
-                    <select id="tableNumber">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select><br>
-
 
                     Total Costs: <input type="text" id="totalCost" disabled> <br>
 
-                    Your table number: <input type="text" name="tableNumber"> <br>
+                    Your table number: <input type="text" id="tableNumber" disabled> <br>
 
 
 
