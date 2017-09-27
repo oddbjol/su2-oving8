@@ -79,8 +79,8 @@ public class AService {
         drink.add(new Dish("cola", 50));
         //registrering.put("25092017", 12, myOrder);
 
-        myAccount.add(new Account("Urke", "12345678", "2020", "12", "123", 10000));
-        myAccount.add(new Account("Fauske", "123123123", "2020", "12", "321", 50));
+        myAccount.add(new Account("Urke", "111", "2018", "1", "123", 10000));
+        myAccount.add(new Account("Fauske", "222", "2018", "1", "123", 50));
 
 
     }
