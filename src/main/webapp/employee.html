@@ -21,46 +21,132 @@
     <!--<script src="jquery-3.2.1.min.js"></script> -->
 
     <script language="javascript">
+
         $(document).ready(function() {
-            getDishes();
+            var url = "rest/thepath/orders/" + getTodaysDateString();
+            $.get(url, function (slots) {
+
+                for (var slotnr in slots){
+                    for(var bordnr in slots[slotnr]){
+
+                        var order = slots[slotnr][bordnr];
+
+                        var appertizer = {
+                            tablenr:        bordnr,
+                            customerName:   order.customerName,
+                            dishname:       "" + order.numberOfGuests + " " + order.appertizer,
+                            time:           getTime(slotnr, 0)
+                        };
+
+                        var drink = {
+                            tablenr:        bordnr,
+                            customerName:   order.customerName,
+                            dishname:       "" + order.numberOfGuests + " " + order.drink,
+                            time:           getTime(slotnr, 0)
+                        };
+
+                        var maincourse = {
+                            tablenr:        bordnr,
+                            customerName:   order.customerName,
+                            dishname:       "" + order.numberOfGuests + " " + order.mainCourse,
+                            time:           getTime(slotnr, 30)
+                        };
+
+                        var dessert = {
+                            tablenr:        bordnr,
+                            customerName:   order.customerName,
+                            dishname:       "" + order.numberOfGuests + " " + order.dessert,
+                            time:           getTime(slotnr, 60)
+                        };
+
+
+
+                        insertIntoTable(appertizer);
+                        insertIntoTable(drink);
+                        insertIntoTable(maincourse);
+                        insertIntoTable(dessert);
+
+
+
+                    }
+
+                    sortTable(document.getElementById("tbl"), 3, false);
+
+                }
+            });
         });
 
-        //test comment
-
-        function getDishes() {
-            $.get("rest/thepath/dishes/appetizer", function(appetizers){
-                //console.dir(appetizers); // For komplekse objekter
-                for(var appetizer of appetizers){
-                    var option ="<option value='" + appetizer + "'>"+appetizer+"</option>";
-                    //console.log(option); //For strenger og tall
-                    $("#appetizer").append(option);
-                }
-
-
+        function sortTable(table, col, reverse) {
+            var tb = table.tBodies[0], // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+                tr = Array.prototype.slice.call(tb.rows, 0), // put rows into array
+                i;
+            reverse = -((+reverse) || -1);
+            tr = tr.sort(function (a, b) { // sort rows
+                return reverse // `-1 *` if want opposite order
+                    * (a.cells[col].textContent.trim() // using `.textContent.trim()` for test
+                            .localeCompare(b.cells[col].textContent.trim())
+                    );
             });
-
-            $.get("rest/thepath/dishes/maincourse", function(maincourses){
-                //console.dir(appetizers); // For komplekse objekter
-                for(var maincourse of maincourses){
-                    var option ="<option value='" + maincourse + "'>"+maincourse+"</option>";
-                    //console.log(option); //For strenger og tall
-                    $("#maincourse").append(option);
-                }
-
-
-            });
-
-            $.get("rest/thepath/dishes/dessert", function(desserts){
-                //console.dir(appetizers); // For komplekse objekter
-                for(var dessert of desserts){
-                    var option ="<option value='" + dessert + "'>"+dessert+"</option>";
-                    //console.log(option); //For strenger og tall
-                    $("#dessert").append(option);
-                }
-
-
-            });
+            for(i = 0; i < tr.length; ++i) tb.appendChild(tr[i]); // append each row in order
         }
+        // sortTable(tableNode, columId, false);
+
+        function insertIntoTable(dish){
+
+            var html =`
+            <tr>
+                <td>` + dish.tablenr + `</td>
+                <td>` + dish.customerName + `</td>
+                <td>` + dish.dishname + `</td>
+                <td>` + dish.time + `</td>
+            </tr>
+            `;
+
+            $("#tbody").append(html);
+
+        }
+
+        function getTime(slotnr, offset){
+            var minutesAtNoon = 60 * 12;
+            var totalMinutes = minutesAtNoon + slotnr * 90 + offset;
+
+            var hours = Math.floor(totalMinutes / 60);
+            var minutes = totalMinutes % 60;
+
+            return "" + hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+        }
+
+
+
+        /*
+         //console.dir(appetizers); // For komplekse objekter
+         for (var dish of dishes) {
+         pricelist[dish.name] = dish.prize;
+         var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
+         //console.log(option); //For strenger og tall
+         $("#dessert").append(option);
+         }
+
+         */
+
+        // Gets ISO date string from today's date
+        function getTodaysDateString(){
+            return convertDateToString(new Date());
+        }
+
+        // Gets ISO date string from given date
+        function convertDateToString(date) {
+            var year=date.getFullYear();
+            var month=date.getMonth();
+            var monthadd = (month<9 ? "0": "");
+            var day=date.getDate();
+            var today= year + "-" + monthadd+(month+1) + "-" + day;
+            return today;
+
+        }
+
+
+
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -79,7 +165,8 @@
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="guest.html">Guest</a></li>
-                <li><a href="employee.html">Employee</a></li>
+                <li><a href="employee.html?employeeType=chef">Chef</a></li>
+                <li><a href="employee.html?employeeType=waiter">Waiter</a></li>
             </ul>
         </div>
     </div>
@@ -89,87 +176,27 @@
 
 
 
+
+
+
+
 <div class="container" style="width: 90%;">
     <div class="row" id="inner1" style="width: 100%">
-        <h5 align="center">Accurate meals, for you and yours...</h5>
-        <form>
-            <fieldset>
-                <legend> Personalia: </legend>
-                Name: <input type="text" name="name"><br>
+        <h5 align="center">Worklist</h5>
+        <!-- dato-->
+        <table class="table table-responsive table-hover" id="tbl">
+            <thead>
+                <th>Table nr:</th>
+                <th>Guest name</th>
+                <th>Dish</th>
+                <th>Serving time</th>
+            </thead>
 
-                <h1> TEST</h1>
-                Number of guests:
-                <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select><br>
+            <tbody id="tbody">
 
+            </tbody>
+        </table>
 
-                Servingtime (date and time):
-                <input type="datetime-local" name="serving">
-                <!--<input type="submit" value="Send"> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </fieldset>
-            <legend> Menu: </legend>
-            Appetizer:
-
-            <select id="appetizer">
-
-            </select><br>
-
-            Main Course:
-            <select id="maincourse">
-
-            </select><br>
-            Dessert:
-            <select id="dessert">
-
-            </select><br>
-
-
-
-            <fieldset>
-
-
-
-
-
-            </fieldset>
-
-            <legend> Payment: </legend>
-            Cardnumber:
-            Exp. date
-            cvs:
-
-
-
-
-
-            <fieldset>
-
-                <input id="submit" type="submit" value="Confirm reservation"><br>
-            </fieldset>
-        </form>
 
 
     </div>

@@ -11,16 +11,21 @@ public class Order implements Serializable{
     private String appertizer;
     private String mainCourse;
     private String dessert;
+    private String drink;
 
     public Order(){
     }
 
-    public Order(String customerName, int numberOfGuests, String appertizer, String mainCourse, String dessert){
+
+
+    public Order(String customerName, int numberOfGuests, String appertizer, String mainCourse, String dessert, String drink){
         this.customerName=customerName;
         this.numberOfGuests=numberOfGuests;
         this.appertizer=appertizer;
         this.mainCourse=mainCourse;
         this.dessert=dessert;
+
+        this.drink=drink;
     }
 
     public String getCustomerName() {
@@ -61,6 +66,14 @@ public class Order implements Serializable{
 
     public void setDessert(String dessert) {
         this.dessert = dessert;
+    }
+
+    public String getDrink() {
+        return drink;
+    }
+
+    public void setDrink(String drink) {
+        this.drink = drink;
     }
 
 

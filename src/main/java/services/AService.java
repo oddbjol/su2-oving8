@@ -49,7 +49,7 @@ public class AService {
 //    }
 
     static {
-        Order myOrder = new Order("Kim R", 4, "Fish soup", "Halibut", "creme brulee");
+        Order myOrder = new Order("Kim R", 4, "Fish soup", "Halibut", "creme brulee", "");
         String test = "test";
 //        //HashMap <Integer, String> timeTest = new HashMap <Integer, String> (7, 5);
 //        //HashMultimap <Integer, Order> timeTest = new HashMultiMap <Integer, Order> (7, myOrder);
@@ -59,9 +59,9 @@ public class AService {
 //        tableTest.put(12, timeTest);
 //        registration.put(LocalDate.of(2017, Month.AUGUST, 25) , tableTest);
 
-        boolean a = registration.put("2017-09-25", 1, 1, new Order("kundenavn", 4, "Bread", "Burger", "creme brulee"));
-        boolean b = registration.put("2017-09-26", 1, 2, new Order("kundenavn", 4, "Bread", "Burger", "creme brulee"));
-        boolean c = registration.put("2017-09-26", 1, 2, new Order("kundenavn", 4, "Bread", "Burger", "creme brulee"));
+        boolean a = registration.put("2017-9-25", 1, 1, new Order("kundenavn", 4, "Bread", "Burger", "creme brulee", ""));
+        boolean b = registration.put("2017-9-26", 1, 2, new Order("kundenavn", 4, "Bread", "Burger", "creme brulee", ""));
+        boolean c = registration.put("2017-9-26", 2, 2, new Order("kundenavn", 4, "Bread", "Burger", "creme brulee", ""));
 
         System.out.println(a + " " + b + " " + c);
 
