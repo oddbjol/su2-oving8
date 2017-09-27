@@ -22,6 +22,7 @@
 
     <script language="javascript">
 
+        // Convert order data into individual "row" objects for each dish, and insert them into the table.
         $(document).ready(function() {
             var url = "rest/thepath/orders/" + getTodaysDateString();
             $.get(url, function (slots) {
@@ -62,7 +63,14 @@
 
 
                         insertIntoTable(appertizer);
-                        insertIntoTable(drink);
+
+                        // Only show drinks if the current user is a waiter.
+                        <%
+                            if(request.getParameter("employeeType") != null && request.getParameter("employeeType").toLowerCase().equals("waiter")){
+                                out.println("insertIntoTable(drink);");
+                            }
+                        %>
+
                         insertIntoTable(maincourse);
                         insertIntoTable(dessert);
 
@@ -70,12 +78,14 @@
 
                     }
 
+                    // Sort by "time" column to get chronological order in table.
                     sortTable(document.getElementById("tbl"), 3, false);
 
                 }
             });
         });
 
+        // https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript
         function sortTable(table, col, reverse) {
             var tb = table.tBodies[0], // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
                 tr = Array.prototype.slice.call(tb.rows, 0), // put rows into array
@@ -165,8 +175,8 @@
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="guest.html">Guest</a></li>
-                <li><a href="employee.html?employeeType=chef">Chef</a></li>
-                <li><a href="employee.html?employeeType=waiter">Waiter</a></li>
+                <li><a href="employee.jsp?employeeType=chef">Chef</a></li>
+                <li><a href="employee.jsp?employeeType=waiter">Waiter</a></li>
             </ul>
         </div>
     </div>

@@ -34,17 +34,54 @@
                     drink: $("#drinks").val()
 
                 };
-                console.dir(order);
+                //console.dir(order);
                 var url = "rest/thepath/singleOrder/" + $("#serveringdate").val() + "/"+ $("#tableNumber").val() +"/" + $("#timeSlot").val();
                 //console.log(url);
+
+
+                const ACCOUNT_STATUS_OK = 0;
+                const ACCOUNT_STATUS_NOTFOUND = 1;
+                const ACCOUNT_STATUS_NOFUNDS = 2;
+
+                var account = {
+                    cardnumber: $("#cardnumber").val(),
+                    expirationyear: $("#cardYear").val(),
+                    expirationdate: $("#cardMonthr").val(),
+                    cvs: $("#cvs").val()
+                };
+
                 $.ajax({
-                    url: url,
+                    url: 'rest/thepath/account/check/' + $("#totalCost").val(),
                     type: 'POST',
-                    data: JSON.stringify(order),
+                    data: JSON.stringify(account),
                     contentType: 'application/json; charset=utf-8',
                     //dataType: 'json',
+                    success: function(data){
+                        if(data == ACCOUNT_STATUS_OK){
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: JSON.stringify(order),
+                                contentType: 'application/json; charset=utf-8',
+                                //dataType: 'json',
+                            });
+                        }
 
+                            var message = "";
+
+                            if(data == ACCOUNT_STATUS_NOFUNDS)
+                                message = "Not enough money on account.";
+                            else if(data == ACCOUNT_STATUS_NOTFOUND)
+                                message = "Account not found. Check inputted account information.";
+                            else
+                                message = "Transaction successful.";
+
+                            alert(message);
+
+
+                    }
                 });
+
 
 
             });
@@ -144,8 +181,8 @@
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="guest.html">Guest</a></li>
-                <li><a href="employee.html">Chef</a></li>
-                <li><a href="employee.html">Waiter</a></li>
+                <li><a href="employee.jsp">Chef</a></li>
+                <li><a href="employee.jsp">Waiter</a></li>
             </ul>
         </div>
     </div>
@@ -235,34 +272,34 @@
             <fieldset>
 
                     <legend> Payment: </legend>
-                        Cardnumber: <input type="text" name="cardnumber"><br>
+                        Cardnumber: <input type="text" id="cardnumber"><br>
                         Exp. Year:
                         <select id="cardYear">
-                            <option value="0">2017 </option>
-                            <option value="1">2018 </option>
-                            <option value="2">2019 </option>
-                            <option value="3">2020 </option>
-                            <option value="4">2021 </option>
-                            <option value="5">2022 </option>
-                            <option value="6">2023 </option>
-                            <option value="7">2024 </option>
+                            <option value="2017">2017 </option>
+                            <option value="2018">2018 </option>
+                            <option value="2019">2019 </option>
+                            <option value="2020">2020 </option>
+                            <option value="2021">2021 </option>
+                            <option value="2022">2022 </option>
+                            <option value="2023">2023 </option>
+                            <option value="2024">2024 </option>
                         </select>
                         Exp. Month:
                         <select id="cardMonthr">
-                            <option value="0">Jan </option>
-                            <option value="1">Feb </option>
-                            <option value="2">March </option>
-                            <option value="3">April </option>
-                            <option value="4">Mai </option>
-                            <option value="5">June </option>
-                            <option value="6">Juli </option>
+                            <option value="1">Jan </option>
+                            <option value="2">Feb </option>
+                            <option value="3">March </option>
+                            <option value="4">April </option>
+                            <option value="5">Mai </option>
+                            <option value="6">June </option>
+                            <option value="7">Juli </option>
                             <option value="7">Aug </option>
-                            <option value="8">Sept </option>
-                            <option value="9">Oct </option>
-                            <option value="10">Nov </option>
-                            <option value="11">Dec </option>
+                            <option value="9">Sept </option>
+                            <option value="10">Oct </option>
+                            <option value="11">Nov </option>
+                            <option value="12">Dec </option>
                         </select><br>
-                        CVS: <input type="text" name="cvs"><br><br>
+                        CVS: <input type="text" id="cvs"><br><br>
 
 
 

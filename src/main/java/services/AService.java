@@ -22,6 +22,7 @@ public class AService {
     static ArrayList<Dish> maincourse= new ArrayList<Dish>();
     static ArrayList<Dish> dessert= new ArrayList<Dish>();
     static ArrayList<Dish> drink= new ArrayList<Dish>();
+    static ArrayList<Account> myAccount = new ArrayList<Account>();
 
     private static MultiHashMap registration = new MultiHashMap();
     //static HashMap<LocalDate, HashMap<Integer, HashMap<Integer, Order>>>registration= new HashMap<LocalDate, HashMap<Integer, HashMap<Integer, Order>>>();
@@ -63,7 +64,7 @@ public class AService {
         boolean b = registration.put("2017-9-26", 1, 2, new Order("kundenavn", 4, "Bread", "Burger", "creme brulee", ""));
         boolean c = registration.put("2017-9-26", 2, 2, new Order("kundenavn", 4, "Bread", "Burger", "creme brulee", ""));
 
-        System.out.println(a + " " + b + " " + c);
+        //System.out.println(a + " " + b + " " + c);
 
         appetizer.add(new Dish("Fish soup", 100));
         appetizer.add(new Dish("Bread", 50));
@@ -74,6 +75,11 @@ public class AService {
         drink.add(new Dish("fanta", 50));
         drink.add(new Dish("cola", 50));
         //registrering.put("25092017", 12, myOrder);
+
+        myAccount.add(new Account("Urke", "12345678", "2020", "12", "123", 10000));
+        myAccount.add(new Account("Fauske", "123123123", "2020", "12", "321", 50));
+
+
     }
 
 
@@ -141,17 +147,36 @@ public class AService {
 
     private static String testString = "Hei. Skiv noe og se hva som skjer.";
 
-    @GET 
-    @Produces(MediaType.TEXT_PLAIN) 
-    public String getSomething() {
-        return testString;
+    private static int ACCOUNT_STATUS_OK = 0;
+    private static int ACCOUNT_STATUS_NOTFOUND = 1;
+    private static int ACCOUNT_STATUS_NOFUNDS = 2;
+
+    @POST
+    @Path("/account/check/{amount}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response checkBalance(@PathParam("amount") int amount, Account account){
+
+        for(Account theaccount : myAccount){
+            if(theaccount.equals(account)){
+                if(theaccount.getBalance() >= amount)
+                    return Response.ok(ACCOUNT_STATUS_OK).build();
+                else
+                    return Response.ok(ACCOUNT_STATUS_NOFUNDS).build();
+            }
+        }
+
+        return Response.ok(ACCOUNT_STATUS_NOTFOUND).build();
     }
 
     @POST
-    @Consumes(MediaType.TEXT_PLAIN)   //(MediaType.APPLICATION_JSON)
-    public void sendSomething(String nyString){
-        testString = nyString;
+    @Path("/account/pay/{balance}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    // Trekker et bestemt beløp (balance) penger fra kontoen (account)
+    public Response pay(@PathParam("balance") int balance, Account account){
+        return Response.ok().build();
     }
+
 
 }
 
