@@ -25,7 +25,6 @@
             getDishes();
 
             $("#submit").click(function () {
-                //console.log("Test");
                 var order = {
                     customerName: $("#name").val(),
                     numberOfGuests: $("#guestNumber").val(),
@@ -35,14 +34,8 @@
                     drink: $("#drinks").val()
 
                 };
-                //console.dir(order);
-                var url = "rest/thepath/singleOrder/" + $("#serveringdate").val() + "/"+ $("#tableNumber").val() +"/" + $("#timeSlot").val();
-                //console.log(url);
+                var url = "rest/thepath/singleOrder/" + $("#serveringdate").val() + "/"+ $("#table_number").val();
 
-
-                const ACCOUNT_STATUS_OK = 0;
-                const ACCOUNT_STATUS_NOTFOUND = 1;
-                const ACCOUNT_STATUS_NOFUNDS = 2;
 
                 var account = {
                     cardnumber: $("#cardnumber").val(),
@@ -110,8 +103,8 @@
 
         function findTable(){
 
-            $.get("rest/thepath/orders/order/findTable/" + $("#serveringdate").val() + "/" + $("#timeSlot").val(), function (tableNumber){
-                $("#tableNumber").val(tableNumber);
+            $.get("rest/thepath/orders/order/findTable/" + $("#serveringdate").val() + "/" + $("#timeSlot").val(), function (table_number){
+                $("#table_number").val(table_number);
             });
 
         }
@@ -125,8 +118,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                    pricelist[dish.name] = dish.prize;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
+                    pricelist[dish.name] = dish.price;
+                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     console.log(option);
                     //console.log(option); //For strenger og tall
                     $("#appetizer").append(option);
@@ -139,8 +132,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                    pricelist[dish.name] = dish.prize;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
+                    pricelist[dish.name] = dish.price;
+                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#maincourse").append(option);
                 }
@@ -149,8 +142,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                pricelist[dish.name] = dish.prize;
-                var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
+                pricelist[dish.name] = dish.price;
+                var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                 //console.log(option); //For strenger og tall
                 $("#dessert").append(option);
                 }
@@ -159,8 +152,8 @@
 
                     //console.dir(appetizers); // For komplekse objekter
                     for (var dish of dishes) {
-                    pricelist[dish.name] = dish.prize;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.prize + " NOK)</option>";
+                    pricelist[dish.name] = dish.price;
+                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#drinks").append(option);
                     }
@@ -290,7 +283,7 @@ SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
 
                     Total Costs: <input type="text" id="totalCost" disabled> <br>
 
-                    Your table number: <input type="text" id="tableNumber" disabled> <br>
+                    Your table number: <input type="text" id="table_number" disabled> <br>
 
 
 
