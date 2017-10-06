@@ -37,8 +37,8 @@
                 var fullOrder = {
                     customer_id: 1,
                     table_number: 1,
-                    from_time: now,
-                    to_time: now,
+                    from_time: getStartTime(),
+                    to_time: getEndTime(),
                     dishes: {
                                 [appertizer]: num_guests,
                                 [mainCourse]: num_guests,
@@ -88,6 +88,31 @@
             $("#timeSlot").change(findTable);
 
         });
+
+        function getStartTime(){
+            var slotNumber = $("#timeSlot").val();
+            var dateString = $("#serveringdate").val();
+            var date = new Date(dateString);
+
+            newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0,0,0,0);
+
+            var ms = newDate.getTime();
+
+            ms += 12 * 60 * 60 * 1000;
+            ms += slotNumber * 90 * 60 * 1000;
+
+            return new Date(ms);
+        }
+
+        function getEndTime(){
+            var date = getStartTime();
+
+            var ms = date.getTime();
+
+            ms += 90 * 60 * 1000;
+
+            return new Date(ms);
+        }
 
         function updateCost(){
 
