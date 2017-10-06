@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,18 +15,22 @@ import java.util.Map;
 
 public class FullOrder implements Serializable{
     private int table_number;
-    private int customer_id;
+    private Integer customer_id;
+    private String customer_name;
     private Timestamp from_time;
     private Timestamp to_time;
+    private int num_guests;
     private HashMap<Integer, Integer> dishes = new HashMap<>(); // Integer is amount of dish
 
     public FullOrder(){}
 
-    public FullOrder(int table_number, int customer_id, Timestamp from_time, Timestamp to_time, HashMap<Integer, Integer> dishes) {
+    public FullOrder(int table_number, Integer customer_id, String customer_name, Timestamp from_time, Timestamp to_time, int num_guests, HashMap<Integer, Integer> dishes) {
         this.table_number = table_number;
         this.customer_id = customer_id;
+        this.customer_name = customer_name;
         this.from_time = from_time;
         this.to_time = to_time;
+        this.num_guests = num_guests;
         this.dishes = dishes;
     }
 
@@ -70,51 +75,24 @@ public class FullOrder implements Serializable{
         this.dishes = dishes;
     }
 
-    //Set date to null for all dates.
-    public static ArrayList<FullOrder> getAllByDate(Date date){
-        ArrayList<FullOrder> out = new ArrayList<>();
+    public int getNum_guests() {
+        return num_guests;
+    }
 
-        DB db = new DB();
+    public void setNum_guests(int num_guests) {
+        this.num_guests = num_guests;
+    }
 
-        if(db.setUp()){
-            try{
-                String sql = "SELECT * FROM AnOrder";
+    public void setCustomer_id(Integer customer_id) {
+        this.customer_id = customer_id;
+    }
 
-                if(date != null)
-                    sql += " WHERE DATE(AnOrder.from_time)=?";
+    public String getCustomer_name() {
+        return customer_name;
+    }
 
-                db.prep = db.connection.prepareStatement(sql);
-
-                if(date != null)
-                    db.prep.setDate(1, date);
-
-                db.res = db.prep.executeQuery();
-
-                ArrayList<AnOrder> orders = new ArrayList<>();
-
-                while(db.res.next())
-                    orders.add(AnOrder.processRow(db.res));
-
-                db.res.close();
-                db.prep.close();
-
-                for(AnOrder order : orders){
-                    HashMap<Integer, Integer> dishes = Dish.getByOrderId(order.getId());
-
-                    out.add(new FullOrder(order.getTable_number(), order.getCustomer_id(), order.getFrom_time(), order.getTo_time(), dishes ));
-                }
-
-
-            }
-            catch(SQLException e){
-                e.printStackTrace();
-            }
-            finally{
-                db.close();
-            }
-        }
-
-        return out;
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
     }
 
     public static boolean registerOrder(FullOrder order){
@@ -126,11 +104,18 @@ public class FullOrder implements Serializable{
             try{
                 db.connection.setAutoCommit(false);
 
-                db.prep = db.connection.prepareStatement("INSERT INTO AnOrder (table_number, customer_id, from_time, to_time) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-                db.prep.setInt(1, order.getTable_number());
-                db.prep.setInt(2, order.getCustomer_id());
-                db.prep.setTimestamp(3, order.getFrom_time());
-                db.prep.setTimestamp(4, order.getTo_time());
+                db.prep = db.connection.prepareStatement("INSERT INTO AnOrder (table_number, customer_id, customer_name, num_guests, from_time, to_time) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                db.prep.setInt(1, order.table_number);
+                
+                if(order.customer_id != null)
+                    db.prep.setInt(2, order.customer_id);
+                else
+                    db.prep.setNull(2, Types.INTEGER);
+
+                db.prep.setString(3, order.customer_name);
+                db.prep.setInt(4, order.num_guests);
+                db.prep.setTimestamp(5, order.from_time);
+                db.prep.setTimestamp(6, order.to_time);
 
                 success = (db.prep.executeUpdate() > 0);
 
