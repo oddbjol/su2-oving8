@@ -23,24 +23,40 @@
     <script language="javascript">
         $(document).ready(function() {
             getDishes();
+            findTable();
 
             $("#submit").click(function () {
-                var order = {
-                    customerName: $("#name").val(),
-                    numberOfGuests: $("#guestNumber").val(),
-                    appertizer: $("#appetizer").val(),
-                    mainCourse: $("#maincourse").val(),
-                    dessert: $("#dessert").val(),
-                    drink: $("#drinks").val()
+                var num_guests = $("#guestNumber").val();
 
+                var appertizer = $("#appetizer").val();
+                var mainCourse = $("#maincourse").val();
+                var dessert = $("#dessert").val();
+                var drink = $("#drinks").val();
+
+                var now = new Date();
+
+                var fullOrder = {
+                    customer_name: $("#name").val(),
+                    table_number: $("#table_number").val(),
+                    from_time: getStartTime(),
+                    to_time: getEndTime(),
+                    num_guests: num_guests,
+                    dishes: {
+                                [appertizer]: num_guests,
+                                [mainCourse]: num_guests,
+                                [dessert]: num_guests,
+                                [drink]: num_guests
+                            },
                 };
-                var url = "rest/thepath/singleOrder/" + $("#serveringdate").val() + "/"+ $("#table_number").val();
+
+        console.dir(fullOrder);
+        console.log(JSON.stringify(fullOrder));
+
+                var url = "rest/thepath/singleOrder";
 
 
                 var account = {
-                    cardnumber: $("#cardnumber").val(),
-                    expirationyear: $("#cardYear").val(),
-                    expirationdate: $("#cardMonthr").val(),
+                    number: $("#cardnumber").val(),
                     cvs: $("#cvs").val()
                 };
 
@@ -50,29 +66,20 @@
                     data: JSON.stringify(account),
                     contentType: 'application/json; charset=utf-8',
                     //dataType: 'json',
-                    success: function(data){
-                        if(data == ACCOUNT_STATUS_OK){
+                    success: function(success){
+                        if(success){
                             $.ajax({
                                 url: url,
                                 type: 'POST',
-                                data: JSON.stringify(order),
+                                data: JSON.stringify(fullOrder),
                                 contentType: 'application/json; charset=utf-8',
                                 //dataType: 'json',
                             });
+                            alert("Order placed successfull");
                         }
-
-                            var message = "";
-
-                            if(data == ACCOUNT_STATUS_NOFUNDS)
-                                message = "Not enough money on account.";
-                            else if(data == ACCOUNT_STATUS_NOTFOUND)
-                                message = "Account not found. Check inputted account information.";
-                            else
-                                message = "Transaction successful.";
-
-                            alert(message);
-
-
+                        else{
+                            alert("Something went wrong with payment");
+                        }
                     }
                 });
 
@@ -84,8 +91,34 @@
 
             $("#serveringdate").change(findTable);
             $("#timeSlot").change(findTable);
+            $("#guestNumber").change(findTable);
 
         });
+
+        function getStartTime(){
+            var slotNumber = $("#timeSlot").val();
+            var dateString = $("#serveringdate").val();
+            var date = new Date(dateString);
+
+            newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0,0,0,0);
+
+            var ms = newDate.getTime();
+
+            ms += 12 * 60 * 60 * 1000;
+            ms += slotNumber * 90 * 60 * 1000;
+
+            return new Date(ms);
+        }
+
+        function getEndTime(){
+            var date = getStartTime();
+
+            var ms = date.getTime();
+
+            ms += 90 * 60 * 1000;
+
+            return new Date(ms);
+        }
 
         function updateCost(){
 
@@ -103,8 +136,22 @@
 
         function findTable(){
 
-            $.get("rest/thepath/orders/order/findTable/" + $("#serveringdate").val() + "/" + $("#timeSlot").val(), function (table_number){
-                $("#table_number").val(table_number);
+            var order={
+                from_time: getStartTime(),
+                to_time: getEndTime(),
+                num_guests: $("#guestNumber").val()
+            };
+
+        console.log(JSON.stringify(order));
+
+            $.ajax({
+                url: 'rest/thepath/orders/order/findTable/',
+                type: 'POST',
+                data: JSON.stringify(order),
+                contentType: 'application/json; charset=utf-8',
+                success: function(table_number){
+                    $("#table_number").val(table_number);
+                }
             });
 
         }
@@ -118,8 +165,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                    pricelist[dish.name] = dish.price;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                    pricelist[dish.id] = dish.price;
+                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     console.log(option);
                     //console.log(option); //For strenger og tall
                     $("#appetizer").append(option);
@@ -132,8 +179,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                    pricelist[dish.name] = dish.price;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                    pricelist[dish.id] = dish.price;
+                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#maincourse").append(option);
                 }
@@ -142,8 +189,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                pricelist[dish.name] = dish.price;
-                var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                pricelist[dish.id] = dish.price;
+                var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                 //console.log(option); //For strenger og tall
                 $("#dessert").append(option);
                 }
@@ -152,8 +199,8 @@
 
                     //console.dir(appetizers); // For komplekse objekter
                     for (var dish of dishes) {
-                    pricelist[dish.name] = dish.price;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                    pricelist[dish.id] = dish.price;
+                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#drinks").append(option);
                     }
@@ -295,34 +342,8 @@ SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
             <fieldset>
 
                     <legend> Payment: </legend>
-                        Cardnumber: <input type="text" id="cardnumber"><br>
-                        Exp. Year:
-                        <select id="cardYear">
-                            <option value="2017">2017 </option>
-                            <option value="2018">2018 </option>
-                            <option value="2019">2019 </option>
-                            <option value="2020">2020 </option>
-                            <option value="2021">2021 </option>
-                            <option value="2022">2022 </option>
-                            <option value="2023">2023 </option>
-                            <option value="2024">2024 </option>
-                        </select>
-                        Exp. Month:
-                        <select id="cardMonthr">
-                            <option value="1">Jan </option>
-                            <option value="2">Feb </option>
-                            <option value="3">March </option>
-                            <option value="4">April </option>
-                            <option value="5">Mai </option>
-                            <option value="6">June </option>
-                            <option value="7">Juli </option>
-                            <option value="7">Aug </option>
-                            <option value="9">Sept </option>
-                            <option value="10">Oct </option>
-                            <option value="11">Nov </option>
-                            <option value="12">Dec </option>
-                        </select><br>
-                        CVS: <input type="text" id="cvs"><br><br>
+                        Cardnumber: (hint:123 or 321) <input type="text" id="cardnumber"><br>
+                        CVS: (hint:111) <input type="text" id="cvs"><br><br>
 
 
 

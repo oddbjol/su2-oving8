@@ -14,19 +14,23 @@ import java.util.ArrayList;
 public class AnOrder implements Serializable{
     private int id;
     private int customer_id;
+    private String customer_name;
     private int table_number;
     private Timestamp from_time;
     private Timestamp to_time;
+    private int num_guests;
 
     public AnOrder(){
     }
 
-    public AnOrder(int id, int customer_id, int table_number, Timestamp from_time, Timestamp to_time) {
+    public AnOrder(int id, int customer_id, String customer_name, int table_number, Timestamp from_time, Timestamp to_time, int num_guests) {
         this.id = id;
         this.customer_id = customer_id;
+        this.customer_name = customer_name;
         this.table_number = table_number;
         this.from_time = from_time;
         this.to_time = to_time;
+        this.num_guests = num_guests;
     }
 
     public int getCustomer_id() {
@@ -69,6 +73,22 @@ public class AnOrder implements Serializable{
         this.id = id;
     }
 
+    public int getNum_guests() {
+        return num_guests;
+    }
+
+    public void setNum_guests(int num_guests) {
+        this.num_guests = num_guests;
+    }
+
+    public String getCustomer_name() {
+        return customer_name;
+    }
+
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
+    }
+
     public static ArrayList<AnOrder> getAll(){
         ArrayList<AnOrder> out = new ArrayList<>();
 
@@ -94,15 +114,19 @@ public class AnOrder implements Serializable{
         return out;
     }
 
+
+
     //Processes information fetched from database and creates a similar object.
     public static AnOrder processRow(ResultSet res) throws SQLException {
 
         int id = res.getInt("AnOrder.id");
         int customerID = res.getInt("AnOrder.customer_id");
+        String customer_name = res.getString("AnOrder.customer_name");
         int tableNumber = res.getInt("AnOrder.table_number");
         Timestamp from_time = res.getTimestamp("AnOrder.from_time");
         Timestamp to_time = res.getTimestamp("AnOrder.to_time");
+        int num_guests = res.getInt("AnOrder.num_guests");
 
-        return new AnOrder(id, customerID, tableNumber, from_time, to_time);
+        return new AnOrder(id, customerID, customer_name, tableNumber, from_time, to_time, num_guests);
     }
 }
