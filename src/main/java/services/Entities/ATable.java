@@ -101,7 +101,7 @@ public class ATable {
      * @return
      */
 
-    public static int findTable(FullOrder order){
+    public static int findTable(AnOrder order){
         int out = -1;
 
         DB db = new DB();

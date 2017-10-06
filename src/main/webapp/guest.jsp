@@ -36,17 +36,19 @@
                 var now = new Date();
 
                 var fullOrder = {
-                    customer_name: $("#name").val(),
-                    table_number: $("#table_number").val(),
-                    from_time: getStartTime(),
-                    to_time: getEndTime(),
-                    num_guests: num_guests,
-                    dishes: {
-                                [appertizer]: num_guests,
-                                [mainCourse]: num_guests,
-                                [dessert]: num_guests,
-                                [drink]: num_guests
-                            },
+                    order:{
+                        customer_name: $("#name").val(),
+                        table_number: $("#table_number").val(),
+                        from_time: getStartTime(),
+                        to_time: getEndTime(),
+                        num_guests: num_guests
+                    },
+                    dishes:{
+                        [appertizer]: num_guests,
+                        [mainCourse]: num_guests,
+                        [dessert]: num_guests,
+                        [drink]: num_guests
+                    }
                 };
 
         console.dir(fullOrder);

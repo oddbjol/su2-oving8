@@ -135,18 +135,7 @@ public class Dish {
     /**
      * Returns a map of different dishes with amounts ordered, for a given order.
      *
-     * First integer in map (the key) is the id of a dish
-     * Second integer in map (the value) is how many dishes of the given dish id (from the key) there are
-     *
-     * If you ordered 2 burgers (id 12), 5 soups (id 13) and 1 coke (id 17), the map would look like this (javascript syntax):
-     *
-     * (Syntax for each line inside brackets is key: value)
-     *
-     * {
-     *     12: 2,
-     *     13: 5,
-     *     1: 17
-     * }
+     * See class FullOrder for more info about how this HashMap works.
      *
      * @param order_id
      * @return

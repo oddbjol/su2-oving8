@@ -1,19 +1,23 @@
 package services.Entities;
 
+import com.mysql.jdbc.Statement;
 import services.DB.DB;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by KimRostgard on 25.09.2017.
  */
 public class AnOrder implements Serializable{
     private int id;
-    private int customer_id;
+    private Integer customer_id;
     private String customer_name;
     private int table_number;
     private Timestamp from_time;
@@ -118,6 +122,87 @@ public class AnOrder implements Serializable{
         }
 
         return out;
+    }
+
+
+    /**
+     * Puts a new order into the system, including ordered dishes. Doesn't check if table is free etc. TODO: Error handling.
+     *
+     * @param order
+     * @param dishes A map between dish_id numbers and the amount of the given dish.
+     *               Keeps track of how many of each dish there are in an order.
+     *               See class FullOrder for more info about how this HashMap works.
+     * @return
+     */
+
+    public static boolean registerOrder(AnOrder order, HashMap<Integer, Integer> dishes){
+        boolean success = false;
+
+        DB db = new DB();
+
+        if(db.setUp()){
+            try{
+                // Use a transaction, since we're performing several queries in one go.
+                db.connection.setAutoCommit(false);
+
+                // Make a PreparedStatement, ready to be run on server.
+                db.prep = db.connection.prepareStatement("INSERT INTO AnOrder (table_number, customer_id, customer_name, num_guests, from_time, to_time) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+
+                // Fill in the right table number in the first '?' sign in query text.
+                db.prep.setInt(1, order.table_number);
+
+                // Only fill in customer id if the order has one. If not, just leave it blank.
+                // This is so that customers have the option not to register as customers. In this case, we just
+                // register the customer's name directly onto the order.
+                if(order.customer_id != null)
+                    db.prep.setInt(2, order.customer_id);
+                else
+                    db.prep.setNull(2, Types.INTEGER);
+
+                db.prep.setString(3, order.customer_name);
+                db.prep.setInt(4, order.num_guests);
+                db.prep.setTimestamp(5, order.from_time);
+                db.prep.setTimestamp(6, order.to_time);
+
+                // executeUpdate() returns number of rows altered. If this is 0, it means nothing actually happened.
+                success = (db.prep.executeUpdate() > 0);
+
+                // Retrieve the order id that was generated for this order.
+                db.res = db.prep.getGeneratedKeys();
+
+                int new_order_id = -1;
+
+                // Actually "unpack" the order ID from the result and store it.
+                if(db.res.next())
+                    new_order_id = db.res.getInt(1);
+
+                // Prepare statement for inserting dishes for this order.
+                db.prep = db.connection.prepareStatement("INSERT INTO Order_Dish (order_id, dish_id, amount) VALUES (?,?,?)");
+
+                // Insert one dish (with amount) for each entry in order.dishes
+                for(Map.Entry<Integer, Integer> entry : dishes.entrySet()){
+                    db.prep.setInt(1, new_order_id);
+                    db.prep.setInt(2, entry.getKey());
+                    db.prep.setInt(3, entry.getValue());
+
+                    // Add the three parameters into the statement as a "batch", ready to be run later.
+                    db.prep.addBatch();
+                }
+                // Run all the batches that we built up in the for loop, in one go.
+                db.prep.executeBatch();
+            }
+            catch(SQLException e){
+                // If something goes wrong, just print the stack trace
+                e.printStackTrace();
+            }
+            finally{
+                // Whether we failed or not, we have to close the connection against the database.
+                // Needs to be done every time we work against DB, as last step.
+                db.close();
+            }
+        }
+
+        return success;
     }
 
 
