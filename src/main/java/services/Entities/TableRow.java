@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 
 /**
- * Created by odd2k on 05.10.2017.
+ * Represents a row of data to be put into the worklist for chef/waiter.
+ *
+ * dish_type should probably not be shown in table, but can be used to determine how to display the row.
  */
 public class TableRow {
     private String customer_name;
@@ -18,8 +20,18 @@ public class TableRow {
     private String serve_time;
     private int dish_type;
 
+    /**
+     *
+     * @param customer_name
+     * @param table_number
+     * @param dish_name
+     * @param serve_time asdasd
+     * @param dish_type
+     */
     public TableRow() {
     }
+
+
 
     public TableRow(String customer_name, int table_number, String dish_name, String serve_time, int dish_type) {
         this.customer_name = customer_name;
@@ -69,6 +81,12 @@ public class TableRow {
         this.dish_type = dish_type;
     }
 
+    /**
+     * Get all rows to be displayed in worklist for a given date.
+     * @param date
+     * @return
+     */
+
     public static ArrayList<TableRow> getRowsByDate(Date date){
 
         ArrayList<TableRow> out = new ArrayList<>();
@@ -97,6 +115,7 @@ public class TableRow {
 
     }
 
+    //Processes information fetched from database and creates a similar object.
     public static TableRow processRow(ResultSet res) throws SQLException{
         String customer_name = res.getString("customer_name");
         int table_number = res.getInt("table_number");

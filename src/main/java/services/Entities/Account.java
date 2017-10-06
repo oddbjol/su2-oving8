@@ -56,6 +56,12 @@ public class Account {
         this.balance = balance;
     }
 
+    /**
+     * Retrieves all account objects from the database.
+     *
+     * @return
+     */
+
     public static ArrayList<Account> getAll(){
         ArrayList<Account> out = new ArrayList<>();
 
@@ -81,6 +87,12 @@ public class Account {
         return out;
     }
 
+    /**
+     * Checks if this account has at least the given amount of money in balance.
+     *
+     * @param amount
+     * @return True if there's enough money, false otherwise.
+     */
     public boolean checkBalance(int amount){
         boolean enoughFunds = false;
 
@@ -108,6 +120,13 @@ public class Account {
 
         return enoughFunds;
     }
+
+    /**
+     * Subtracts the given amount from this account.
+     *
+     * @param amount
+     * @return
+     */
 
     public boolean pay(int amount){
 

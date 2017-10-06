@@ -5,10 +5,17 @@ import org.apache.commons.dbutils.DbUtils;
 import java.sql.*;
 
 /**
- * @author Mr.Easter
+ * Database wrapper.
+ *
+ * To write code that accesses the database,
+ * just copy paste an existing method from one of the entity files
+ * that already does the same kind of operation that you want to perform.
+ *
+ * For instance, if you want to retrieve all objects associated with a given table, have a look at
+ * Dish.getAll() and its helper method Dish.processRow(ResultSet);
+ *
+ * If you want to write stuff into the database, have a look at FullOrder.registerOrder(FullOrder).
  */
-
-//Database management wrapper. Used by all objectDAO classes.
 public class DB {
 
     private Statement sentence;

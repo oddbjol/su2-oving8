@@ -89,6 +89,12 @@ public class AnOrder implements Serializable{
         this.customer_name = customer_name;
     }
 
+    /**
+     * Retrieves all orders from the database.
+     *
+     * @return
+     */
+
     public static ArrayList<AnOrder> getAll(){
         ArrayList<AnOrder> out = new ArrayList<>();
 

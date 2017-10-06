@@ -59,6 +59,10 @@ public class Dish {
         this.dish_type = dish_type;
     }
 
+    /**
+     * Retrieves all registered dishes from database. A dish in this case is just an id number, a name, a price and a type.
+     * @return
+     */
     public static ArrayList<Dish> getAll(){
         ArrayList<Dish> out = new ArrayList<>();
 
@@ -83,6 +87,12 @@ public class Dish {
 
         return out;
     }
+
+    /**
+     * Get all dishes from database of a certain type.
+     * @param dish_type
+     * @return
+     */
 
     public static ArrayList<Dish> getByType(int dish_type){
         ArrayList<Dish> out = new ArrayList<>();
@@ -122,7 +132,25 @@ public class Dish {
         return getByType(DISH_TYPE_DRINK);
     }
 
-    // Returns map of dish ids and amount of each dish, for a given order id.
+    /**
+     * Returns a map of different dishes with amounts ordered, for a given order.
+     *
+     * First integer in map (the key) is the id of a dish
+     * Second integer in map (the value) is how many dishes of the given dish id (from the key) there are
+     *
+     * If you ordered 2 burgers (id 12), 5 soups (id 13) and 1 coke (id 17), the map would look like this (javascript syntax):
+     *
+     * (Syntax for each line inside brackets is key: value)
+     *
+     * {
+     *     12: 2,
+     *     13: 5,
+     *     1: 17
+     * }
+     *
+     * @param order_id
+     * @return
+     */
     public static HashMap<Integer, Integer> getByOrderId(int order_id){
         HashMap<Integer, Integer> out = new HashMap<>();
 
