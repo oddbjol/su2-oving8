@@ -23,6 +23,7 @@
     <script language="javascript">
         $(document).ready(function() {
             getDishes();
+            findTable();
 
             $("#submit").click(function () {
                 var num_guests = $("#guestNumber").val();
@@ -35,10 +36,11 @@
                 var now = new Date();
 
                 var fullOrder = {
-                    customer_id: 1,
-                    table_number: 1,
+                    customer_name: $("#name").val(),
+                    table_number: $("#table_number").val(),
                     from_time: getStartTime(),
                     to_time: getEndTime(),
+                    num_guests: num_guests,
                     dishes: {
                                 [appertizer]: num_guests,
                                 [mainCourse]: num_guests,
@@ -46,7 +48,10 @@
                                 [drink]: num_guests
                             },
                 };
-                console.dir(JSON.stringify(fullOrder));
+
+        console.dir(fullOrder);
+        console.log(JSON.stringify(fullOrder));
+
                 var url = "rest/thepath/singleOrder";
 
 
@@ -86,6 +91,7 @@
 
             $("#serveringdate").change(findTable);
             $("#timeSlot").change(findTable);
+            $("#guestNumber").change(findTable);
 
         });
 
@@ -130,8 +136,22 @@
 
         function findTable(){
 
-            $.get("rest/thepath/orders/order/findTable/" + $("#serveringdate").val() + "/" + $("#timeSlot").val(), function (table_number){
-                $("#table_number").val(table_number);
+            var order={
+                from_time: getStartTime(),
+                to_time: getEndTime(),
+                num_guests: $("#guestNumber").val()
+            };
+
+        console.log(JSON.stringify(order));
+
+            $.ajax({
+                url: 'rest/thepath/orders/order/findTable/',
+                type: 'POST',
+                data: JSON.stringify(order),
+                contentType: 'application/json; charset=utf-8',
+                success: function(table_number){
+                    $("#table_number").val(table_number);
+                }
             });
 
         }
@@ -322,34 +342,8 @@ SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
             <fieldset>
 
                     <legend> Payment: </legend>
-                        Cardnumber: <input type="text" id="cardnumber"><br>
-                        Exp. Year:
-                        <select id="cardYear">
-                            <option value="2017">2017 </option>
-                            <option value="2018">2018 </option>
-                            <option value="2019">2019 </option>
-                            <option value="2020">2020 </option>
-                            <option value="2021">2021 </option>
-                            <option value="2022">2022 </option>
-                            <option value="2023">2023 </option>
-                            <option value="2024">2024 </option>
-                        </select>
-                        Exp. Month:
-                        <select id="cardMonthr">
-                            <option value="1">Jan </option>
-                            <option value="2">Feb </option>
-                            <option value="3">March </option>
-                            <option value="4">April </option>
-                            <option value="5">Mai </option>
-                            <option value="6">June </option>
-                            <option value="7">Juli </option>
-                            <option value="7">Aug </option>
-                            <option value="9">Sept </option>
-                            <option value="10">Oct </option>
-                            <option value="11">Nov </option>
-                            <option value="12">Dec </option>
-                        </select><br>
-                        CVS: <input type="text" id="cvs"><br><br>
+                        Cardnumber: (hint:123 or 321) <input type="text" id="cardnumber"><br>
+                        CVS: (hint:111) <input type="text" id="cvs"><br><br>
 
 
 

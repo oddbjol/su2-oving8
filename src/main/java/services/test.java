@@ -30,7 +30,7 @@ public class test {
         dishes.put(1, 3);
         dishes.put(5, 7);
 
-        FullOrder order = new FullOrder(1, 1, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now().plusHours(2)), dishes);
+        FullOrder order = new FullOrder(1, 1, "name", Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now().plusHours(2)), 2, dishes);
 
         FullOrder.registerOrder(order);
 
