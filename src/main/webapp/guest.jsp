@@ -25,22 +25,33 @@
             getDishes();
 
             $("#submit").click(function () {
-                var order = {
-                    customerName: $("#name").val(),
-                    numberOfGuests: $("#guestNumber").val(),
-                    appertizer: $("#appetizer").val(),
-                    mainCourse: $("#maincourse").val(),
-                    dessert: $("#dessert").val(),
-                    drink: $("#drinks").val()
+                var num_guests = $("#guestNumber").val();
 
+                var appertizer = $("#appetizer").val();
+                var mainCourse = $("#maincourse").val();
+                var dessert = $("#dessert").val();
+                var drink = $("#drinks").val();
+
+                var now = new Date();
+
+                var fullOrder = {
+                    customer_id: 1,
+                    table_number: 1,
+                    from_time: now,
+                    to_time: now,
+                    dishes: {
+                                [appertizer]: num_guests,
+                                [mainCourse]: num_guests,
+                                [dessert]: num_guests,
+                                [drink]: num_guests
+                            },
                 };
-                var url = "rest/thepath/singleOrder/" + $("#serveringdate").val() + "/"+ $("#table_number").val();
+                console.dir(JSON.stringify(fullOrder));
+                var url = "rest/thepath/singleOrder";
 
 
                 var account = {
-                    cardnumber: $("#cardnumber").val(),
-                    expirationyear: $("#cardYear").val(),
-                    expirationdate: $("#cardMonthr").val(),
+                    number: $("#cardnumber").val(),
                     cvs: $("#cvs").val()
                 };
 
@@ -50,29 +61,20 @@
                     data: JSON.stringify(account),
                     contentType: 'application/json; charset=utf-8',
                     //dataType: 'json',
-                    success: function(data){
-                        if(data == ACCOUNT_STATUS_OK){
+                    success: function(success){
+                        if(success){
                             $.ajax({
                                 url: url,
                                 type: 'POST',
-                                data: JSON.stringify(order),
+                                data: JSON.stringify(fullOrder),
                                 contentType: 'application/json; charset=utf-8',
                                 //dataType: 'json',
                             });
+                            alert("Order placed successfull");
                         }
-
-                            var message = "";
-
-                            if(data == ACCOUNT_STATUS_NOFUNDS)
-                                message = "Not enough money on account.";
-                            else if(data == ACCOUNT_STATUS_NOTFOUND)
-                                message = "Account not found. Check inputted account information.";
-                            else
-                                message = "Transaction successful.";
-
-                            alert(message);
-
-
+                        else{
+                            alert("Something went wrong with payment");
+                        }
                     }
                 });
 
@@ -118,8 +120,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                    pricelist[dish.name] = dish.price;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                    pricelist[dish.id] = dish.price;
+                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     console.log(option);
                     //console.log(option); //For strenger og tall
                     $("#appetizer").append(option);
@@ -132,8 +134,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                    pricelist[dish.name] = dish.price;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                    pricelist[dish.id] = dish.price;
+                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#maincourse").append(option);
                 }
@@ -142,8 +144,8 @@
 
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
-                pricelist[dish.name] = dish.price;
-                var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                pricelist[dish.id] = dish.price;
+                var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                 //console.log(option); //For strenger og tall
                 $("#dessert").append(option);
                 }
@@ -152,8 +154,8 @@
 
                     //console.dir(appetizers); // For komplekse objekter
                     for (var dish of dishes) {
-                    pricelist[dish.name] = dish.price;
-                    var option = "<option value='" + dish.name + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                    pricelist[dish.id] = dish.price;
+                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     //console.log(option); //For strenger og tall
                     $("#drinks").append(option);
                     }

@@ -60,12 +60,12 @@ public class AService {
     }
 
     @POST
-    @Path("/singleOrder/{orderDate}/{bordnr}/{slotnr}")
+    @Path("/singleOrder")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response putOrder(@PathParam("orderDate") String orderDate, @PathParam("bordnr") int bordnr, @PathParam("slotnr") int slotnr, AnOrder order){
-        //boolean success = registration.put(orderDate, bordnr, slotnr, order);
-        return Response.ok().build();
+    public Response putOrder(FullOrder order){
+        boolean success = FullOrder.registerOrder(order);
+        return Response.ok(success).build();
     }
 
     @GET

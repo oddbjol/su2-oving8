@@ -94,6 +94,8 @@ public class AnOrder implements Serializable{
         return out;
     }
 
+
+
     //Processes information fetched from database and creates a similar object.
     public static AnOrder processRow(ResultSet res) throws SQLException {
 
