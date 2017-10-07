@@ -28,6 +28,9 @@
             color: black;
             background-color: lightgreen;
         }
+        .regularRow{
+            color: black;
+        }
         .active-row:hover{
             background-color: lightgreen !important;
             filter: brightness(90%);
@@ -41,6 +44,8 @@
 
             setCurrentDate(new Date()); // Set the current date to "today" when loading webpage.
 
+            ///////////////////////////////////////// DATE NAVIGATION CODE //////////////////////////////////////
+
             $("#nextDay").click(function(){
                 date = new Date(currentDate.getTime() + 1000 * 60 * 60 * 24); // add one day to current date
                 setCurrentDate(date);
@@ -52,14 +57,16 @@
             });
 
             $("#today").click(function(){
-            date = new Date(); //today
-            setCurrentDate(date);
+                date = new Date(); //today
+                setCurrentDate(date);
             });
 
             $("#selectDay").change(function(){
                 date = new Date($("#selectDay").val());
                 setCurrentDate(new Date(date));
             });
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
 
         });
 
@@ -71,6 +78,7 @@
             loadOrders(date);
         }
 
+        // Checks if the given date object is today
         function isToday(date){
             var todayString = convertDateToString(new Date());
             var givenString = convertDateToString(date);
@@ -96,8 +104,6 @@
 
         }
 
-
-
         // Download the rows for the currentDate from the database, and insert them into our table.
         function loadOrders(date){
 
@@ -118,8 +124,9 @@
                                 out.println("if(tableRow.dish_type == 3) continue;");
                             }
                         %>
-
-                        html += "<tr class='" + (rowIsPending(tableRow) ? "active-row" : "inactive-row") +"'>\n";
+                        // If current date is today, then split the rows into inactive and active rows. Otherwise, show regular rows.
+                        // A row is active if it's "pending" (about to be served).
+                        html += "<tr class='" + (isToday(currentDate) ? (rowIsPending(tableRow) ? "active-row" : "inactive-row") : ("regularRow")) +"'>\n";
                             html +=  "<td>" + tableRow.table_number + "</td>\n";
                             html +=  "<td>" + tableRow.customer_name + "</td>\n";
                             html +=  "<td>" + tableRow.dish_name + "</td>\n";
@@ -127,7 +134,7 @@
                         html += "</tr>\n";
                     }
 
-                $("#tbody").html(html);
+                    $("#tbody").html(html);
 
                 },
                 error: function(jqXHR, textStatus, errorThrown){console.log(textStatus); console.log(errorThrown);}
@@ -171,10 +178,18 @@
     <div class="row" id="inner1" style="width: 100%">
         <h1 align="center" id="worklist-title">Worklist</h1>
 
-        <input type="date" id="selectDay"><br>
-        <input type="button" id="prevDay" value="<">
-        <input type="button" id="today" value=".">
-        <input type="button" id="nextDay" value=">">
+
+        <div class="row text-center">
+            <input type="date" id="selectDay"><br>
+        </div>
+        <div class="row text-center">
+            <input type="button" id="prevDay" value="<">
+            <input type="button" id="today" value=".">
+            <input type="button" id="nextDay" value=">">
+        </div>
+
+
+
 
         <!-- dato-->
         <table class="table table-responsive table-hover" id="tbl">
