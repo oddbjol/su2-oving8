@@ -20,6 +20,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--<script src="jquery-3.2.1.min.js"></script> -->
 
+    <style>
+        .inactive-row{
+            color: gray;
+        }
+        .active-row{
+            color: black;
+            background-color: lightgreen;
+        }
+        .active-row:hover{
+            background-color: lightgreen !important;
+            filter: brightness(90%);
+        }
+    </style>
+
     <script language="javascript">
 
 
@@ -64,6 +78,26 @@
             return (todayString === givenString);
         }
 
+
+        // Gets ISO date string (with ONLY the date, not time) from given date object.
+        function convertDateToString(date) {
+            var fullString = date.toISOString(); // Returns something like 2011-10-05T14:48:00.000Z
+            return fullString.split("T")[0];    // Returns something like 2011-10-05
+        }
+
+
+        // Returns true if the row is something that is about to be served (in the next 30 mins)
+        function rowIsPending(tableRow){
+            var timeToServe = new Date(convertDateToString(currentDate) + "T" + tableRow.serve_time);
+            var now = new Date();
+            var nowEnd = new Date(now.getTime() + 1000 * 60 * 30); // now + 30 mins
+
+            return (now < timeToServe && timeToServe < nowEnd);
+
+        }
+
+
+
         // Download the rows for the currentDate from the database, and insert them into our table.
         function loadOrders(date){
 
@@ -85,7 +119,7 @@
                             }
                         %>
 
-                        html += "<tr>\n";
+                        html += "<tr class='" + (rowIsPending(tableRow) ? "active-row" : "inactive-row") +"'>\n";
                             html +=  "<td>" + tableRow.table_number + "</td>\n";
                             html +=  "<td>" + tableRow.customer_name + "</td>\n";
                             html +=  "<td>" + tableRow.dish_name + "</td>\n";
@@ -98,12 +132,6 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown){console.log(textStatus); console.log(errorThrown);}
             });
-        }
-
-        // Gets ISO date string (with ONLY the date, not time) from given date object.
-        function convertDateToString(date) {
-            var fullString = date.toISOString(); // Returns something like 2011-10-05T14:48:00.000Z
-            return fullString.split("T")[0];    // Returns something like 2011-10-05
         }
 
 
