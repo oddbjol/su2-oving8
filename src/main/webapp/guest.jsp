@@ -7,9 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<link rel="stylesheet" type="text/css" href="style.css"> -->
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styleguest.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="guestscript.js"></script>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="styleordersheet.css">
     <!-- Google Map -->
 
 
@@ -82,9 +91,6 @@
                         }
                     }
                 });
-
-
-
             });
 
             $("#guestNumber, #appetizer, #maincourse, #dessert, #drinks").change(updateCost);
@@ -131,7 +137,6 @@
         var totalCost = numGuests * (appertizer_price + mainCourse_price + dessert_price + drink_price);
 
         $("#totalCost").val(totalCost);
-
         }
 
         function findTable(){
@@ -153,9 +158,7 @@
                     $("#table_number").val(table_number);
                 }
             });
-
         }
-
 //test comment
 
         var pricelist = {};
@@ -171,8 +174,6 @@
                     //console.log(option); //For strenger og tall
                     $("#appetizer").append(option);
                 }
-
-
             });
 
             $.get("rest/thepath/dishes/maincourse", function (dishes) {
@@ -206,24 +207,10 @@
                     }
 
                         updateCost();
-
-
                     });
-
-
                 });
-
-
             });
-
-
-
-
-
-
-
         }
-
 
 
 
@@ -235,34 +222,131 @@
 
 <body>
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="index.html">FastTrack</a>
-        </div>
+<div class="container-fluid" style="margin-top:30px;">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="padding-right: 0px!important;padding-left: 0px!important;">
+            <div class="panel-body" style="padding-right: 4px!important;padding-left: 4px!important;">
+                <form class="form-horizontal" method="post" id="login" name="login" role="form" onSubmit='#' action="#" AUTOCOMPLETE="off">
+                    <fieldset  style="min-width: 0;padding:.35em .625em .75em!important;margin:0 2px;border: 2px solid silver!important;margin-bottom: 10em;box-shadow: -6px 15px 20px 0px;">
+                        <legend id="first3" style="width: inherit;padding:inherit;border:2px solid silver;" class="legend"> 1/3</legend>
+                        <legend id="myId8" class="hidden legend" style="width: inherit;padding:inherit;border:2px solid silver;">Menu</legend>
+                        <div class="form-group" id="above" style="margin-bottom: 5px!important;">
+                            <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
+                            <output class="col-sm-10 col-md-8 col-lg-8 col-xs-10"
+                                    id="responseFail" type="text"
+                                    style="text-align: center; font-weight: bold; color: red;padding: 0px!important;" ></output>
+                            <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 5px!important;">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" id="message" style="font-weight: bold; text-align: center;font-size: 10pt;">
+                            </div>
+                        </div>
+                        <div class="form-group" id="first" style="margin-bottom: 0px!important;">
 
-        <div class="top-bar">
-            <ul class="nav navbar-nav">
-                <!--<li class="active"><a href="#">Home</a></li>-->
-                <li><a href="guest.jsp">Guest</a></li>
-                <li><a href="employee.jsp">Chef</a></li>
-                <li><a href="employee.jsp">Waiter</a></li>
-            </ul>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
+                                <div class="section" style="padding-bottom:100px;">
+                                    <h3 class="title-attr"><small> Enter your name </small></h3>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user" style="color: black;"></span></span>
+                                <input type="text" class="form-control" id="username" placeholder="Enter your name">
+                            </div>
+                            </div>
+
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
+                                <div class="section" style="padding-bottom:20px;">
+                                    <h3 class="title-attr"><small>How many guest</small></h3>
+                                    <div>
+                                        <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
+                                        <input value="1" />
+                                        <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+
+                        <div class="form-group" id="first1">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-11 col-md-11 col-lg-11 col-xs-10" style="text-align:center;">
+                                <button id="valuser" type="button" onclick="valUsername()"
+                                        class="btn btn-primary customizedPrimaryBtn">
+                                    Next</button>
+                            </div>
+
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+                        </div>
+
+                            <!--
+                        div class="form-group hidden" id="myId" style="margin-bottom: 5px!important;">
+                                                            <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
+                                                            <div class="col-sm-10 col-md-8 col-lg-8 col-xs-10"
+                                                                id="Response"
+                                                                style="text-align: center; font-weight: bold;padding-top: 0px;" ></div>
+                                                            <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
+                                                        </div>	-->
+                            <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
+
+                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                                <div
+                                        class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
+										<span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-lock" style="color: black;"></span></span>
+                                    <input type="password" class="form-control" id="password" style="width: 100%;" placeholder="Enter your Password"><span
+                                        class="input-group-btn">
+											<button class="btn btn-defaultCUST" id="view_button"
+                                                    style="height: 34px;border-color: #ccc;"
+                                                    type="button">
+												<span class="glyphicon glyphicon-eye-open" ></span>
+											</button>
+										</span>
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            </div>
+
+                            <div class="form-group hidden" id="myId4">
+                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                                <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10"
+                                     style="text-align: right;padding-right: 0px;">
+                                    <a
+                                            href="#" style="color: teal;">Forgot password ?</a>
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            </div>
+                            <div class="form-group hidden" id="myId3">
+                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                                <div class="col-sm-11 col-md-11 col-lg-11 col-xs-10 button_Pad" style="text-align:center">
+                                    <button type="button" onclick="prevPage()"
+                                            class="btn btn-primary"
+                                            style=" font-size: 13px;">
+                                        Back</button>
+
+                                     
+                                    <button id="submitbtn" type="submit"
+                                            class="btn btn-success"
+                                            onClick="javascript:return loginStatus();"
+                                            style=" font-size: 13px;">
+                                        Login</button>
+
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            </div>
+                            <div class="form-group" style="text-align:center;font-weight:bold">
+                                Please pay a visit to <a target="_blank" href="https://www.formulaestack.com">Formulae Stack</a>
+                                to explore more interesting snippets and articles
+                            </div>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
-</nav>
-
-
-
-
-
-<div class="container" style="width: 90%;">
-    <div class="row" id="inner1" style="width: 100%">
-        <h5 align="center">Accurate meals, for you and yours...</h5>
+    <h2 style="text-align: center">Enter any username other than Admin else you would see invalid username message</h2>
+</div>
+<!--
         <form>
             <fieldset>
                 <legend> Personalia: </legend>
-                Name: <input type="text" id="name"><br>
+                Name: <input type="text" id="nam"><br>
 
 
                 Number of guests:
@@ -275,7 +359,7 @@
 
 
                 Servingtime (date and time):
-                <input type="date" id="serveringdate" value="<%
+                <input type="date" id="serveringdate" value=" --><%
 
                 Date d = new Date();
 
@@ -289,9 +373,9 @@ SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
 
 
 
-%>">
+%>
                 <!--<input type="submit" value="Send"> -->
-
+<!--
                 <select id="timeSlot">
                     <option value="0">1200 - 1330 </option>
                     <option value="1">1330 - 1500 </option>
@@ -368,13 +452,14 @@ SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
 </div><br>
 
 
-
-
+-->
+<!--
 <nav class="navbar navbar-default" >
     <div class="container-fluid">
         <div class="bunn-bar">
             <ul class="nav navbar-nav" >
                 <!--<li class="active"><a href="#">Home</a></li>-->
+<!--
                 <li><a href="#">About</a></li>
                 <li><a href="#">News</a></li>
                 <li><a href="#">Events</a></li>
@@ -383,5 +468,6 @@ SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
         </div>
     </div>
 </nav>
-
+-->
 </body>
+</html>

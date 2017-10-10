@@ -94,8 +94,6 @@ public class AService {
     public Response findTable(FullOrder order){
         return Response.ok(ATable.findTable(order)).build();
     }
-
-
 }
 
 
