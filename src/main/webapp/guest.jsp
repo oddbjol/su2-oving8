@@ -365,7 +365,6 @@
                                     </tbody>
 
 
-
                                     <tbody>
                                     <tr>
                                         <td data-th="Product">
@@ -387,7 +386,6 @@
                                         </td>
                                     </tr>
                                     </tbody>
-
 
 
                                     <tbody>
@@ -413,7 +411,6 @@
                                     </tbody>
 
 
-
                                     <tbody>
                                     <tr>
                                         <td data-th="Product">
@@ -435,7 +432,6 @@
                                         </td>
                                     </tr>
                                     </tbody>
-
 
 
                                     <tbody>
@@ -460,9 +456,7 @@
                                     </tr>
                                     </tbody>
 
-
-
-
+                                    
 
                                     <tfoot>
                                     <tr class="visible-xs">
