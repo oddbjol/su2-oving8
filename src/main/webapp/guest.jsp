@@ -246,7 +246,11 @@
             var dish_cost = pricelist[dish_id];
             var num = $(element).val();
 
-            totalCost += num * dish_cost;
+            var subtot = num * dish_cost;
+
+            $("#subtot"+dish_id).html(subtot);
+
+            totalCost += subtot;
 
         });
 
@@ -345,18 +349,13 @@
         <td data-th="Quantity">
         <input type="number" id="` + dish.id + `" class="form-control text-center dish` + +dish.dish_type +`" value="0">
         </td>
-        <td data-th="Subtotal" id="subTot8" class="text-center"></td>
+        <td data-th="Subtotal" id="subtot` + dish.id + `" class="text-center"></td>
         <td class="actions" data-th="">
         <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
         </td>
         </tr>`
 
             $(header).after(html);
-        }
-
-
-        function populateTable(){
-
         }
 
     </script>
