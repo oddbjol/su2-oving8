@@ -408,6 +408,26 @@
                             </div>
                             </div>
 
+
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
+                                <div class='col-sm-6'>
+                                    <div class="form-group">
+                                        <h3 class="title-attr"><small> Enter date</small></h3>
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span></span>
+                                            <div class="input-group clockpicker">
+                                                <input type="text" class="form-control" value="18:00">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
                                 <div class="section" style="padding-bottom:20px;">
@@ -419,17 +439,14 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                        </div>
+                            </div>
 
                         <div class="form-group" id="first1">
                             <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             <div class="col-sm-11 col-md-11 col-lg-11 col-xs-10" style="text-align:center;">
                                 <button id="valuser" type="button" onclick="valUsername()"
-                                        class="btn btn-primary customizedPrimaryBtn">
-                                    Next</button>
+                                        class="btn btn-primary customizedPrimaryBtn">Next</button>
                         </div>
-
-                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                         </div>
                         </div>
 
@@ -487,19 +504,13 @@
                                     <tr>
                                         <td colspan="2" class="hidden-xs"></td>
                                         <td class="hidden-xs text-center" id="Pay"><strong>Total $1.99</strong></td>
-                                        <td><button id="submitbutton" class="btn btn-danger btn-block" data-toggle="modal">Pay <i class="fa fa-angle-right"></i></button></td>
+                                        <td><button id="" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">Pay <i class="fa fa-angle-right"></i></button></td>
                                         <!--onclick="javascript:return loginStatus()"-->
                                     </tr>
                                     </tfoot>
-
                                 </table>
-
-                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                                <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
-
-                                    <!-- Har var input for password tidligere -->
                                 </div>
-                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+
 
                             </div>
 
@@ -515,104 +526,96 @@
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             </div>
-<!-- Credit card starts here -->
-                        <!-- You can make it whatever width you want. I'm making it full width
-                                    on <= small devices and 4/12 page width on >= medium devices -->
-                        <div class="col-xs-12 col-md-4">
+                        <!-- CREDIT CARD FORM STARTS HERE -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-body">
+                                <div class="form-group hidden" id="myId4" style="margin-bottom: 10px!important;">
+                                    <div class="panel panel-default credit-card-box">
+                                        <div class="panel-heading display-table" >
+                                            <div class="row display-tr" >
+                                                <h3 class="panel-title display-td" >Payment Details</h3>
+                                                <div class="display-td" >
+                                                    <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <div class="panel-body">
+                                            <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="form-group">
+                                                            <label for="cardNumber">CARD NUMBER</label>
+                                                            <div class="input-group">
+                                                                <input
+                                                                        type="tel"
+                                                                        class="form-control"
+                                                                        name="cardNumber"
+                                                                        placeholder="Valid Card Number"
+                                                                        autocomplete="cc-number"
+                                                                        required autofocus
+                                                                />
+                                                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-7 col-md-7">
+                                                        <div class="form-group">
+                                                            <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                                            <input
+                                                                    type="tel"
+                                                                    class="form-control"
+                                                                    name="cardExpiry"
+                                                                    placeholder="MM / YY"
+                                                                    autocomplete="cc-exp"
+                                                                    required
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-5 col-md-5 pull-right">
+                                                        <div class="form-group">
+                                                            <label for="cardCVC">CV CODE</label>
+                                                            <input
+                                                                    type="tel"
+                                                                    class="form-control"
+                                                                    name="cardCVC"
+                                                                    placeholder="CVC"
+                                                                    autocomplete="cc-csc"
+                                                                    required
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                            <!-- CREDIT CARD FORM STARTS HERE -->
-                            <div class="modal fade" id="myModal" role="dialog">
-                                <div class="modal-body">
-                            <div class="form-group hidden" id="myId4" style="margin-bottom: 10px!important;">
-                            <div class="panel panel-default credit-card-box">
-                                <div class="panel-heading display-table" >
-                                    <div class="row display-tr" >
-                                        <h3 class="panel-title display-td" >Payment Details</h3>
-                                        <div class="display-td" >
-                                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <span aria-hidden="true">&times;</span>
+                                                            <button type="button" class="btn btn-success">Send</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="display:none;">
+                                                    <div class="col-xs-12">
+                                                        <p class="payment-errors"></p>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="panel-body">
-                                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="cardNumber">CARD NUMBER</label>
-                                                    <div class="input-group">
-                                                        <input
-                                                                type="tel"
-                                                                class="form-control"
-                                                                name="cardNumber"
-                                                                placeholder="Valid Card Number"
-                                                                autocomplete="cc-number"
-                                                                required autofocus
-                                                        />
-                                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-7 col-md-7">
-                                                <div class="form-group">
-                                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
-                                                    <input
-                                                            type="tel"
-                                                            class="form-control"
-                                                            name="cardExpiry"
-                                                            placeholder="MM / YY"
-                                                            autocomplete="cc-exp"
-                                                            required
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-5 col-md-5 pull-right">
-                                                <div class="form-group">
-                                                    <label for="cardCVC">CV CODE</label>
-                                                    <input
-                                                            type="tel"
-                                                            class="form-control"
-                                                            name="cardCVC"
-                                                            placeholder="CVC"
-                                                            autocomplete="cc-csc"
-                                                            required
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="couponCode">COUPON CODE</label>
-                                                    <input type="text" class="form-control" name="couponCode" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <button class="subscribe btn btn-success btn-lg btn-block" type="button" >Start Subscription</button>
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                        <div class="row" style="display:none;">
-                                            <div class="col-xs-12">
-                                                <p class="payment-errors"></p>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                </div>
-                                </div>
                             </div>
-                            </div>
-                        </div>
                         </div>
             </div>
         </div>
-        <!-- CREDIT CARD FORM ENDS HERE -->
+    </div>
+</div>
+<!-- CREDIT CARD FORM ENDS HERE -->
 
                     </fieldset>
                 </form>
