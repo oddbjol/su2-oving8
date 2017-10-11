@@ -34,43 +34,140 @@
             getDishes();
             findTable();
 
-            $("#submit").click(function () {
-                var num_guests = $("#guestNumber").val();
+            $("#submitbutton").click(function () {
 
-                var appertizer = $("#appetizer").val();
-                var mainCourse = $("#maincourse").val();
-                var dessert = $("#dessert").val();
-                var drink = $("#drinks").val();
 
-                var now = new Date();
+                var appetizer = false, maincourse = false, dessert = false;
 
+                var from_date = new Date(), to_date = new Date();
+
+                var dish_orders = [];
+
+                $("#appetizer").find("input").each(function(index, element){
+                    var dishid = $(element).attr('id');
+                    var num = $(element).val();
+
+                    // Don't bother "ordering" 0 amount of a dish.
+                    if(num == 0)
+                        return;
+
+                    var dish_order = {
+                                        dish_id: dishid,
+                                        amount: num,
+                                        dish_type: 0,
+                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                    };
+
+                    dish_orders.push(dish_order);
+
+                    appetizer = true;
+                });
+
+                $("#maincourse").find("input").each(function(index, element){
+                    var dishid = $(element).attr('id');
+                    var num = $(element).val();
+
+                    // Don't bother "ordering" 0 amount of a dish.
+                    if(num == 0)
+                        return;
+
+                    var dish_order = {
+                                        dish_id: dishid,
+                                        dish_type: 1,
+                                        amount: num,
+                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                    };
+
+                    dish_orders.push(dish_order);
+
+                    maincourse = true;
+                });
+                $("#dessert").find("input").each(function(index, element){
+                    var dishid = $(element).attr('id');
+                    var num = $(element).val();
+
+                    // Don't bother "ordering" 0 amount of a dish.
+                    if(num == 0)
+                        return;
+
+                    var dish_order = {
+                                        dish_id: dishid,
+                                        dish_type: 2,
+                                        amount: num,
+                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                    };
+
+                    dish_orders.push(dish_order);
+
+                    dessert = true;
+                });
+                $("#drink").find("input").each(function(index, element){
+                    var dishid = $(element).attr('id');
+                    var num = $(element).val();
+
+                    // Don't bother "ordering" 0 amount of a dish.
+                    if(num == 0)
+                        return;
+
+                    var dish_order = {
+                                        dish_id: dishid,
+                                        dish_type: 3,
+                                        amount: num,
+                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                    };
+
+                    dish_orders.push(dish_order);
+                });
+
+                    var appetizer_offset = 0, maincourse_offset = 0, dessert_offset = 0;
+
+                    if(appetizer && maincourse){
+                        appetizer_offset = 0;
+                        maincourse_offset = 30;
+                        dessert_offset = 60;
+                    }
+                    else if(appetizer && !maincourse && dessert){
+                        appetizer_offset = 0;
+                        dessert_offset = 30;
+                    }
+                    else if(!appetizer && maincourse){
+                        maincourse_offset = 0;
+                        dessert_offset = 30;
+                    }
+
+            dish_orders.forEach(function(dish_order, index){
+                if(dish_order.dish_type == 0) //appetizer
+                    dish_order.serve_time = getClock(addMinutes(from_date, appetizer_offset));
+                else if(dish_order.dish_type == 1)
+                    dish_order.serve_time = getClock(addMinutes(from_date, maincourse_offset));
+                else if(dish_order.dish_type == 2)
+                    dish_order.serve_time = getClock(addMinutes(from_date, dessert_offset));
+                else
+                    dish_order.serve_time = getClock(from_date);
+
+        });
+
+                //TODO: Remove hardcoding.
                 var fullOrder = {
-                    customer_name: $("#name").val(),
-                    table_number: $("#table_number").val(),
-                    from_time: getStartTime(),
-                    to_time: getEndTime(),
-                    num_guests: num_guests,
-                    dishes: {
-                                [appertizer]: num_guests,
-                                [mainCourse]: num_guests,
-                                [dessert]: num_guests,
-                                [drink]: num_guests
-                            },
+                    table_number: 0,
+                    //customer_id :
+                    customer_name: $("#username").val(),
+                    from_time: from_date,
+                    to_time: to_date,
+                    num_guests: 2,
+                    dish_orders: dish_orders
                 };
 
-        console.dir(fullOrder);
-        console.log(JSON.stringify(fullOrder));
-
-                var url = "rest/thepath/singleOrder";
+                console.log(JSON.stringify(fullOrder));
 
 
                 var account = {
-                    number: $("#cardnumber").val(),
-                    cvs: $("#cvs").val()
+                    number: 123,//$("#cardnumber").val(), TODO: Add values here
+                    cvs: 111 //$("#cvs").val()
                 };
 
                 $.ajax({
-                    url: 'rest/thepath/account/check/' + $("#totalCost").val(),
+                    url: 'rest/thepath/account/check/' + $("#totalCost").html(),
                     type: 'POST',
                     data: JSON.stringify(account),
                     contentType: 'application/json; charset=utf-8',
@@ -78,7 +175,7 @@
                     success: function(success){
                         if(success){
                             $.ajax({
-                                url: url,
+                                url: 'rest/thepath/singleOrder',
                                 type: 'POST',
                                 data: JSON.stringify(fullOrder),
                                 contentType: 'application/json; charset=utf-8',
@@ -99,7 +196,21 @@
             $("#timeSlot").change(findTable);
             $("#guestNumber").change(findTable);
 
+            $("#submitbutton").click(function(){
+                sendOrder();
+            });
+
         });
+
+        function addMinutes(date, minutes){
+        console.log(date + " adding " + minutes);
+        d = new Date(date.getTime() + minutes*60*1000);
+        return d;
+        }
+
+        function getClock(date){
+            return date.getHours() + ":" + date.getMinutes();
+        }
 
         function getStartTime(){
             var slotNumber = $("#timeSlot").val();
@@ -212,6 +323,10 @@
             });
         }
 
+        function sendOrder(){
+
+        }
+
 
 
     </script>
@@ -286,7 +401,7 @@
                                                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
                                                         </div>	-->
                             <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
-                                <table id="cart" class="table table-hover table-condensed">
+                                <table id="appetizer" class="table table-hover table-condensed">
                                     <thead>
                                     <tr>
                                         <th style="width:50%">Product</th>
@@ -309,7 +424,7 @@
                                         </td>
                                         <td data-th="Price">250,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" class="form-control text-center" id="1" value="0">
                                         </td>
                                         <td data-th="Subtotal" id="subTot1" class="text-center"></td>
                                         <td class="actions" data-th="">
@@ -332,7 +447,7 @@
                                         </td>
                                         <td data-th="Price">199,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" class="form-control text-center" id="1" value="0">
                                         </td>
                                         <td data-th="Subtotal" id="subTot2" class="text-center"></td>
                                         <td class="actions" data-th="">
@@ -355,7 +470,7 @@
                                         </td>
                                         <td data-th="Price">199,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" class="form-control text-center" id="1" value="0">
                                         </td>
                                         <td data-th="Subtotal" id="subTot3" class="text-center"></td>
                                         <td class="actions" data-th="">
@@ -378,7 +493,7 @@
                                         </td>
                                         <td data-th="Price">99,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" class="form-control text-center" id="1" value="0">
                                         </td>
                                         <td data-th="Subtotal" id="subTot4" class="text-center"></td>
                                         <td class="actions" data-th="">
@@ -401,7 +516,7 @@
                                         </td>
                                         <td data-th="Price">250,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" class="form-control text-center" id="1" value="0">
                                         </td>
                                         <td data-th="Subtotal" id="subTot5" class="text-center"></td>
                                         <td class="actions" data-th="">
@@ -424,7 +539,7 @@
                                         </td>
                                         <td data-th="Price">79,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="0" class="form-control text-center" value="0">
                                         </td>
                                         <td data-th="Subtotal" id="subTot6" class="text-center"></td>
                                         <td class="actions" data-th="">
@@ -447,7 +562,7 @@
                                         </td>
                                         <td data-th="Price">35,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="1" class="form-control text-center" value="0">
                                         </td>
                                         <td data-th="Subtotal" id="subTot7" class="text-center"></td>
                                         <td class="actions" data-th="">
@@ -460,12 +575,12 @@
 
                                     <tfoot>
                                     <tr class="visible-xs">
-                                        <td class="text-center"><strong>Total 1.99</strong></td>
+        <td class="text-center"><strong>Total <span id="totalCost">12</span></strong></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="hidden-xs"></td>
-                                        <td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
-                                        <td><a href="#" type="submit" id="submitbutton" onclick="javascript:return loginStatus()" class="btn btn-success btn-block">Pay <i class="fa fa-angle-right"></i></a></td>
+                                        <td class="hidden-xs text-center"><strong>Total $12</strong></td>
+                                        <td><a href="#" type="submit" id="submitbutton" class="btn btn-success btn-block">Pay <i class="fa fa-angle-right"></i></a></td>
                                     </tr>
                                     </tfoot>
 
@@ -510,7 +625,7 @@
 
                 Number of guests:
                 <select id="guestNumber">
-                    <option value="1">1</option>
+                    <option value="0">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
@@ -537,7 +652,7 @@ SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
 <!--
                 <select id="timeSlot">
                     <option value="0">1200 - 1330 </option>
-                    <option value="1">1330 - 1500 </option>
+                    <option value="0">1330 - 1500 </option>
                     <option value="2">1500 - 1630 </option>
                     <option value="3">1630 - 1800 </option>
                     <option value="4">1800 - 1930 </option>

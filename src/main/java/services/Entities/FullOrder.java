@@ -20,18 +20,18 @@ public class FullOrder implements Serializable{
     private Timestamp from_time;
     private Timestamp to_time;
     private int num_guests;
-    private HashMap<Integer, Integer> dishes = new HashMap<>(); // Integer is amount of dish
+    private ArrayList<Dish_Order> dish_orders = new ArrayList<>();
 
     public FullOrder(){}
 
-    public FullOrder(int table_number, Integer customer_id, String customer_name, Timestamp from_time, Timestamp to_time, int num_guests, HashMap<Integer, Integer> dishes) {
+    public FullOrder(int table_number, Integer customer_id, String customer_name, Timestamp from_time, Timestamp to_time, int num_guests, ArrayList<Dish_Order> dish_orders) {
         this.table_number = table_number;
         this.customer_id = customer_id;
         this.customer_name = customer_name;
         this.from_time = from_time;
         this.to_time = to_time;
         this.num_guests = num_guests;
-        this.dishes = dishes;
+        this.dish_orders = dish_orders;
     }
 
     public int getTable_number() {
@@ -66,13 +66,12 @@ public class FullOrder implements Serializable{
         this.to_time = to_time;
     }
 
-    // Integer is amount of dish
-    public HashMap<Integer, Integer> getDishes() {
-        return dishes;
+    public ArrayList<Dish_Order> getDish_orders() {
+        return dish_orders;
     }
 
-    public void setDishes(HashMap<Integer, Integer> dishes) {
-        this.dishes = dishes;
+    public void setDish_orders(ArrayList<Dish_Order> dish_orders) {
+        this.dish_orders = dish_orders;
     }
 
     public int getNum_guests() {
@@ -126,12 +125,13 @@ public class FullOrder implements Serializable{
                 if(db.res.next())
                     new_order_id = db.res.getInt(1);
 
-                db.prep = db.connection.prepareStatement("INSERT INTO Order_Dish (order_id, dish_id, amount) VALUES (?,?,?)");
+                db.prep = db.connection.prepareStatement("INSERT INTO Order_Dish (order_id, dish_id, amount, time) VALUES (?,?,?,?)");
 
-                for(Map.Entry<Integer, Integer> entry : order.dishes.entrySet()){
+                for(Dish_Order dish_order : order.dish_orders){
                     db.prep.setInt(1, new_order_id);
-                    db.prep.setInt(2, entry.getKey());
-                    db.prep.setInt(3, entry.getValue());
+                    db.prep.setInt(2, dish_order.getDish_id());
+                    db.prep.setInt(3, dish_order.getAmount());
+                    db.prep.setString(4, dish_order.getServe_time());
 
                     db.prep.addBatch();
                 }
