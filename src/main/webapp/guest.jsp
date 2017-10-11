@@ -46,7 +46,7 @@
 
                 var dish_orders = [];
 
-                $("#appetizer").find("input").each(function(index, element){
+                    $(".dish0").each(function(index, element){
                     var dishid = $(element).attr('id');
                     var num = $(element).val();
 
@@ -66,7 +66,7 @@
                     appetizer = true;
                 });
 
-                $("#maincourse").find("input").each(function(index, element){
+                    $(".dish1").each(function(index, element){
                     var dishid = $(element).attr('id');
                     var num = $(element).val();
 
@@ -85,7 +85,7 @@
 
                     maincourse = true;
                 });
-                $("#dessert").find("input").each(function(index, element){
+                    $(".dish2").each(function(index, element){
                     var dishid = $(element).attr('id');
                     var num = $(element).val();
 
@@ -104,7 +104,7 @@
 
                     dessert = true;
                 });
-                $("#drink").find("input").each(function(index, element){
+                $(".dish3").each(function(index, element){
                     var dishid = $(element).attr('id');
                     var num = $(element).val();
 
@@ -331,7 +331,7 @@
         </td>
         <td data-th="Price">` + dish.price + `</td>
         <td data-th="Quantity">
-        <input type="number" id="` + dish.id + `" class="form-control text-center" value="0">
+        <input type="number" id="` + dish.id + `" class="form-control text-center dish` + +dish.dish_type +`" value="0">
         </td>
         <td data-th="Subtotal" id="subTot8" class="text-center"></td>
         <td class="actions" data-th="">
