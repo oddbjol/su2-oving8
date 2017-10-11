@@ -152,7 +152,7 @@
 
                 //TODO: Remove hardcoding.
                 var fullOrder = {
-                    table_number: 0,
+                    table_number: 1,
                     //customer_id :
                     customer_name: $("#username").val(),
                     from_time: from_date,
@@ -259,15 +259,15 @@
 
         console.log(JSON.stringify(order));
 
-            $.ajax({
-                url: 'rest/thepath/orders/order/findTable/',
-                type: 'POST',
-                data: JSON.stringify(order),
-                contentType: 'application/json; charset=utf-8',
-                success: function(table_number){
-                    $("#table_number").val(table_number);
-                }
-            });
+            <%--$.ajax({--%>
+                <%--url: 'rest/thepath/orders/order/findTable/',--%>
+                <%--type: 'POST',--%>
+                <%--data: JSON.stringify(order),--%>
+                <%--contentType: 'application/json; charset=utf-8',--%>
+                <%--success: function(table_number){--%>
+                    <%--$("#table_number").val(table_number);--%>
+                <%--}--%>
+            <%--});--%>
         }
 //test comment
 

@@ -9,6 +9,8 @@ public class Dish_Order {
     private int amount;
     private String serve_time;
 
+    public Dish_Order(){}
+
     public Dish_Order(int dish_id, int dish_type, int amount, String serve_time) {
         this.dish_id = dish_id;
         this.dish_type = dish_type;
