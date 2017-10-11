@@ -34,8 +34,10 @@
     <script language="javascript">
         $(document).ready(function() {
             getDishes();
-            populateTable();
             findTable();
+
+
+
 
             $("#submitbutton").click(function () {
 
@@ -332,6 +334,7 @@
 
             updateCost();
             });
+
         }
 
         function addDishToTable(dish, header){
@@ -351,7 +354,7 @@
         </td>
         <td data-th="Subtotal" id="subtot` + dish.id + `" class="text-center"></td>
         <td class="actions" data-th="">
-        <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
+        <button class="btn btn-success btn-sm add_dish" id="add_dish_`+ dish.id +`">+<i class="fa fa-trash-o"></i></button>
         </td>
         </tr>`
 
