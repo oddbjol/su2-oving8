@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="styleordersheet.css">
+    <link rel="stylesheet" type="text/css" href="styleguest.css">
     <!-- Google Map -->
 
 
@@ -29,9 +30,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--<script src="jquery-3.2.1.min.js"></script> -->
 
+
     <script language="javascript">
         $(document).ready(function() {
             getDishes();
+            populateTable();
             findTable();
 
             $("#submitbutton").click(function () {
@@ -43,7 +46,7 @@
 
                 var dish_orders = [];
 
-                $("#appetizer").find("input").each(function(index, element){
+                    $(".dish0").each(function(index, element){
                     var dishid = $(element).attr('id');
                     var num = $(element).val();
 
@@ -63,7 +66,7 @@
                     appetizer = true;
                 });
 
-                $("#maincourse").find("input").each(function(index, element){
+                    $(".dish1").each(function(index, element){
                     var dishid = $(element).attr('id');
                     var num = $(element).val();
 
@@ -82,7 +85,7 @@
 
                     maincourse = true;
                 });
-                $("#dessert").find("input").each(function(index, element){
+                    $(".dish2").each(function(index, element){
                     var dishid = $(element).attr('id');
                     var num = $(element).val();
 
@@ -101,7 +104,7 @@
 
                     dessert = true;
                 });
-                $("#drink").find("input").each(function(index, element){
+                $(".dish3").each(function(index, element){
                     var dishid = $(element).attr('id');
                     var num = $(element).val();
 
@@ -196,10 +199,6 @@
             $("#timeSlot").change(findTable);
             $("#guestNumber").change(findTable);
 
-            $("#submitbutton").click(function(){
-                sendOrder();
-            });
-
         });
 
         function addMinutes(date, minutes){
@@ -280,10 +279,8 @@
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
                     pricelist[dish.id] = dish.price;
-                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
-                    console.log(option);
-                    //console.log(option); //For strenger og tall
-                    $("#appetizer").append(option);
+
+                     addDishToTable(dish, "#appetizers");
                 }
             });
 
@@ -292,44 +289,66 @@
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
                     pricelist[dish.id] = dish.price;
-                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
-                    //console.log(option); //For strenger og tall
-                    $("#maincourse").append(option);
+                    addDishToTable(dish, "#maincourses");
                 }
 
-                $.get("rest/thepath/dishes/dessert", function (dishes) {
 
-                //console.dir(appetizers); // For komplekse objekter
-                for (var dish of dishes) {
-                pricelist[dish.id] = dish.price;
-                var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
-                //console.log(option); //For strenger og tall
-                $("#dessert").append(option);
-                }
+            });
 
-                    $.get("rest/thepath/dishes/drink", function (dishes) {
+            $.get("rest/thepath/dishes/dessert", function (dishes) {
 
-                    //console.dir(appetizers); // For komplekse objekter
-                    for (var dish of dishes) {
-                    pricelist[dish.id] = dish.price;
-                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
-                    //console.log(option); //For strenger og tall
-                    $("#drinks").append(option);
-                    }
+            //console.dir(appetizers); // For komplekse objekter
+            for (var dish of dishes) {
+            pricelist[dish.id] = dish.price;
+        addDishToTable(dish, "#desserts");
+            }
 
-                        updateCost();
-                    });
-                });
+
+            });
+
+            $.get("rest/thepath/dishes/drink", function (dishes) {
+
+            //console.dir(appetizers); // For komplekse objekter
+            for (var dish of dishes) {
+            pricelist[dish.id] = dish.price;
+            addDishToTable(dish, "#drinks");
+            }
+
+            updateCost();
             });
         }
 
-        function sendOrder(){
+        function addDishToTable(dish, header){
+            var html = `                                    <tr>
+        <td data-th="Product">
+        <div class="row">
+        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+        <div class="col-sm-10">
+        <h4 class="nomargin">` + dish.name + `</h4>
+        <p></p>
+        </div>
+        </div>
+        </td>
+        <td data-th="Price">` + dish.price + `</td>
+        <td data-th="Quantity">
+        <input type="number" id="` + dish.id + `" class="form-control text-center dish` + +dish.dish_type +`" value="0">
+        </td>
+        <td data-th="Subtotal" id="subTot8" class="text-center"></td>
+        <td class="actions" data-th="">
+        <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
+        </td>
+        </tr>`
 
+            $(header).after(html);
         }
 
 
+        function populateTable(){
+
+        }
 
     </script>
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -347,9 +366,10 @@
                         <legend id="myId8" class="hidden legend" style="width: inherit;padding:inherit;border:2px solid silver;">Menu</legend>
                         <div class="form-group" id="above" style="margin-bottom: 5px!important;">
                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
-                            <output class="col-sm-10 col-md-8 col-lg-8 col-xs-10"
+                           <!-- <output class="col-sm-10 col-md-8 col-lg-8 col-xs-10"
                                     id="responseFail" type="text"
                                     style="text-align: center; font-weight: bold; color: red;padding: 0px!important;" ></output>
+                                    -->
                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
                         </div>
                         <div class="form-group" style="margin-bottom: 5px!important;">
@@ -401,189 +421,55 @@
                                                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
                                                         </div>	-->
                             <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
-                                <table id="appetizer" class="table table-hover table-condensed">
-                                    <thead>
-                                    <tr>
-                                        <th style="width:50%">Product</th>
-                                        <th style="width:10%">Price</th>
-                                        <th style="width:8%">Quantity</th>
-                                        <th style="width:22%" class="text-center">Subtotal</th>
-                                        <th style="width:10%"></th>
-                                    </tr>
+                                <table id="cart" class="table table-hover table-condensed">
+                                      <thead id="appetizers">
+                                        <tr>
+                                            <th style="width:50%">Appetizers</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width:22%" class="text-center">Subtotal</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <thead id="maincourses">
+                                        <tr>
+                                            <th style="width:50%">Main courses</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width:22%" class="text-center">Subtotal</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
+                                    </thead>
+                                      <thead id="desserts">
+                                        <tr>
+                                            <th style="width:50%">Desserts</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width:22%" class="text-center">Subtotal</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <thead id="drinks">
+                                        <tr>
+                                            <th style="width:50%">Drinks</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width:22%" class="text-center">Subtotal</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Fisk</h4>
-                                                    <p>Fisken er fersk osv...</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">250,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" id="1" value="0">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot1" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Hamburger</h4>
-                                                    <p>Taste our fresh and friendly burger...</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">199,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" id="1" value="0">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot2" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Bacalao</h4>
-                                                    <p>Kim rated it to 5 stars inn the biggest female magasin</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">199,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" id="1" value="0">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot3" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Shrimps</h4>
-                                                    <p>ivamus rhoncus, turpis at vehicula tincidunt, mauris lorem aliquet dolor</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">99,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" id="1" value="0">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot4" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Soup</h4>
-                                                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In commodo urna et nisi rhoncus tempor.</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">250,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" id="1" value="0">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot5" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Beer</h4>
-                                                    <p>Because beer is good for everyone</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">79,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="0" class="form-control text-center" value="0">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot6" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Fanta</h4>
-                                                    <p>Yellow good old Fanta</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">35,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="1" class="form-control text-center" value="0">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot7" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-                                    
-
                                     <tfoot>
                                     <tr class="visible-xs">
-        <td class="text-center"><strong>Total <span id="totalCost">12</span></strong></td>
+                                        <td class="text-center"><strong>Total <span id="totalCost">20</span></strong></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="hidden-xs"></td>
-                                        <td class="hidden-xs text-center"><strong>Total $12</strong></td>
-                                        <td><a href="#" type="submit" id="submitbutton" class="btn btn-success btn-block">Pay <i class="fa fa-angle-right"></i></a></td>
+                                        <td class="hidden-xs text-center" id="Pay"><strong>Total $1.99</strong></td>
+                                        <td><button id="submitbutton" class="btn btn-danger btn-block" data-toggle="modal">Pay <i class="fa fa-angle-right"></i></button></td>
+                                        <!--onclick="javascript:return loginStatus()"-->
                                     </tr>
                                     </tfoot>
-
 
                                 </table>
 
@@ -604,144 +490,112 @@
                                             style=" font-size: 13px;">
                                         Back</button>
 
-                                     
-
 
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             </div>
+<!-- Credit card starts here -->
+                        <!-- You can make it whatever width you want. I'm making it full width
+                                    on <= small devices and 4/12 page width on >= medium devices -->
+                        <div class="col-xs-12 col-md-4">
 
+
+                            <!-- CREDIT CARD FORM STARTS HERE -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-body">
+                            <div class="form-group hidden" id="myId4" style="margin-bottom: 10px!important;">
+                            <div class="panel panel-default credit-card-box">
+                                <div class="panel-heading display-table" >
+                                    <div class="row display-tr" >
+                                        <h3 class="panel-title display-td" >Payment Details</h3>
+                                        <div class="display-td" >
+                                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="cardNumber">CARD NUMBER</label>
+                                                    <div class="input-group">
+                                                        <input
+                                                                type="tel"
+                                                                class="form-control"
+                                                                name="cardNumber"
+                                                                placeholder="Valid Card Number"
+                                                                autocomplete="cc-number"
+                                                                required autofocus
+                                                        />
+                                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-7 col-md-7">
+                                                <div class="form-group">
+                                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                                    <input
+                                                            type="tel"
+                                                            class="form-control"
+                                                            name="cardExpiry"
+                                                            placeholder="MM / YY"
+                                                            autocomplete="cc-exp"
+                                                            required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-5 col-md-5 pull-right">
+                                                <div class="form-group">
+                                                    <label for="cardCVC">CV CODE</label>
+                                                    <input
+                                                            type="tel"
+                                                            class="form-control"
+                                                            name="cardCVC"
+                                                            placeholder="CVC"
+                                                            autocomplete="cc-csc"
+                                                            required
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="couponCode">COUPON CODE</label>
+                                                    <input type="text" class="form-control" name="couponCode" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <button class="subscribe btn btn-success btn-lg btn-block" type="button" >Start Subscription</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="display:none;">
+                                            <div class="col-xs-12">
+                                                <p class="payment-errors"></p>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+            </div>
+        </div>
+        <!-- CREDIT CARD FORM ENDS HERE -->
 
                     </fieldset>
                 </form>
             </div>
         </div>
-<!--
-        <form>
-            <fieldset>
-                <legend> Personalia: </legend>
-                Name: <input type="text" id="nam"><br>
-
-
-                Number of guests:
-                <select id="guestNumber">
-                    <option value="0">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select><br>
-
-
-                Servingtime (date and time):
-                <input type="date" id="serveringdate" value=" --><%
-
-                Date d = new Date();
-
-Calendar cal = Calendar.getInstance();
-cal.add(Calendar.DATE, 7);
-Date date = cal.getTime();
-SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
-
-
-                out.print(ft.format(date));
-
-
-
-%>
-                <!--<input type="submit" value="Send"> -->
-<!--
-                <select id="timeSlot">
-                    <option value="0">1200 - 1330 </option>
-                    <option value="0">1330 - 1500 </option>
-                    <option value="2">1500 - 1630 </option>
-                    <option value="3">1630 - 1800 </option>
-                    <option value="4">1800 - 1930 </option>
-                    <option value="5">1930 - 2100 </option>
-                    <option value="6">2100 - 2230 </option>
-                    <option value="7">2230 - 2400 </option>
-                </select><br>
-
-
-            </fieldset><br>
-
-            <fieldset>
-
-
-                    <legend> Menu: </legend>
-
-                    Appetizer:
-                    <select id="appetizer">
-                    </select><br>
-
-                    Main Course:
-                    <select id="maincourse">
-                    </select><br>
-
-                    Dessert:
-                    <select id="dessert">
-                    </select><br>
-
-                    Drinks:
-                    <select id="drinks">
-                    </select><br>
-
-
-                    Total Costs: <input type="text" id="totalCost" disabled> <br>
-
-                    Your table number: <input type="text" id="table_number" disabled> <br>
-
-
-
-
-
-
-
-            </fieldset><br>
-            <fieldset>
-
-                    <legend> Payment: </legend>
-                        Cardnumber: (hint:123 or 321) <input type="text" id="cardnumber"><br>
-                        CVS: (hint:111) <input type="text" id="cvs"><br><br>
-
-
-
-
-
-
-
-
-                    <input id="submit" type="button" value="Confirm reservation"><br>
-            </fieldset>
-        </form>
-
-
-        </div>
-
-
-
-
-    </div>
-
-
-</div><br>
-
-
--->
-<!--
-<nav class="navbar navbar-default" >
-    <div class="container-fluid">
-        <div class="bunn-bar">
-            <ul class="nav navbar-nav" >
-                <!--<li class="active"><a href="#">Home</a></li>-->
-<!--
-                <li><a href="#">About</a></li>
-                <li><a href="#">News</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
--->
 </body>
 </html>
