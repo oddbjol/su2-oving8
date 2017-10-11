@@ -30,48 +30,147 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--<script src="jquery-3.2.1.min.js"></script> -->
 
+
     <script language="javascript">
         $(document).ready(function() {
             getDishes();
+            populateTable();
             findTable();
 
-            $("#submit").click(function () {
-                var num_guests = $("#guestNumber").val();
+            $("#submitbutton").click(function () {
 
-                var appertizer = $("#appetizer").val();
-                var mainCourse = $("#maincourse").val();
-                var dessert = $("#dessert").val();
-                var drink = $("#drinks").val();
 
-                var now = new Date();
+                var appetizer = false, maincourse = false, dessert = false;
 
+                var from_date = new Date(), to_date = new Date();
+
+                var dish_orders = [];
+
+                $("#appetizer").find("input").each(function(index, element){
+                    var dishid = $(element).attr('id');
+                    var num = $(element).val();
+
+                    // Don't bother "ordering" 0 amount of a dish.
+                    if(num == 0)
+                        return;
+
+                    var dish_order = {
+                                        dish_id: dishid,
+                                        amount: num,
+                                        dish_type: 0,
+                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                    };
+
+                    dish_orders.push(dish_order);
+
+                    appetizer = true;
+                });
+
+                $("#maincourse").find("input").each(function(index, element){
+                    var dishid = $(element).attr('id');
+                    var num = $(element).val();
+
+                    // Don't bother "ordering" 0 amount of a dish.
+                    if(num == 0)
+                        return;
+
+                    var dish_order = {
+                                        dish_id: dishid,
+                                        dish_type: 1,
+                                        amount: num,
+                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                    };
+
+                    dish_orders.push(dish_order);
+
+                    maincourse = true;
+                });
+                $("#dessert").find("input").each(function(index, element){
+                    var dishid = $(element).attr('id');
+                    var num = $(element).val();
+
+                    // Don't bother "ordering" 0 amount of a dish.
+                    if(num == 0)
+                        return;
+
+                    var dish_order = {
+                                        dish_id: dishid,
+                                        dish_type: 2,
+                                        amount: num,
+                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                    };
+
+                    dish_orders.push(dish_order);
+
+                    dessert = true;
+                });
+                $("#drink").find("input").each(function(index, element){
+                    var dishid = $(element).attr('id');
+                    var num = $(element).val();
+
+                    // Don't bother "ordering" 0 amount of a dish.
+                    if(num == 0)
+                        return;
+
+                    var dish_order = {
+                                        dish_id: dishid,
+                                        dish_type: 3,
+                                        amount: num,
+                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                    };
+
+                    dish_orders.push(dish_order);
+                });
+
+                    var appetizer_offset = 0, maincourse_offset = 0, dessert_offset = 0;
+
+                    if(appetizer && maincourse){
+                        appetizer_offset = 0;
+                        maincourse_offset = 30;
+                        dessert_offset = 60;
+                    }
+                    else if(appetizer && !maincourse && dessert){
+                        appetizer_offset = 0;
+                        dessert_offset = 30;
+                    }
+                    else if(!appetizer && maincourse){
+                        maincourse_offset = 0;
+                        dessert_offset = 30;
+                    }
+
+            dish_orders.forEach(function(dish_order, index){
+                if(dish_order.dish_type == 0) //appetizer
+                    dish_order.serve_time = getClock(addMinutes(from_date, appetizer_offset));
+                else if(dish_order.dish_type == 1)
+                    dish_order.serve_time = getClock(addMinutes(from_date, maincourse_offset));
+                else if(dish_order.dish_type == 2)
+                    dish_order.serve_time = getClock(addMinutes(from_date, dessert_offset));
+                else
+                    dish_order.serve_time = getClock(from_date);
+
+        });
+
+                //TODO: Remove hardcoding.
                 var fullOrder = {
-                    customer_name: $("#name").val(),
-                    table_number: $("#table_number").val(),
-                    from_time: getStartTime(),
-                    to_time: getEndTime(),
-                    num_guests: num_guests,
-                    dishes: {
-                                [appertizer]: num_guests,
-                                [mainCourse]: num_guests,
-                                [dessert]: num_guests,
-                                [drink]: num_guests
-                            },
+                    table_number: 0,
+                    //customer_id :
+                    customer_name: $("#username").val(),
+                    from_time: from_date,
+                    to_time: to_date,
+                    num_guests: 2,
+                    dish_orders: dish_orders
                 };
 
-        console.dir(fullOrder);
-        console.log(JSON.stringify(fullOrder));
-
-                var url = "rest/thepath/singleOrder";
+                console.log(JSON.stringify(fullOrder));
 
 
                 var account = {
-                    number: $("#cardnumber").val(),
-                    cvs: $("#cvs").val()
+                    number: 123,//$("#cardnumber").val(), TODO: Add values here
+                    cvs: 111 //$("#cvs").val()
                 };
 
                 $.ajax({
-                    url: 'rest/thepath/account/check/' + $("#totalCost").val(),
+                    url: 'rest/thepath/account/check/' + $("#totalCost").html(),
                     type: 'POST',
                     data: JSON.stringify(account),
                     contentType: 'application/json; charset=utf-8',
@@ -79,7 +178,7 @@
                     success: function(success){
                         if(success){
                             $.ajax({
-                                url: url,
+                                url: 'rest/thepath/singleOrder',
                                 type: 'POST',
                                 data: JSON.stringify(fullOrder),
                                 contentType: 'application/json; charset=utf-8',
@@ -101,6 +200,16 @@
             $("#guestNumber").change(findTable);
 
         });
+
+        function addMinutes(date, minutes){
+        console.log(date + " adding " + minutes);
+        d = new Date(date.getTime() + minutes*60*1000);
+        return d;
+        }
+
+        function getClock(date){
+            return date.getHours() + ":" + date.getMinutes();
+        }
 
         function getStartTime(){
             var slotNumber = $("#timeSlot").val();
@@ -170,10 +279,8 @@
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
                     pricelist[dish.id] = dish.price;
-                  //  var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
-                    console.log(option);
-                    //console.log(option); //For strenger og tall
-                    //$("#appetizer").append(option);
+
+                     addDishToTable(dish, "#appetizers");
                 }
             });
 
@@ -182,40 +289,66 @@
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
                     pricelist[dish.id] = dish.price;
-                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
-                    //console.log(option); //For strenger og tall
-                    $("#maincourse").append(option);
+                    addDishToTable(dish, "#maincourses");
                 }
 
-                $.get("rest/thepath/dishes/dessert", function (dishes) {
 
-                //console.dir(appetizers); // For komplekse objekter
-                for (var dish of dishes) {
-                pricelist[dish.id] = dish.price;
-                var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
-                //console.log(option); //For strenger og tall
-                $("#dessert").append(option);
-                }
+            });
 
-                    $.get("rest/thepath/dishes/drink", function (dishes) {
+            $.get("rest/thepath/dishes/dessert", function (dishes) {
 
-                    //console.dir(appetizers); // For komplekse objekter
-                    for (var dish of dishes) {
-                    pricelist[dish.id] = dish.price;
-                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
-                    //console.log(option); //For strenger og tall
-                    //$("#drinks").append(option);
-                    }
+            //console.dir(appetizers); // For komplekse objekter
+            for (var dish of dishes) {
+            pricelist[dish.id] = dish.price;
+        addDishToTable(dish, "#desserts");
+            }
 
-                        updateCost();
-                    });
-                });
+
+            });
+
+            $.get("rest/thepath/dishes/drink", function (dishes) {
+
+            //console.dir(appetizers); // For komplekse objekter
+            for (var dish of dishes) {
+            pricelist[dish.id] = dish.price;
+            addDishToTable(dish, "#drinks");
+            }
+
+            updateCost();
             });
         }
 
+        function addDishToTable(dish, header){
+            var html = `                                    <tr>
+        <td data-th="Product">
+        <div class="row">
+        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+        <div class="col-sm-10">
+        <h4 class="nomargin">` + dish.name + `</h4>
+        <p></p>
+        </div>
+        </div>
+        </td>
+        <td data-th="Price">` + dish.price + `</td>
+        <td data-th="Quantity">
+        <input type="number" id="` + dish.id + `" class="form-control text-center" value="0">
+        </td>
+        <td data-th="Subtotal" id="subTot8" class="text-center"></td>
+        <td class="actions" data-th="">
+        <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
+        </td>
+        </tr>`
 
+            $(header).after(html);
+        }
+
+
+        function populateTable(){
+
+        }
 
     </script>
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -289,257 +422,51 @@
                                                         </div>	-->
                             <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
                                 <table id="cart" class="table table-hover table-condensed">
-                                    <thead id="mainCourse">
-                                    <tr>
-                                        <th style="width:50%">Main course</th>
-                                        <th style="width:10%">Price</th>
-                                        <th style="width:8%">Quantity</th>
-                                        <th style="width:22%" class="text-center">Subtotal</th>
-                                        <th style="width:10%"></th>
-                                    </tr>
+                                      <thead id="appetizers">
+                                        <tr>
+                                            <th style="width:50%">Appetizers</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width:22%" class="text-center">Subtotal</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <thead id="maincourses">
+                                        <tr>
+                                            <th style="width:50%">Main courses</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width:22%" class="text-center">Subtotal</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
+                                    </thead>
+                                      <thead id="desserts">
+                                        <tr>
+                                            <th style="width:50%">Desserts</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width:22%" class="text-center">Subtotal</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <thead id="drinks">
+                                        <tr>
+                                            <th style="width:50%">Drinks</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width:22%" class="text-center">Subtotal</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Fisk</h4>
-                                                    <p>Fisken er fersk osv...</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">250,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q1" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot1" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Hamburger</h4>
-                                                    <p>Taste our fresh and friendly burger...</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">199,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q2" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot2" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Bacalao</h4>
-                                                    <p>Kim rated it to 5 stars inn the biggest female magasin</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">199,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q3" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot3" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-
-                                    <thead id="appetizer">
-                                    <tr>
-                                        <th style="width:50%">Appetizers</th>
-                                        <th style="width:10%">Price</th>
-                                        <th style="width:8%">Quantity</th>
-                                        <th style="width:22%" class="text-center">Subtotal</th>
-                                        <th style="width:10%"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Shrimps</h4>
-                                                    <p>ivamus rhoncus, turpis at vehicula tincidunt, mauris lorem aliquet dolor</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">99,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q4" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot4" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Soup</h4>
-                                                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In commodo urna et nisi rhoncus tempor.</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">250,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q5" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot5" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <thead id="Dessert">
-                                    <tr>
-                                        <th style="width:50%">Dessert</th>
-                                        <th style="width:10%">Price</th>
-                                        <th style="width:8%">Quantity</th>
-                                        <th style="width:22%" class="text-center">Subtotal</th>
-                                        <th style="width:10%"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Beer</h4>
-                                                    <p>Because beer is good for everyone</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">79,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q6" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot6" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Fanta</h4>
-                                                    <p>Yellow good old Fanta</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">35,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q7" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot7" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-                                    <thead id="Drinks">
-                                    <tr>
-                                        <th style="width:50%">Drinks</th>
-                                        <th style="width:10%">Price</th>
-                                        <th style="width:8%">Quantity</th>
-                                        <th style="width:22%" class="text-center">Subtotal</th>
-                                        <th style="width:10%"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Shrimps</h4>
-                                                    <p>ivamus rhoncus, turpis at vehicula tincidunt, mauris lorem aliquet dolor</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">99,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q8" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot8" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
-                                    <tbody>
-                                    <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                                <div class="col-sm-10">
-                                                    <h4 class="nomargin">Soup</h4>
-                                                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In commodo urna et nisi rhoncus tempor.</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price">250,-</td>
-                                        <td data-th="Quantity">
-                                            <input type="number" id="q9" class="form-control text-center" value="1">
-                                        </td>
-                                        <td data-th="Subtotal" id="subTot9" class="text-center"></td>
-                                        <td class="actions" data-th="">
-                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-
-
                                     <tfoot>
                                     <tr class="visible-xs">
-                                        <td class="text-center"><strong>Total 1.99</strong></td>
+                                        <td class="text-center"><strong>Total <span id="totalCost">20</span></strong></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="hidden-xs"></td>
                                         <td class="hidden-xs text-center" id="Pay"><strong>Total $1.99</strong></td>
-                                        <td><button id="" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">Pay <i class="fa fa-angle-right"></i></button></td>
+                                        <td><button id="submitbutton" class="btn btn-danger btn-block" data-toggle="modal">Pay <i class="fa fa-angle-right"></i></button></td>
                                         <!--onclick="javascript:return loginStatus()"-->
                                     </tr>
                                     </tfoot>
@@ -670,121 +597,5 @@
                 </form>
             </div>
         </div>
-<!--
-
-
-                Servingtime (date and time):
-                <input type="date" id="serveringdate" value=" -->
-
-
-            <%
-                Date d = new Date();
-
-Calendar cal = Calendar.getInstance();
-cal.add(Calendar.DATE, 7);
-Date date = cal.getTime();
-SimpleDateFormat ft = new SimpleDateFormat("YYYY-MM-dd");
-
-
-                out.print(ft.format(date));
-
-
-
-%>
-                <!--<input type="submit" value="Send"> -->
-<!--
-                <select id="timeSlot">
-                    <option value="0">1200 - 1330 </option>
-                    <option value="1">1330 - 1500 </option>
-                    <option value="2">1500 - 1630 </option>
-                    <option value="3">1630 - 1800 </option>
-                    <option value="4">1800 - 1930 </option>
-                    <option value="5">1930 - 2100 </option>
-                    <option value="6">2100 - 2230 </option>
-                    <option value="7">2230 - 2400 </option>
-                </select><br>
-
-
-            </fieldset><br>
-
-            <fieldset>
-
-
-                    <legend> Menu: </legend>
-
-                    Appetizer:
-                    <select id="appetizer">
-                    </select><br>
-
-                    Main Course:
-                    <select id="maincourse">
-                    </select><br>
-
-                    Dessert:
-                    <select id="dessert">
-                    </select><br>
-
-                    Drinks:
-                    <select id="drinks">
-                    </select><br>
-
-
-                    Total Costs: <input type="text" id="totalCost" disabled> <br>
-
-                    Your table number: <input type="text" id="table_number" disabled> <br>
-
-
-
-
-
-
-
-            </fieldset><br>
-            <fieldset>
-
-                    <legend> Payment: </legend>
-                        Cardnumber: (hint:123 or 321) <input type="text" id="cardnumber"><br>
-                        CVS: (hint:111) <input type="text" id="cvs"><br><br>
-
-
-
-
-
-
-
-
-                    <input id="submit" type="button" value="Confirm reservation"><br>
-            </fieldset>
-        </form>
-
-
-        </div>
-
-
-
-
-    </div>
-
-
-</div><br>
-
-
--->
-<!--
-<nav class="navbar navbar-default" >
-    <div class="container-fluid">
-        <div class="bunn-bar">
-            <ul class="nav navbar-nav" >
-                <!--<li class="active"><a href="#">Home</a></li>-->
-<!--
-                <li><a href="#">About</a></li>
-                <li><a href="#">News</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
--->
 </body>
 </html>
