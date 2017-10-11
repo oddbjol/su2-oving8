@@ -271,7 +271,7 @@
                                 <button id="valuser" type="button" onclick="valUsername()"
                                         class="btn btn-primary customizedPrimaryBtn">
                                     Next</button>
-                            </div>
+                        </div>
 
                             <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                         </div>
@@ -286,33 +286,207 @@
                                                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
                                                         </div>	-->
                             <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
+                                <table id="cart" class="table table-hover table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:50%">Product</th>
+                                        <th style="width:10%">Price</th>
+                                        <th style="width:8%">Quantity</th>
+                                        <th style="width:22%" class="text-center">Subtotal</th>
+                                        <th style="width:10%"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Fisk</h4>
+                                                    <p>Fisken er fersk osv...</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">250,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot1" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Hamburger</h4>
+                                                    <p>Taste our fresh and friendly burger...</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">199,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot2" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Bacalao</h4>
+                                                    <p>Kim rated it to 5 stars inn the biggest female magasin</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">199,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot3" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Shrimps</h4>
+                                                    <p>ivamus rhoncus, turpis at vehicula tincidunt, mauris lorem aliquet dolor</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">99,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot4" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Soup</h4>
+                                                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In commodo urna et nisi rhoncus tempor.</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">250,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot5" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Beer</h4>
+                                                    <p>Because beer is good for everyone</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">79,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot6" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Fanta</h4>
+                                                    <p>Yellow good old Fanta</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">35,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot7" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+
+
+
+                                    <tfoot>
+                                    <tr class="visible-xs">
+                                        <td class="text-center"><strong>Total 1.99</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="hidden-xs"></td>
+                                        <td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
+                                        <td><a href="#" type="submit" id="submitbutton" onclick="javascript:return loginStatus()" class="btn btn-success btn-block">Pay <i class="fa fa-angle-right"></i></a></td>
+                                    </tr>
+                                    </tfoot>
+
+
+                                </table>
 
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                                <div
-                                        class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
-										<span class="input-group-addon"><span
-                                                class="glyphicon glyphicon-lock" style="color: black;"></span></span>
-                                    <input type="password" class="form-control" id="password" style="width: 100%;" placeholder="Enter your Password"><span
-                                        class="input-group-btn">
-											<button class="btn btn-defaultCUST" id="view_button"
-                                                    style="height: 34px;border-color: #ccc;"
-                                                    type="button">
-												<span class="glyphicon glyphicon-eye-open" ></span>
-											</button>
-										</span>
+                                <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
+
+                                    <!-- Har var input for password tidligere -->
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+
                             </div>
 
-                            <div class="form-group hidden" id="myId4">
-                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                                <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10"
-                                     style="text-align: right;padding-right: 0px;">
-                                    <a
-                                            href="#" style="color: teal;">Forgot password ?</a>
-                                </div>
-                                <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
-                            </div>
                             <div class="form-group hidden" id="myId3">
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                                 <div class="col-sm-11 col-md-11 col-lg-11 col-xs-10 button_Pad" style="text-align:center">
@@ -322,26 +496,17 @@
                                         Back</button>
 
                                      
-                                    <button id="submitbtn" type="submit"
-                                            class="btn btn-success"
-                                            onClick="javascript:return loginStatus();"
-                                            style=" font-size: 13px;">
-                                        Login</button>
+
 
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             </div>
-                            <div class="form-group" style="text-align:center;font-weight:bold">
-                                Please pay a visit to <a target="_blank" href="https://www.formulaestack.com">Formulae Stack</a>
-                                to explore more interesting snippets and articles
-                            </div>
+
+
                     </fieldset>
                 </form>
             </div>
         </div>
-    </div>
-    <h2 style="text-align: center">Enter any username other than Admin else you would see invalid username message</h2>
-</div>
 <!--
         <form>
             <fieldset>
