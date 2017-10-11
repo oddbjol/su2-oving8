@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="styleordersheet.css">
+    <link rel="stylesheet" type="text/css" href="styleguest.css">
     <!-- Google Map -->
 
 
@@ -169,10 +170,10 @@
                 //console.dir(appetizers); // For komplekse objekter
                 for (var dish of dishes) {
                     pricelist[dish.id] = dish.price;
-                    var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
+                  //  var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     console.log(option);
                     //console.log(option); //For strenger og tall
-                    $("#appetizer").append(option);
+                    //$("#appetizer").append(option);
                 }
             });
 
@@ -203,7 +204,7 @@
                     pricelist[dish.id] = dish.price;
                     var option = "<option value='" + dish.id + "'>" + dish.name + " (" + dish.price + " NOK)</option>";
                     //console.log(option); //For strenger og tall
-                    $("#drinks").append(option);
+                    //$("#drinks").append(option);
                     }
 
                         updateCost();
@@ -232,9 +233,10 @@
                         <legend id="myId8" class="hidden legend" style="width: inherit;padding:inherit;border:2px solid silver;">Menu</legend>
                         <div class="form-group" id="above" style="margin-bottom: 5px!important;">
                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
-                            <output class="col-sm-10 col-md-8 col-lg-8 col-xs-10"
+                           <!-- <output class="col-sm-10 col-md-8 col-lg-8 col-xs-10"
                                     id="responseFail" type="text"
                                     style="text-align: center; font-weight: bold; color: red;padding: 0px!important;" ></output>
+                                    -->
                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
                         </div>
                         <div class="form-group" style="margin-bottom: 5px!important;">
@@ -287,9 +289,9 @@
                                                         </div>	-->
                             <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
                                 <table id="cart" class="table table-hover table-condensed">
-                                    <thead>
+                                    <thead id="mainCourse">
                                     <tr>
-                                        <th style="width:50%">Product</th>
+                                        <th style="width:50%">Main course</th>
                                         <th style="width:10%">Price</th>
                                         <th style="width:8%">Quantity</th>
                                         <th style="width:22%" class="text-center">Subtotal</th>
@@ -309,11 +311,11 @@
                                         </td>
                                         <td data-th="Price">250,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="q1" class="form-control text-center" value="1">
                                         </td>
                                         <td data-th="Subtotal" id="subTot1" class="text-center"></td>
                                         <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -332,11 +334,11 @@
                                         </td>
                                         <td data-th="Price">199,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="q2" class="form-control text-center" value="1">
                                         </td>
                                         <td data-th="Subtotal" id="subTot2" class="text-center"></td>
                                         <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -355,16 +357,26 @@
                                         </td>
                                         <td data-th="Price">199,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="q3" class="form-control text-center" value="1">
                                         </td>
                                         <td data-th="Subtotal" id="subTot3" class="text-center"></td>
                                         <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
 
 
+
+                                    <thead id="appetizer">
+                                    <tr>
+                                        <th style="width:50%">Appetizers</th>
+                                        <th style="width:10%">Price</th>
+                                        <th style="width:8%">Quantity</th>
+                                        <th style="width:22%" class="text-center">Subtotal</th>
+                                        <th style="width:10%"></th>
+                                    </tr>
+                                    </thead>
                                     <tbody>
                                     <tr>
                                         <td data-th="Product">
@@ -378,11 +390,11 @@
                                         </td>
                                         <td data-th="Price">99,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="q4" class="form-control text-center" value="1">
                                         </td>
                                         <td data-th="Subtotal" id="subTot4" class="text-center"></td>
                                         <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -401,16 +413,25 @@
                                         </td>
                                         <td data-th="Price">250,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="q5" class="form-control text-center" value="1">
                                         </td>
                                         <td data-th="Subtotal" id="subTot5" class="text-center"></td>
                                         <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
 
 
+                                    <thead id="Dessert">
+                                    <tr>
+                                        <th style="width:50%">Dessert</th>
+                                        <th style="width:10%">Price</th>
+                                        <th style="width:8%">Quantity</th>
+                                        <th style="width:22%" class="text-center">Subtotal</th>
+                                        <th style="width:10%"></th>
+                                    </tr>
+                                    </thead>
                                     <tbody>
                                     <tr>
                                         <td data-th="Product">
@@ -424,11 +445,11 @@
                                         </td>
                                         <td data-th="Price">79,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="q6" class="form-control text-center" value="1">
                                         </td>
                                         <td data-th="Subtotal" id="subTot6" class="text-center"></td>
                                         <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -447,16 +468,69 @@
                                         </td>
                                         <td data-th="Price">35,-</td>
                                         <td data-th="Quantity">
-                                            <input type="number" class="form-control text-center" value="1">
+                                            <input type="number" id="q7" class="form-control text-center" value="1">
                                         </td>
                                         <td data-th="Subtotal" id="subTot7" class="text-center"></td>
                                         <td class="actions" data-th="">
-                                            <button class="btn btn-danger btn-sm">x<i class="fa fa-trash-o"></i></button>
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
 
-                                    
+                                    <thead id="Drinks">
+                                    <tr>
+                                        <th style="width:50%">Drinks</th>
+                                        <th style="width:10%">Price</th>
+                                        <th style="width:8%">Quantity</th>
+                                        <th style="width:22%" class="text-center">Subtotal</th>
+                                        <th style="width:10%"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Shrimps</h4>
+                                                    <p>ivamus rhoncus, turpis at vehicula tincidunt, mauris lorem aliquet dolor</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">99,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" id="q8" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot8" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+                                    <tbody>
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                                <div class="col-sm-10">
+                                                    <h4 class="nomargin">Soup</h4>
+                                                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In commodo urna et nisi rhoncus tempor.</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Price">250,-</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" id="q9" class="form-control text-center" value="1">
+                                        </td>
+                                        <td data-th="Subtotal" id="subTot9" class="text-center"></td>
+                                        <td class="actions" data-th="">
+                                            <button class="btn btn-success btn-sm">+<i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
 
                                     <tfoot>
                                     <tr class="visible-xs">
@@ -464,11 +538,11 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="hidden-xs"></td>
-                                        <td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
-                                        <td><a href="#" type="submit" id="submitbutton" onclick="javascript:return loginStatus()" class="btn btn-success btn-block">Pay <i class="fa fa-angle-right"></i></a></td>
+                                        <td class="hidden-xs text-center" id="Pay"><strong>Total $1.99</strong></td>
+                                        <td><button id="" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">Pay <i class="fa fa-angle-right"></i></button></td>
+                                        <!--onclick="javascript:return loginStatus()"-->
                                     </tr>
                                     </tfoot>
-
 
                                 </table>
 
@@ -489,37 +563,121 @@
                                             style=" font-size: 13px;">
                                         Back</button>
 
-                                     
-
 
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             </div>
+<!-- Credit card starts here -->
+                        <!-- You can make it whatever width you want. I'm making it full width
+                                    on <= small devices and 4/12 page width on >= medium devices -->
+                        <div class="col-xs-12 col-md-4">
 
+
+                            <!-- CREDIT CARD FORM STARTS HERE -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-body">
+                            <div class="form-group hidden" id="myId4" style="margin-bottom: 10px!important;">
+                            <div class="panel panel-default credit-card-box">
+                                <div class="panel-heading display-table" >
+                                    <div class="row display-tr" >
+                                        <h3 class="panel-title display-td" >Payment Details</h3>
+                                        <div class="display-td" >
+                                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="cardNumber">CARD NUMBER</label>
+                                                    <div class="input-group">
+                                                        <input
+                                                                type="tel"
+                                                                class="form-control"
+                                                                name="cardNumber"
+                                                                placeholder="Valid Card Number"
+                                                                autocomplete="cc-number"
+                                                                required autofocus
+                                                        />
+                                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-7 col-md-7">
+                                                <div class="form-group">
+                                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                                    <input
+                                                            type="tel"
+                                                            class="form-control"
+                                                            name="cardExpiry"
+                                                            placeholder="MM / YY"
+                                                            autocomplete="cc-exp"
+                                                            required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-5 col-md-5 pull-right">
+                                                <div class="form-group">
+                                                    <label for="cardCVC">CV CODE</label>
+                                                    <input
+                                                            type="tel"
+                                                            class="form-control"
+                                                            name="cardCVC"
+                                                            placeholder="CVC"
+                                                            autocomplete="cc-csc"
+                                                            required
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="couponCode">COUPON CODE</label>
+                                                    <input type="text" class="form-control" name="couponCode" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <button class="subscribe btn btn-success btn-lg btn-block" type="button" >Start Subscription</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="display:none;">
+                                            <div class="col-xs-12">
+                                                <p class="payment-errors"></p>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+            </div>
+        </div>
+        <!-- CREDIT CARD FORM ENDS HERE -->
 
                     </fieldset>
                 </form>
             </div>
         </div>
 <!--
-        <form>
-            <fieldset>
-                <legend> Personalia: </legend>
-                Name: <input type="text" id="nam"><br>
-
-
-                Number of guests:
-                <select id="guestNumber">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select><br>
 
 
                 Servingtime (date and time):
-                <input type="date" id="serveringdate" value=" --><%
+                <input type="date" id="serveringdate" value=" -->
 
+
+            <%
                 Date d = new Date();
 
 Calendar cal = Calendar.getInstance();
