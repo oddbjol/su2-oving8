@@ -292,48 +292,55 @@
 
                      addDishToTable(dish, "#appetizers");
                 }
-            });
 
-            $.get("rest/thepath/dishes/maincourse", function (dishes) {
+                $.get("rest/thepath/dishes/maincourse", function (dishes) {
 
-                //console.dir(appetizers); // For komplekse objekter
-                for (var dish of dishes) {
+                    //console.dir(appetizers); // For komplekse objekter
+                    for (var dish of dishes) {
                     pricelist[dish.id] = dish.price;
                     addDishToTable(dish, "#maincourses");
-                }
+                    }
 
+                     $.get("rest/thepath/dishes/dessert", function (dishes) {
 
+                        //console.dir(appetizers); // For komplekse objekter
+                        for (var dish of dishes) {
+                        pricelist[dish.id] = dish.price;
+                        addDishToTable(dish, "#desserts");
+                        }
+                        $.get("rest/thepath/dishes/drink", function (dishes) {
+
+        //console.dir(appetizers); // For komplekse objekter
+        for (var dish of dishes) {
+        pricelist[dish.id] = dish.price;
+        addDishToTable(dish, "#drinks");
+        }
+
+        $(".dish0, .dish1, .dish2, .dish3").change(function(){
+        updateCost();
+        });
+        $(".dish0, .dish1, .dish2, .dish3").click(function(){
+        updateCost();
+        });
+
+        $(".add_dish").click(function(){
+            var dish_id = $(this).attr("id").split("_")[2];
+            var textbox = $("#"+dish_id);
+            textbox.val(+textbox.val()+1);
+        });
+
+        updateCost();
+        });
+
+                    });
+        });
             });
 
-            $.get("rest/thepath/dishes/dessert", function (dishes) {
-
-            //console.dir(appetizers); // For komplekse objekter
-            for (var dish of dishes) {
-            pricelist[dish.id] = dish.price;
-        addDishToTable(dish, "#desserts");
-            }
 
 
-            });
-
-            $.get("rest/thepath/dishes/drink", function (dishes) {
-
-            //console.dir(appetizers); // For komplekse objekter
-            for (var dish of dishes) {
-            pricelist[dish.id] = dish.price;
-            addDishToTable(dish, "#drinks");
-            }
-
-            $(".dish0, .dish1, .dish2, .dish3").change(function(){
-                updateCost();
-            });
-            $(".dish0, .dish1, .dish2, .dish3").click(function(){
-                updateCost();
-            });
 
 
-            updateCost();
-            });
+
 
         }
 
