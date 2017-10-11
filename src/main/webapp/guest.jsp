@@ -238,15 +238,19 @@
 
         function updateCost(){
 
-        var numGuests = $("#guestNumber").val();
-        var appertizer_price = pricelist[$("#appetizer").val()];
-        var mainCourse_price = pricelist[$("#maincourse").val()];
-        var dessert_price = pricelist[$("#dessert").val()];
-        var drink_price = pricelist[$("#drinks").val()];
+        var totalCost = 0;
 
-        var totalCost = numGuests * (appertizer_price + mainCourse_price + dessert_price + drink_price);
+        $("form").find(".dish0,.dish1,.dish2,.dish3").each(function(index, element){
 
-        $("#totalCost").val(totalCost);
+            var dish_id = $(element).attr("id");
+            var dish_cost = pricelist[dish_id];
+            var num = $(element).val();
+
+            totalCost += num * dish_cost;
+
+        });
+
+            $("#totalCost").html(totalCost);
         }
 
         function findTable(){
@@ -313,6 +317,14 @@
             pricelist[dish.id] = dish.price;
             addDishToTable(dish, "#drinks");
             }
+
+            $(".dish0, .dish1, .dish2, .dish3").change(function(){
+                updateCost();
+            });
+            $(".dish0, .dish1, .dish2, .dish3").click(function(){
+                updateCost();
+            });
+
 
             updateCost();
             });
