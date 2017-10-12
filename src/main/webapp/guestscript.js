@@ -1,12 +1,13 @@
 $(document).ready(function() {
     document.getElementById("username").focus();
-
+    
+    /*
     $("#view_button").bind("mousedown touchstart", function() {
         $("#password").attr("type", "text");
     }), $("#view_button").bind("mouseup touchend", function() {
         $("#password").attr("type", "password");
     });
-
+*/
     //-- Click on QUANTITY
     $(".btn-minus").on("click",function(){
         var now = $(".section > div > input").val();
