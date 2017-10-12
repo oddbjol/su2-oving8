@@ -46,7 +46,7 @@
 
                 var appetizer = false, maincourse = false, dessert = false;
 
-                var from_date = new Date(), to_date = new Date();
+                var from_date = getFromDate(), to_date = getToDate();
 
                 var dish_orders = [];
 
@@ -213,6 +213,24 @@
 
         function getClock(date){
             return date.getHours() + ":" + date.getMinutes();
+        }
+
+        function getFromDate(){
+            var date = $("#datetimepicker_text").val();
+            var time = $("#timepicker").val();
+
+            var actual_date = new Date(date);
+
+            actual_date.setHours(time.split(":")[0]);
+            actual_date.setMinutes(time.split(":")[1]);
+
+            return actual_date;
+        }
+
+        function getToDate(){
+            var from_date = getFromDate();
+            var to_date = new Date(from_date.getTime() + 90 * 60 * 1000);
+            return to_date;
         }
 
         function getStartTime(){
@@ -417,12 +435,13 @@
                                 <div class='col-sm-6'>
                                     <div class="form-group">
                                         <h3 class="title-attr"><small> Enter date</small></h3>
+
                                         <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" />
+                                            <input type='text' class="form-control" id="datetimepicker_text"/>
                                             <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span></span>
                                             <div class="input-group clockpicker">
-                                                <input type="text" class="form-control" value="18:00">
+                                                <input type="text" class="form-control" value="18:00" id="timepicker">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span></span>
                                             </div>
