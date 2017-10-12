@@ -41,7 +41,7 @@
 
 
 
-            $("#submitbutton").click(function () {
+            $("#paybutton").click(function () {
 
 
                 var appetizer = false, maincourse = false, dessert = false;
@@ -165,13 +165,13 @@
                     dish_orders: dish_orders
                 };
 
-                console.log(JSON.stringify(fullOrder));
-
-
+                console.log("before accoutn");
                 var account = {
-                    number: 123,//$("#cardnumber").val(), TODO: Add values here
-                    cvs: 111 //$("#cvs").val()
+                    number: $("#cardNumber").val(),
+                    cvs: $("#cvs").val()
                 };
+
+                console.dir(account);
 
                 $.ajax({
                     url: 'rest/thepath/account/check/' + $("#totalCost").html(),
@@ -329,6 +329,7 @@
             var dish_id = $(this).attr("id").split("_")[2];
             var textbox = $("#"+dish_id);
             textbox.val(+textbox.val()+1);
+            updateCost();
         });
 
         updateCost();
@@ -554,6 +555,7 @@
                                                                         type="tel"
                                                                         class="form-control"
                                                                         name="cardNumber"
+                                                                        id="cardNumber"
                                                                         placeholder="Valid Card Number"
                                                                         autocomplete="cc-number"
                                                                         required autofocus
@@ -584,6 +586,7 @@
                                                                     type="tel"
                                                                     class="form-control"
                                                                     name="cardCVC"
+                                                                    id="cvs"
                                                                     placeholder="CVC"
                                                                     autocomplete="cc-csc"
                                                                     required
@@ -597,7 +600,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <span aria-hidden="true">&times;</span>
-                                                            <button type="button" class="btn btn-success">Send</button>
+                                                            <button type="button" class="btn btn-success" id="paybutton">Send</button>
                                                         </div>
                                                     </div>
                                                 </div>
