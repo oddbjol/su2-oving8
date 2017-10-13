@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <!-- ClockPicker Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="dist/bootstrap-clockpicker.min.css">
+
     <link rel="stylesheet" type="text/css" href="styleguest.css">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -404,58 +404,7 @@
 
 <body>
 
-
-
 <div class="container-fluid" style="margin-top:30px;">
-
-<nav class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <!--<a class="navbar-brand" href="index.html">FastTrack</a>-->
-
-
-                    <a class="navbar-brand" href="index.html" >
-                        <img src="logo_name2.png" style="display: inline-block; height: 100%; ">
-                        <span style="display: inline-block;"></span>
-                    </a>
-
-
-
-                </div>
-
-                <div class="navbar-collapse collapse navbar-right">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" id="button1" role="button" data-toggle="dropdown">Log in
-                                <span class="caret"></span></a>
-
-                            <ul class="dropdown-menu" style="cursor: pointer">
-                                <li><a href="employee.jsp?employeeType=chef">Chef</a></li>
-                                <li><a href="employee.jsp?employeeType=waiter">Waiter</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" id="button2" role="button" data-toggle="dropdown">Menu
-                                <span class="caret"></span></a>
-
-                            <ul class="dropdown-menu" style="cursor: pointer">
-                                <li><a id="myBtn">Location</a></li>
-                                <li><a id="openinghours">Opening hours</a></li>
-                                <li><a id="mail us">Mail us</a></li>
-                                <li><a id="call us">Call us</a></li>
-                                <li><a id="events">Events</a></li>
-                                <li><a id="about">About us</a></li>
-
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
     <div class="row">
         <div class="col-md-6 col-md-offset-3" style="padding-right: 0px!important;padding-left: 0px!important;">
             <div class="panel-body" style="padding-right: 4px!important;padding-left: 4px!important;">
@@ -492,13 +441,12 @@
                                 <div class='col-sm-6'>
                                     <div class="form-group">
                                         <h3 class="title-attr"><small> Enter date</small></h3>
-
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" id="datetimepicker_text"/>
+                                        <div class="input-group date" id="datepicker1">
+                                            <input type='date' id="dateinput" class="form-control" />
                                             <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span></span>
+                                        <span class="glyphicon glyphicon-calendar" id="dateIcon"></span></span>
                                             <div class="input-group clockpicker">
-                                                <input type="text" class="form-control" value="18:00" id="timepicker">
+                                                <input type="text" class="form-control" value="18:00">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span></span>
                                             </div>
@@ -582,7 +530,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="hidden-xs"></td>
-                                        <td class="hidden-xs text-center" id="Pay"><strong>Total $1.99</strong></td>
+                                        <td class="hidden-xs text-center" id="Pay"><strong>.</strong></td>
                                         <td><button id="" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">Pay <i class="fa fa-angle-right"></i></button></td>
                                         <!--onclick="javascript:return loginStatus()"-->
                                     </tr>
@@ -590,8 +538,6 @@
                                 </table>
                                 </div>
 
-
-                            </div>
 
                             <div class="form-group hidden" id="myId3">
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
@@ -631,7 +577,6 @@
                                                                         type="tel"
                                                                         class="form-control"
                                                                         name="cardNumber"
-                                                                        id="cardNumber"
                                                                         placeholder="Valid Card Number"
                                                                         autocomplete="cc-number"
                                                                         required autofocus
@@ -662,7 +607,6 @@
                                                                     type="tel"
                                                                     class="form-control"
                                                                     name="cardCVC"
-                                                                    id="cvs"
                                                                     placeholder="CVC"
                                                                     autocomplete="cc-csc"
                                                                     required
@@ -675,8 +619,8 @@
                                                     <div class="col-xs-12">
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <span aria-hidden="true">&times;</span>
-                                                            <button type="button" class="btn btn-success" id="paybutton">Send</button>
+                                                            <span aria-hidden="true"></span>
+                                                            <button type="button" class="btn btn-success">Send</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -702,6 +646,5 @@
                 </form>
             </div>
         </div>
-
 </body>
 </html>
