@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <!-- ClockPicker Stylesheet -->
-    
+
     <link rel="stylesheet" type="text/css" href="styleguest.css">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -254,7 +254,7 @@
 
         function findTable(){
 
-            var order={
+            var order = {
                 from_time: getStartTime(),
                 to_time: getEndTime(),
                 num_guests: $("#guestNumber").val()
@@ -485,7 +485,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="hidden-xs"></td>
-                                        <td class="hidden-xs text-center" id="Pay"><strong>Total $1.99</strong></td>
+                                        <td class="hidden-xs text-center" id="Pay"><strong>.</strong></td>
                                         <td><button id="" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">Pay <i class="fa fa-angle-right"></i></button></td>
                                         <!--onclick="javascript:return loginStatus()"-->
                                     </tr>

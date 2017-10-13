@@ -1,6 +1,6 @@
 $(document).ready(function() {
     document.getElementById("username").focus();
-    
+
     /*
     $("#view_button").bind("mousedown touchstart", function() {
         $("#password").attr("type", "text");
@@ -37,7 +37,7 @@ function  valUsername(){
 
         // $("#above").addClass('hidden');
         $('#message').css('color','red');
-        $('#message').html('Please enter username');
+        $('#message').html('Please enter your name');
 
         $('input:text').focus(
             function(){
@@ -281,3 +281,5 @@ var readyInterval = setInterval(function() {
         clearInterval(readyInterval);
     }
 }, 250);
+
+
