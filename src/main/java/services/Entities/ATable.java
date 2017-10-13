@@ -62,12 +62,6 @@ public class ATable {
         return out;
     }
 
-    /**
-     * Retrieves the table object associated with the given table number.
-     *
-     * @param number
-     * @return
-     */
 
     public static ATable getById(int number){
         ATable out = null;
@@ -94,14 +88,7 @@ public class ATable {
         return out;
     }
 
-    /**
-     * Find a table that's free to use for the given order. Both time and number of guests is checked and accomodated for.
-     *
-     * @param order
-     * @return
-     */
-
-    public static int findTable(AnOrder order){
+    public static int findTable(FullOrder order){
         int out = -1;
 
         DB db = new DB();

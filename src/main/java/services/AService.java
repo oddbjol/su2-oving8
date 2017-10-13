@@ -1,6 +1,5 @@
 package services;
 
-import javafx.util.Pair;
 import jersey.repackaged.com.google.common.collect.Table;
 import org.glassfish.jersey.model.internal.RankedComparator;
 import services.Entities.*;
@@ -10,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * @author nilstes
@@ -63,13 +61,12 @@ public class AService {
         return Response.ok(rows).build();
     }
 
-    //TODO: Comment to explain confusing parameter list
     @POST
     @Path("/singleOrder")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response putOrder(FullOrder fullOrder){
-        boolean success = AnOrder.registerOrder(fullOrder.getOrder(), fullOrder.getDishes());
+    public Response putOrder(FullOrder order){
+        boolean success = FullOrder.registerOrder(order);
         return Response.ok(success).build();
     }
 
@@ -94,11 +91,9 @@ public class AService {
     @Path("/orders/order/findTable")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response findTable(AnOrder order){
+    public Response findTable(FullOrder order){
         return Response.ok(ATable.findTable(order)).build();
     }
-
-
 }
 
 
