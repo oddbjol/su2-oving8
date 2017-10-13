@@ -1,5 +1,7 @@
 package services;
 
+import jersey.repackaged.com.google.common.collect.Table;
+import org.glassfish.jersey.model.internal.RankedComparator;
 import services.Entities.*;
 
 import javax.ws.rs.*;
@@ -60,20 +62,12 @@ public class AService {
     }
 
     @POST
-    @Path("/singleOrder/{orderDate}/{bordnr}/{slotnr}")
+    @Path("/singleOrder")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response putOrder(@PathParam("orderDate") String orderDate, @PathParam("bordnr") int bordnr, @PathParam("slotnr") int slotnr, AnOrder order){
-        //boolean success = registration.put(orderDate, bordnr, slotnr, order);
-        return Response.ok().build();
-    }
-
-    @GET
-    @Path("/checkAvailable/{orderDate}/{bordnr}/{slotnr}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response checkAvailable(@PathParam("orderDate") String orderDate, @PathParam("bordnr") int bordnr, @PathParam("slotnr") int slotnr){
-        //boolean isFree = registration.isFree(orderDate, bordnr, slotnr);
-        return Response.ok().build();
+    public Response putOrder(FullOrder order){
+        boolean success = FullOrder.registerOrder(order);
+        return Response.ok(success).build();
     }
 
     @POST
@@ -93,7 +87,13 @@ public class AService {
         return Response.ok(account.pay(balance)).build();
     }
 
-
+    @POST
+    @Path("/orders/order/findTable")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response findTable(FullOrder order){
+        return Response.ok(ATable.findTable(order)).build();
+    }
 }
 
 

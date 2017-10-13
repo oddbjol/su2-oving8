@@ -3,7 +3,9 @@ package services;
 import services.Entities.*;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,6 +24,15 @@ public class test {
 //        HashMap<Dish, Integer> dishes2 = Dish.getByOrderId(1);
 //
         //ArrayList<FullOrder> fullorders = FullOrder.getAllByDate(Date.valueOf(LocalDate.now()));
+
+//        HashMap<Integer, Integer> dishes = new HashMap<>();
+//
+//        dishes.put(1, 3);
+//        dishes.put(5, 7);
+//
+//        FullOrder order = new FullOrder(1, 1, "name", Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now().plusHours(2)), 2, dishes);
+//
+//        FullOrder.registerOrder(order);
 
     }
 }

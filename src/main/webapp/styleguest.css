@@ -1,0 +1,165 @@
+.legend{
+    font-family: 'Helvetica';
+    font-weight: 700;
+    color: black;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+.customizedPrimaryBtn:hover{
+    background: #003635;
+    color: white;
+    border: none;
+}
+.customizedPrimaryBtn{
+    background: #530;
+    color: white;
+    border: none;
+}
+.customizedPrimaryBtn:VISITED{
+    background: #066;
+    color: white;
+    border: none;
+}
+.customizedPrimaryBtn:ACTIVE{
+    background: #003635;
+    color: white;
+    border: none;
+}
+
+
+
+ul > li{
+    margin-right:25px;
+    font-weight:lighter;
+    cursor:pointer
+}
+li.active{
+    border-bottom:3px solid silver;
+}
+
+.item-photo{display:flex;justify-content:center;align-items:center;border-right:1px solid #f6f6f6;}
+.menu-items{list-style-type:none;font-size:11px;display:inline-flex;margin-bottom:0;margin-top:20px}
+
+.section{width:100%;margin-left:-15px;padding:2px;padding-left:15px;padding-right:15px;background:#f8f9f9}
+
+.title-attr{
+    margin-top:0;
+    margin-bottom:0;
+    color:black;
+}
+.btn-minus{
+    cursor:pointer;
+    font-size:7px;
+    display:flex;
+    align-items:center;
+    padding:5px;
+    padding-left:10px;
+    padding-right:10px;
+    border:1px solid gray;
+    border-radius:2px;
+    border-right:0;
+}
+.btn-plus{cursor:pointer;font-size:7px;display:flex;align-items:center;padding:5px;padding-left:10px;padding-right:10px;border:1px solid gray;border-radius:2px;border-left:0;}
+div.section > div {
+    width:100%;
+    display:inline-flex;
+}
+
+div.section > div > input {
+    margin:0;
+    padding-left: 5px;
+    font-size:25px;
+    padding-right:5px;
+    max-width: 20%;
+    text-align:center;
+}
+
+.attr,.attr2{
+    cursor:pointer;
+    margin-right:5px;
+    height:20px;
+    font-size:10px;
+    padding:2px;
+    border:1px solid gray;
+    border-radius:2px;
+}
+
+.attr.active,.attr2.active{ border:1px solid orange;}
+
+@media (max-width: 426px) {
+    .container {margin-top:0px !important;}
+    .container > .row{padding:0 !important;}
+    .container > .row > .col-xs-12.col-sm-5{
+        padding-right:0 ;
+    }
+    .container > .row > .col-xs-12.col-sm-9 > div > p{
+        padding-left:0 !important;
+        padding-right:0 !important;
+    }
+    .container > .row > .col-xs-12.col-sm-9 > div > ul{
+        padding-left:10px !important;
+
+    }
+    .section{
+        width:104%;
+    }
+    .menu-items{
+        padding-left:0;
+    }
+
+/*
+Credit card style
+ */
+
+
+    body {
+        margin-top:50px;
+    }
+
+    /* CSS for Credit Card Payment form */
+    .credit-card-box .panel-title {
+        display: inline;
+        font-weight: bold;
+    }
+    .credit-card-box .form-control.error {
+        border-color: red;
+        outline: 0;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(255,0,0,0.6);
+    }
+    .credit-card-box label.error {
+        font-weight: bold;
+        color: red;
+        padding: 2px 8px;
+        margin-top: 2px;
+    }
+    .credit-card-box .payment-errors {
+        font-weight: bold;
+        color: red;
+        padding: 2px 8px;
+        margin-top: 2px;
+    }
+    .credit-card-box label {
+        display: block;
+    }
+    /* The old "center div vertically" hack */
+    .credit-card-box .display-table {
+        display: table;
+    }
+    .credit-card-box .display-tr {
+        display: table-row;
+    }
+    .credit-card-box .display-td {
+        display: table-cell;
+        vertical-align: middle;
+        width: 20%;
+    }
+    /* Just looks nicer */
+    .credit-card-box .panel-heading img {
+        min-width: 180px;
+        max-width: 100px;
+    }
+
+.panel-body {
+
+}
+}

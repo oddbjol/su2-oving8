@@ -122,9 +122,9 @@ public class Dish {
         return getByType(DISH_TYPE_DRINK);
     }
 
-    // Returns map of dishes and amount of each dish, for a given order id.
-    public static HashMap<Dish, Integer> getByOrderId(int order_id){
-        HashMap<Dish, Integer> out = new HashMap<>();
+    // Returns map of dish ids and amount of each dish, for a given order id.
+    public static HashMap<Integer, Integer> getByOrderId(int order_id){
+        HashMap<Integer, Integer> out = new HashMap<>();
 
         DB db = new DB();
 
@@ -138,8 +138,9 @@ public class Dish {
 
                 while(db.res.next()){
                     int amount = db.res.getInt("amount");
+                    int dish_id = db.res.getInt("Dish.id");
 
-                    out.put(processRow(db.res), amount);
+                    out.put(dish_id, amount);
                 }
 
             }
