@@ -86,6 +86,12 @@ public class Customer {
         this.card_cvs = card_cvs;
     }
 
+    /**
+     * Retrieve all registered customers from database.
+     *
+     * @return
+     */
+
     public static ArrayList<Customer> getAll(){
         ArrayList<Customer> out = new ArrayList<>();
 
