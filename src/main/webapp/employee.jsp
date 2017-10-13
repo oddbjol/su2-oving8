@@ -150,21 +150,53 @@
         <body>
 
         <nav class="navbar navbar-default">
-        <div class="container-fluid">
-        <div class="navbar-header">
-        <a class="navbar-brand" href="index.html">FastTrack</a>
-        </div>
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <!--<a class="navbar-brand" href="index.html">FastTrack</a>-->
 
-        <div class="top-bar">
-        <ul class="nav navbar-nav">
-        <!--<li class="active"><a href="#">Home</a></li>-->
-        <li><a href="guest.jsp">Guest</a></li>
-        <li><a href="employee.jsp?employeeType=chef">Chef</a></li>
-        <li><a href="employee.jsp?employeeType=waiter">Waiter</a></li>
-        </ul>
-        </div>
-        </div>
+
+                    <a class="navbar-brand" href="index.html" >
+                        <img src="logo_name2.png" style="display: inline-block; height: 100%; ">
+                        <span style="display: inline-block;"></span>
+                    </a>
+
+
+
+                </div>
+
+                <div class="navbar-collapse collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" id="button1" role="button" data-toggle="dropdown">Log in
+                                <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu" style="cursor: pointer">
+                                <li><a href="employee.jsp?employeeType=chef">Chef</a></li>
+                                <li><a href="employee.jsp?employeeType=waiter">Waiter</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" id="button2" role="button" data-toggle="dropdown">Menu
+                                <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu" style="cursor: pointer">
+                                <li><a id="myBtn">Location</a></li>
+                                <li><a id="openinghours">Opening hours</a></li>
+                                <li><a id="mail us">Mail us</a></li>
+                                <li><a id="call us">Call us</a></li>
+                                <li><a id="events">Events</a></li>
+                                <li><a id="about">About us</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
+
 
 
 
@@ -211,21 +243,5 @@
 
         </div><br>
 
-
-
-
-        <nav class="navbar navbar-default" >
-        <div class="container-fluid">
-        <div class="bunn-bar">
-        <ul class="nav navbar-nav" >
-        <!--<li class="active"><a href="#">Home</a></li>-->
-        <li><a href="#">About</a></li>
-        <li><a href="#">News</a></li>
-        <li><a href="#">Events</a></li>
-        <li><a href="#">Contact</a></li>
-        </ul>
-        </div>
-        </div>
-        </nav>
 
         </body>
