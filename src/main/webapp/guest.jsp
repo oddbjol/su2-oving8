@@ -19,7 +19,6 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="styleordersheet.css">
     <link rel="stylesheet" type="text/css" href="styleguest.css">
     <!-- Google Map -->
@@ -222,7 +221,7 @@
         }
 
         function getFromDate(){
-            var date = $("#datetimepicker_text").val();
+            var date = $("#dateinput").val();
             var time = $("#timepicker").val();
 
             var actual_date = new Date(date);
@@ -442,11 +441,11 @@
                                     <div class="form-group">
                                         <h3 class="title-attr"><small> Enter date</small></h3>
                                         <div class="input-group date" id="datepicker1">
-                                            <input type='date' id="dateinput" class="form-control" />
+                                            <input type='text' id="dateinput" class="form-control" />
                                             <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar" id="dateIcon"></span></span>
                                             <div class="input-group clockpicker">
-                                                <input type="text" class="form-control" value="18:00">
+                                                <input type="text" class="form-control" value="18:00" id="timepicker">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span></span>
                                             </div>
@@ -577,6 +576,7 @@
                                                                         type="tel"
                                                                         class="form-control"
                                                                         name="cardNumber"
+                                                                        id="cardNumber"
                                                                         placeholder="Valid Card Number"
                                                                         autocomplete="cc-number"
                                                                         required autofocus
@@ -607,6 +607,7 @@
                                                                     type="tel"
                                                                     class="form-control"
                                                                     name="cardCVC"
+                                                                    id="cvs"
                                                                     placeholder="CVC"
                                                                     autocomplete="cc-csc"
                                                                     required
@@ -620,7 +621,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <span aria-hidden="true"></span>
-                                                            <button type="button" class="btn btn-success">Send</button>
+                                                            <button type="button" class="btn btn-success" id="paybutton">Send</button>
                                                         </div>
                                                     </div>
                                                 </div>
