@@ -353,6 +353,14 @@
             updateCost();
         });
 
+        $(".remove_dish").click(function(){
+            var dish_id = $(this).attr("id").split("_")[2];
+            var textbox = $("#"+dish_id);
+            var num = +textbox.val()-1;
+            textbox.val(Math.max(0, num));
+            updateCost();
+        });
+
         updateCost();
         });
 
@@ -381,10 +389,11 @@
         </td>
         <td data-th="Price">` + dish.price + `</td>
         <td data-th="Quantity">
-        <input type="number" id="` + dish.id + `" class="form-control text-center dish` + +dish.dish_type +`" value="0">
+        <input type="text" id="` + dish.id + `" class="form-control text-center dish` + +dish.dish_type +`" value="0" disabled>
         </td>
         <td data-th="Subtotal" id="subtot` + dish.id + `" class="text-center"></td>
         <td class="actions" data-th="">
+        <button class="btn btn-success btn-sm remove_dish" id="remove_dish_`+ dish.id +`">-<i class="fa fa-trash-o"></i></button>
         <button class="btn btn-success btn-sm add_dish" id="add_dish_`+ dish.id +`">+<i class="fa fa-trash-o"></i></button>
         </td>
         </tr>`
