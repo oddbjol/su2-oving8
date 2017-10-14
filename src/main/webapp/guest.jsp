@@ -58,8 +58,7 @@
                     var dish_order = {
                                         dish_id: dishid,
                                         amount: num,
-                                        dish_type: 0,
-                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                        dish_type: 0
                                     };
 
                     dish_orders.push(dish_order);
@@ -78,8 +77,7 @@
                     var dish_order = {
                                         dish_id: dishid,
                                         dish_type: 1,
-                                        amount: num,
-                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                        amount: num
                                     };
 
                     dish_orders.push(dish_order);
@@ -97,8 +95,7 @@
                     var dish_order = {
                                         dish_id: dishid,
                                         dish_type: 2,
-                                        amount: num,
-                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                        amount: num
                                     };
 
                     dish_orders.push(dish_order);
@@ -116,8 +113,7 @@
                     var dish_order = {
                                         dish_id: dishid,
                                         dish_type: 3,
-                                        amount: num,
-                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                        amount: num
                                     };
 
                     dish_orders.push(dish_order);
