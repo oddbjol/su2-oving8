@@ -1,4 +1,3 @@
-
     <!DOCTYPE html>
         <html>
         <head>
@@ -12,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <!-- Google Map -->
 
+        <link rel="stylesheet" href="css/styleemployee.css">
 
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -20,27 +20,42 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--<script src="jquery-3.2.1.min.js"></script> -->
 
-        <style>
-        .inactive-row{
-        color: gray;
-        }
-        .active-row{
-        color: black;
-        background-color: lightgreen;
-        }
-        .regularRow{
-        color: black;
-        }
-        .active-row:hover{
-        background-color: lightgreen !important;
-        filter: brightness(90%);
-        }
-        </style>
-
         <script language="javascript">
 
+        var waiter = false; // it's set to true in the below jsp if current user is waiter.
+
+        <%
+            if(request.getParameter("employeeType") != null && request.getParameter("employeeType").toLowerCase().equals("waiter")){
+                out.println("waiter = true;");
+            }
+        %>
 
         $(document).ready(function() {
+
+            $("#tbody").on("click", "tr", function(){
+
+                var tableRow = $(this).data("tableRow");
+
+                var newStatus = tableRow.status + 1;
+
+                // If dish is waiting to be cooked and current user is chef, OR
+                // if dish is waiting to be served and curent user is waiter
+                // THEN we want to allow current user to "OK" the dish.
+                if(!waiter && tableRow.status == 0 || waiter && tableRow.status == 1){
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: "rest/thepath/orders/updateStatus/" + tableRow.order_id + "/" + tableRow.dish_id + "/" + newStatus,
+                        success: function(data) {
+                            loadOrders(currentDate);
+                        }
+                    });
+                }
+            });
+
+            setInterval(function(){
+                loadOrders(currentDate);
+            }, 1000);
 
         setCurrentDate(new Date()); // Set the current date to "today" when loading webpage.
 
@@ -72,25 +87,31 @@
 
         // Sets the current date and loads the orders for the given date into the table.
         function setCurrentDate(date){
-        currentDate = date;
+            currentDate = date;
 
-        $("#selectDay").val(convertDateToString(date));
-        loadOrders(date);
+            $("#selectDay").val(convertDateToString(date));
+            loadOrders(date);
         }
 
         // Checks if the given date object is today
         function isToday(date){
-        var todayString = convertDateToString(new Date());
-        var givenString = convertDateToString(date);
+            var today = new Date();
 
-        return (todayString === givenString);
+            return (today.getFullYear() == date.getFullYear() && today.getMonth() == date.getMonth() && today.getDate() == date.getDate());
         }
 
 
         // Gets ISO date string (with ONLY the date, not time) from given date object.
         function convertDateToString(date) {
-        var fullString = date.toISOString(); // Returns something like 2011-10-05T14:48:00.000Z
-        return fullString.split("T")[0];    // Returns something like 2011-10-05
+
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+
+            month   =   (month < 10 ? "0"+month : month);
+            day     =   (day < 10 ? "0"+day : day);
+
+            return year + "-" + month + "-" + day;
         }
 
 
@@ -100,11 +121,11 @@
         var now = new Date();
         var nowEnd = new Date(now.getTime() + 1000 * 60 * 30); // now + 30 mins
 
-        return (now < timeToServe && timeToServe < nowEnd);
+        return (timeToServe < nowEnd);
 
         }
 
-        // Download the rows for the currentDate from the database, and insert them into our table.
+        // Download the rows for the given date from the database, and insert them into our table.
         function loadOrders(date){
 
         var dateString = convertDateToString(date);
@@ -115,26 +136,55 @@
         dataType: "json",
         url: "rest/thepath/orders/" + dateString,
         success: function (rows) {
-        var html = "";
+
+        var row_elements = [];
 
         for (var tableRow of rows){
+
         // If current user is not waiter, skip the drinks (type 3)
-            <%
-                            if(request.getParameter("employeeType") != null && !request.getParameter("employeeType").toLowerCase().equals("waiter")){
-                                out.println("if(tableRow.dish_type == 3) continue;");
-                            }
-                        %>
+        if(!waiter && tableRow.dish_type == 3)
+            continue;
+
+        var rowClass;
         // If current date is today, then split the rows into inactive and active rows. Otherwise, show regular rows.
-        // A row is active if it's "pending" (about to be served).
-        html += "<tr class='" + (isToday(currentDate) ? (rowIsPending(tableRow) ? "active-row" : "inactive-row") : ("regularRow")) +"'>\n";
-        html +=  "<td>" + tableRow.table_number + "</td>\n";
-        html +=  "<td>" + tableRow.customer_name + "</td>\n";
-        html +=  "<td>" + tableRow.dish_name + "</td>\n";
-        html +=  "<td>" + tableRow.serve_time + "</td>\n";
-        html += "</tr>\n";
+        if(isToday(currentDate) && rowIsPending(tableRow)){
+            if(tableRow.status == 0){                    // Waiting for chef
+                    if(waiter)
+                        rowClass = "waiting-for-others-row";
+                    else
+                        rowClass = "waiting-for-you-row";
+            }
+            else if(tableRow.status == 1){               // Waiting for waiter
+                if(waiter)
+                    rowClass = "waiting-for-you-row";
+                else
+                    rowClass = "served-row";
+            }
+            else{                                        // Served
+                rowClass = "served-row";
+            }
+        }
+        else{
+            rowClass = "inactive-row";
         }
 
-        $("#tbody").html(html);
+        var row_element = $("<tr>");
+        row_element.addClass(rowClass);
+        row_element.data("tableRow", tableRow); // IMPORTANT: Add the tableRow object inside the html element as data.
+
+        row_element.append("<td>" + tableRow.table_number + "</td>\n");
+        row_element.append("<td>" + tableRow.customer_name + "</td>\n");
+        row_element.append("<td>" + tableRow.dish_name + "</td>\n");
+        row_element.append("<td>" + tableRow.serve_time + "</td>\n");
+
+        row_elements.push(row_element);
+
+        }
+
+        $("#tbody").empty();
+
+        for(var i = 0; i < row_elements.length; i++)
+            $("#tbody").append(row_elements[i]);
 
         },
         error: function(jqXHR, textStatus, errorThrown){console.log(textStatus); console.log(errorThrown);}
