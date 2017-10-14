@@ -220,7 +220,7 @@
 
 
             var hours_remaining = Math.round(milliseconds_remaining / (1000 * 60 * 60));
-            var minutes_remaining = Math.round(milliseconds_remaining / (1000 * 60)) - hours_remaining*60;
+            var minutes_remaining = Math.round(milliseconds_remaining / (1000 * 60));
 
             return minutes_remaining;
         }
