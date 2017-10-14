@@ -9,7 +9,7 @@
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
         <!-- Google Map -->
 
 
@@ -156,7 +156,7 @@
 
 
                     <a class="navbar-brand" href="index.html" >
-                        <img src="logo_name2.png" style="display: inline-block; height: 100%; ">
+                        <img src="img/logo_name2.png" style="display: inline-block; height: 100%; ">
                         <span style="display: inline-block;"></span>
                     </a>
 
