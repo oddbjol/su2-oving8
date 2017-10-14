@@ -4,6 +4,11 @@ package services.Entities;
  * Created by odd on 10/11/2017.
  */
 public class Dish_Order {
+
+    public static final int STATUS_WAITING_FOR_CHEF = 0;
+    public static final int STATUS_WAITING_FOR_WAITER = 1;
+    public static final int STATUS_SERVED = 2;
+
     private int dish_id;
     private int dish_type;
     private int amount;
