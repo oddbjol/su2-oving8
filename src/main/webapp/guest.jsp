@@ -1,5 +1,4 @@
-    <%@page import="java.util.Date, java.util.Calendar, java.text.SimpleDateFormat" %>
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>guest</title>
