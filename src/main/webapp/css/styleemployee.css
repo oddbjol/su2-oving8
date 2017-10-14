@@ -2,10 +2,10 @@
     color: gray;
 }
 .waiting-for-you-row{
-    background-color: green;
+    background-color: lightgreen;
 }
 .waiting-for-others-row{
-    background-color: yellow;
+    background-color: #fe7;
 }
 .served-row{
     display: none;
@@ -13,6 +13,6 @@
 .inactive-row:hover, .waiting-for-others-row:hover, .waiting-for-you-row:hover{
     filter: brightness(90%);
 }
-.inactive-row, .waiting-for-others-row, .waiting-for-you-row{
+.waiting-for-you-row{
     cursor: pointer;
 }

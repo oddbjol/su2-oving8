@@ -172,10 +172,21 @@
         row_element.addClass(rowClass);
         row_element.data("tableRow", tableRow); // IMPORTANT: Add the tableRow object inside the html element as data.
 
-        row_element.append("<td>" + tableRow.table_number + "</td>\n");
+        // If the dish is about to be served/prepared, add some information about how much time remains.
+        var ready_text = "";
+        if(rowIsPending(tableRow)){
+            var minutesRemaining = minutesUntil(tableRow.serve_time);
+            if(minutesRemaining < 0)
+                ready_text = " (should have been served " + -minutesRemaining + " minutes ago!!!)";
+            else
+                ready_text = " (in " + minutesRemaining + " minutes)";
+        }
+
+
+        row_element.append("<td> Table " + tableRow.table_number + " (" + tableRow.seats + " seats) </td>\n");
         row_element.append("<td>" + tableRow.customer_name + "</td>\n");
         row_element.append("<td>" + tableRow.dish_name + "</td>\n");
-        row_element.append("<td>" + tableRow.serve_time + "</td>\n");
+        row_element.append("<td>" + tableRow.serve_time + ready_text + "</td>\n");
 
         row_elements.push(row_element);
 
@@ -189,6 +200,29 @@
         },
         error: function(jqXHR, textStatus, errorThrown){console.log(textStatus); console.log(errorThrown);}
         });
+        }
+
+        // Returns time remaining until timeString.
+        // TimeString is a string representing a time like "20:15"
+        function minutesUntil(timeString){
+
+            var date = new Date();
+
+            date.setHours(timeString.split(":")[0]);
+            date.setMinutes(timeString.split(":")[1]);
+
+            var right_now = new Date();
+
+            var date_ms = date.getTime();
+            var now_ms = right_now.getTime();
+
+            var milliseconds_remaining = date_ms - now_ms;
+
+
+            var hours_remaining = Math.round(milliseconds_remaining / (1000 * 60 * 60));
+            var minutes_remaining = Math.round(milliseconds_remaining / (1000 * 60)) - hours_remaining*60;
+
+            return minutes_remaining;
         }
 
 
