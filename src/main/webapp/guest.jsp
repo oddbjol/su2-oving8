@@ -399,6 +399,8 @@
 
 <body>
 
+    <%@include  file="navbar.html" %>
+
 <div class="container-fluid" style="margin-top:30px;">
     <div class="row">
         <div class="col-md-6 col-md-offset-3" style="padding-right: 0px!important;padding-left: 0px!important;">
