@@ -47,9 +47,17 @@
 
                 var dish_orders = [];
 
-                    $(".dish0").each(function(index, element){
-                    var dishid = $(element).attr('id');
-                    var num = $(element).val();
+                    $(".dish").each(function(index){
+                    var dishid = $(this).attr('id');
+                    var num = $(this).val();
+                    var dish_type = $(this).data("dish-type");
+
+                    if(dish_type == 0)
+                        appetizer = true;
+                    else if(dish_type == 1)
+                        maincourse = true;
+                    else if(dish_type == 2)
+                        dessert = true
 
                     // Don't bother "ordering" 0 amount of a dish.
                     if(num == 0)
@@ -58,63 +66,10 @@
                     var dish_order = {
                                         dish_id: dishid,
                                         amount: num,
-                                        dish_type: 0
+                                        dish_type: dish_type
                                     };
 
-                    dish_orders.push(dish_order);
 
-                    appetizer = true;
-                });
-
-                    $(".dish1").each(function(index, element){
-                    var dishid = $(element).attr('id');
-                    var num = $(element).val();
-
-                    // Don't bother "ordering" 0 amount of a dish.
-                    if(num == 0)
-                        return;
-
-                    var dish_order = {
-                                        dish_id: dishid,
-                                        dish_type: 1,
-                                        amount: num
-                                    };
-
-                    dish_orders.push(dish_order);
-
-                    maincourse = true;
-                });
-                    $(".dish2").each(function(index, element){
-                    var dishid = $(element).attr('id');
-                    var num = $(element).val();
-
-                    // Don't bother "ordering" 0 amount of a dish.
-                    if(num == 0)
-                        return;
-
-                    var dish_order = {
-                                        dish_id: dishid,
-                                        dish_type: 2,
-                                        amount: num
-                                    };
-
-                    dish_orders.push(dish_order);
-
-                    dessert = true;
-                });
-                $(".dish3").each(function(index, element){
-                    var dishid = $(element).attr('id');
-                    var num = $(element).val();
-
-                    // Don't bother "ordering" 0 amount of a dish.
-                    if(num == 0)
-                        return;
-
-                    var dish_order = {
-                                        dish_id: dishid,
-                                        dish_type: 3,
-                                        amount: num
-                                    };
 
                     dish_orders.push(dish_order);
                 });
@@ -261,7 +216,7 @@
 
         var totalCost = 0;
 
-        $("form").find(".dish0,.dish1,.dish2,.dish3").each(function(index, element){
+        $("form").find(".dish").each(function(index, element){
 
             var dish_id = $(element).attr("id");
             var dish_cost = pricelist[dish_id];
@@ -335,10 +290,10 @@
         addDishToTable(dish, "#drinks");
         }
 
-        $(".dish0, .dish1, .dish2, .dish3").change(function(){
+        $(".dish").change(function(){
         updateCost();
         });
-        $(".dish0, .dish1, .dish2, .dish3").click(function(){
+        $(".dish").click(function(){
         updateCost();
         });
 
@@ -385,7 +340,7 @@
         </td>
         <td data-th="Price">` + dish.price + `</td>
         <td data-th="Quantity">
-        <input type="text" id="` + dish.id + `" class="form-control text-center dish` + +dish.dish_type +`" value="0" disabled>
+        <input type="text" id="` + dish.id + `" class="form-control text-center dish" data-dish-type="` + +dish.dish_type +`" value="0" disabled>
         </td>
         <td data-th="Subtotal" id="subtot` + dish.id + `" class="text-center"></td>
         <td class="actions" data-th="">
