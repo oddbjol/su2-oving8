@@ -140,9 +140,9 @@ function loadOrders(date){
                 row_element.addClass(rowClass);
                 row_element.data("tableRow", tableRow); // IMPORTANT: Add the tableRow object inside the html element as data.
 
-                // If the dish is about to be served/prepared, add some information about how much time remains.
+                // If the dish is about to be served/prepared AND we are looking at today's orders, add some information about how much time remains.
                 var ready_text = "";
-                if(rowIsPending(tableRow)){
+                if(rowIsPending(tableRow) && isToday(currentDate)){
                     var minutesRemaining = minutesUntil(tableRow.serve_time);
                     if(minutesRemaining < 0)
                         ready_text = " (should have been served " + -minutesRemaining + " minutes ago!!!)";
