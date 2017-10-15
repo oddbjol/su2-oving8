@@ -1,37 +1,22 @@
-    <%@page import="java.util.Date, java.util.Calendar, java.text.SimpleDateFormat" %>
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>guest</title>
+    <title>Order food</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" type="text/css" href="style.css"> -->
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <!-- ClockPicker Stylesheet -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styleordersheet.css">
+    <link rel="stylesheet" type="text/css" href="css/styleguest.css">
 
-    <link rel="stylesheet" type="text/css" href="styleguest.css">
+    <!-- TODO: Clean up bootstrap (using v3 and v4??!) -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <script src="guestscript.js"></script>
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <link rel="stylesheet" type="text/css" href="styleordersheet.css">
-    <link rel="stylesheet" type="text/css" href="styleguest.css">
-    <!-- Google Map -->
-
-
-    <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--<script src="jquery-3.2.1.min.js"></script> -->
-
-
+    <script src="js/guestscript.js"></script>
     <script language="javascript">
         $(document).ready(function() {
             getDishes();
@@ -49,9 +34,17 @@
 
                 var dish_orders = [];
 
-                    $(".dish0").each(function(index, element){
-                    var dishid = $(element).attr('id');
-                    var num = $(element).val();
+                    $(".dish").each(function(index){
+                    var dishid = $(this).attr('id');
+                    var num = $(this).val();
+                    var dish_type = $(this).data("dish-type");
+
+                    if(dish_type == 0)
+                        appetizer = true;
+                    else if(dish_type == 1)
+                        maincourse = true;
+                    else if(dish_type == 2)
+                        dessert = true
 
                     // Don't bother "ordering" 0 amount of a dish.
                     if(num == 0)
@@ -60,67 +53,10 @@
                     var dish_order = {
                                         dish_id: dishid,
                                         amount: num,
-                                        dish_type: 0,
-                                        serve_time: "10:00" //TODO: Remove hardcoding
+                                        dish_type: dish_type
                                     };
 
-                    dish_orders.push(dish_order);
 
-                    appetizer = true;
-                });
-
-                    $(".dish1").each(function(index, element){
-                    var dishid = $(element).attr('id');
-                    var num = $(element).val();
-
-                    // Don't bother "ordering" 0 amount of a dish.
-                    if(num == 0)
-                        return;
-
-                    var dish_order = {
-                                        dish_id: dishid,
-                                        dish_type: 1,
-                                        amount: num,
-                                        serve_time: "10:00" //TODO: Remove hardcoding
-                                    };
-
-                    dish_orders.push(dish_order);
-
-                    maincourse = true;
-                });
-                    $(".dish2").each(function(index, element){
-                    var dishid = $(element).attr('id');
-                    var num = $(element).val();
-
-                    // Don't bother "ordering" 0 amount of a dish.
-                    if(num == 0)
-                        return;
-
-                    var dish_order = {
-                                        dish_id: dishid,
-                                        dish_type: 2,
-                                        amount: num,
-                                        serve_time: "10:00" //TODO: Remove hardcoding
-                                    };
-
-                    dish_orders.push(dish_order);
-
-                    dessert = true;
-                });
-                $(".dish3").each(function(index, element){
-                    var dishid = $(element).attr('id');
-                    var num = $(element).val();
-
-                    // Don't bother "ordering" 0 amount of a dish.
-                    if(num == 0)
-                        return;
-
-                    var dish_order = {
-                                        dish_id: dishid,
-                                        dish_type: 3,
-                                        amount: num,
-                                        serve_time: "10:00" //TODO: Remove hardcoding
-                                    };
 
                     dish_orders.push(dish_order);
                 });
@@ -267,7 +203,7 @@
 
         var totalCost = 0;
 
-        $("form").find(".dish0,.dish1,.dish2,.dish3").each(function(index, element){
+        $("form").find(".dish").each(function(index, element){
 
             var dish_id = $(element).attr("id");
             var dish_cost = pricelist[dish_id];
@@ -341,10 +277,10 @@
         addDishToTable(dish, "#drinks");
         }
 
-        $(".dish0, .dish1, .dish2, .dish3").change(function(){
+        $(".dish").change(function(){
         updateCost();
         });
-        $(".dish0, .dish1, .dish2, .dish3").click(function(){
+        $(".dish").click(function(){
         updateCost();
         });
 
@@ -352,6 +288,14 @@
             var dish_id = $(this).attr("id").split("_")[2];
             var textbox = $("#"+dish_id);
             textbox.val(+textbox.val()+1);
+            updateCost();
+        });
+
+        $(".remove_dish").click(function(){
+            var dish_id = $(this).attr("id").split("_")[2];
+            var textbox = $("#"+dish_id);
+            var num = +textbox.val()-1;
+            textbox.val(Math.max(0, num));
             updateCost();
         });
 
@@ -383,10 +327,11 @@
         </td>
         <td data-th="Price">` + dish.price + `</td>
         <td data-th="Quantity">
-        <input type="number" id="` + dish.id + `" class="form-control text-center dish` + +dish.dish_type +`" value="0">
+        <input type="text" id="` + dish.id + `" class="form-control text-center dish" data-dish-type="` + +dish.dish_type +`" value="0" disabled>
         </td>
         <td data-th="Subtotal" id="subtot` + dish.id + `" class="text-center"></td>
         <td class="actions" data-th="">
+        <button class="btn btn-success btn-sm remove_dish" id="remove_dish_`+ dish.id +`">-<i class="fa fa-trash-o"></i></button>
         <button class="btn btn-success btn-sm add_dish" id="add_dish_`+ dish.id +`">+<i class="fa fa-trash-o"></i></button>
         </td>
         </tr>`
@@ -395,13 +340,11 @@
         }
 
     </script>
-
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
 </head>
 
 <body>
+
+    <%@include file="include/navbar.html" %>
 
 <div class="container-fluid" style="margin-top:30px;">
     <div class="row">
@@ -647,5 +590,7 @@
                 </form>
             </div>
         </div>
+
+    <%@include file="include/footer.html" %>
 </body>
 </html>
