@@ -1,5 +1,6 @@
 package services;
 
+import javafx.util.Pair;
 import jersey.repackaged.com.google.common.collect.Table;
 import org.glassfish.jersey.model.internal.RankedComparator;
 import services.Entities.*;
@@ -59,6 +60,14 @@ public class AService {
         ArrayList<TableRow> rows;
         rows = TableRow.getRowsByDate(Date.valueOf(date));
         return Response.ok(rows).build();
+    }
+
+    @POST
+    @Path("/getFreeSlots/")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getOrdersByDate(SlotHelper helper){
+        return Response.ok(TableFreeSlot.getSlots(helper.date, helper.numGuests)).build();
     }
 
     @POST

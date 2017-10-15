@@ -14,13 +14,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class FullOrder implements Serializable{
-    private int table_number;
-    private Integer customer_id;
-    private String customer_name;
-    private Timestamp from_time;
-    private Timestamp to_time;
-    private int num_guests;
-    private ArrayList<Dish_Order> dish_orders = new ArrayList<>();
+    public int table_number;
+    public Integer customer_id;
+    public String customer_name;
+    public Timestamp from_time;
+    public Timestamp to_time;
+    public int num_guests;
+    public ArrayList<Dish_Order> dish_orders = new ArrayList<>();
 
     public FullOrder(){}
 

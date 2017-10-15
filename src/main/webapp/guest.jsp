@@ -403,12 +403,19 @@
                                     <h3 class="title-attr"><small>How many guest</small></h3>
                                     <div>
                                         <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-                                        <input value="1" />
+                                        <input id="numGuests" value="1" />
                                         <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
                                     </div>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             </div>
+                            <table style="width: 200px; height: 50px; max-height: 50px; overflow-y: auto !important; position: relative;">
+                                <thead>
+                                    <th>Time</th>
+                                    <th>Free?</th>
+                                </thead>
+                            <tbody id="timetable"></tbody>
+                            </table>
 
                         <div class="form-group" id="first1">
                             <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>

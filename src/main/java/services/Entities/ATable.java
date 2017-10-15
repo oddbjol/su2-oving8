@@ -104,15 +104,6 @@ public class ATable {
                         "AND ATable.seats >= ?\n" +
                         "ORDER BY ATable.seats ASC");
 
-                System.out.println("SELECT ATable.number FROM ATable WHERE\n" +
-                        "ATable.number NOT IN\n" +
-                        "(\n" +
-                        "    SELECT AnOrder.table_number FROM AnOrder\n" +
-                        "    WHERE AnOrder.from_time < "+order.getTo_time()+ " AND AnOrder.to_time > "+order.getFrom_time()+"\n" +
-                        ")\n" +
-                        "AND ATable.seats >= " + order.getNum_guests() + " " +
-                        "ORDER BY ATable.seats ASC");
-
                 db.prep.setTimestamp(1, order.getTo_time());
                 db.prep.setTimestamp(2, order.getFrom_time());
                 db.prep.setInt(3, order.getNum_guests());
