@@ -145,9 +145,9 @@ function loadOrders(date){
                 if(rowIsPending(tableRow) && isToday(currentDate)){
                     var minutesRemaining = minutesUntil(tableRow.serve_time);
                     if(minutesRemaining < 0)
-                        ready_text = " (should have been served " + -minutesRemaining + " minutes ago!!!)";
+                        ready_text = -minutesRemaining + "m late!";
                     else
-                        ready_text = " (in " + minutesRemaining + " minutes)";
+                        ready_text = " (in " + minutesRemaining + "m)";
                 }
 
 

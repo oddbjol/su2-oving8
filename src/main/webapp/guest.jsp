@@ -400,11 +400,12 @@
                             <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
                                 <div class="section" style="padding-bottom:20px;">
-                                    <h3 class="title-attr"><small>How many guest</small></h3>
+                                    <h3 class="title-attr"><small>How many guests</small></h3>
                                     <div>
                                         <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
                                         <input value="1" />
                                         <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+                                        <span>test</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
