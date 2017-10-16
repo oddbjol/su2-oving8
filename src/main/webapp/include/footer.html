@@ -1,105 +1,24 @@
+<div class="container">   <!-- style="align: center" -->
+    <div class="row text-center">
+        <div class="item">
+            <ul>
+                <a href="http://www.facebook.com" style="text-decoration: none"> <img class="logo" src="img/facebook_logo.png" style="width: 6%; height: 6%" > </img> </a>
+                <a href="http://www.twitter.com" style="text-decoration: none"> <img class="logo" src="img/Twitterbird_logo.png" style="width: 5%; height: 5%"> </img> </a>
+                <a href="http://www.instagram.com" style="text-decoration: none"><img class="logo" src="img/instagram_icon.png" style="width: 5.5%; height: 5.5%"> </img></a>
+                <a href="http://www.snapchat.com" style="text-decoration: none"> <img  class="logo" src="img/snapchat2.png" style="width:5.5%; height: 5.5%"> </img> </a>
+                <a href="http://www.youtube.com" style="text-decoration: none"><img class="logo" src="img/YouTube_Play_logo.png" style="width: 5%; height: 5%"> </img></a>
+            </ul>
+        </div>
+    </div>
+</div>
+<br>
+
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
+
+
         </div>
     </div>
 </nav>
-
-
-
-<!-- Trigger/Open The Modal -- >
-    <button id="myBtn">Open Modal</button>
-
-    <!-- The Modal -->
-<div id="myModal1" align="center" class="modal" style="position: absolute;"> <!-- style="width: 80%; height: 100%; margin: 0; top: 1%; height: 100%; " -->
-
-    <div class="modal_dialog" id="dialog">
-        <!-- Modal content -->
-        <div class="modal-content" >
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Google map</h2>
-            </div>
-            <div class="modal-body">
-                <h5 align="center">We are located here: </h5>
-
-                <div id="googleMap" style="width:100%; height:300px;" ></div>
-
-                <script>
-
-                    var map;
-                    function myMap() {
-                        var mapProp= {
-                            center:new google.maps.LatLng(63.432742,10.394000),
-                            zoom:19,
-                        };
-                        map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-                    }
-
-                </script>
-
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8EbBw6zZ1bGCdUmwkVyRGZa2YtWEJLeI&callback=myMap"></script>
-                <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>-->
-
-
-
-
-            </div>
-            <div class="modal-footer">
-                <br><p> Adress: Munkegata 5, 7000 TRONDHEIM</p>
-                <p> Phone: 976 52 710 </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--StepVizard - form-->
-
-<!--
-<div class="container">
-<h3>Basic Navbar Example</h3>
-<p>A navigation bar is a navigation header that is placed at the top of the page.</p>
-</div>
-
-<ul>
-<li><a class="active" href="#home">Login</a></li>
-<li><a href="#news">News</a></li>
-<li><a href="#contact">Contact</a></li>
-<li><a href="#about">About</a></li>
-</ul> -->
-
-<script>
-
-    // Get the modal
-    var modal = document.getElementById('myModal1');
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-        google.maps.event.trigger(map, "resize");
-
-
-
-    }
-
-
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
 
