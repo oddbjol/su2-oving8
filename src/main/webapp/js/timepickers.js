@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#datepicker').datepicker({
+    $('#dateinput').datepicker({
         uiLibrary: 'bootstrap'
     });
 
@@ -38,7 +38,7 @@ var input = $('.clockpicker-with-callbacks').clockpicker({
 });
 
 // Manually toggle to the minutes view
-$('#check-minutes').click(function(e){
+$('#clockpicker').click(function(e){
     // Have to stop propagation here
     e.stopPropagation();
     input.clockpicker('show')

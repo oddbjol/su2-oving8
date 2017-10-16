@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!--
     <script src="js/jquery-clock-timepicker.min.js"></script>
     <script src="js/jquery-clock-timepicker.js"></script>
-
+-->
+    <!--
     <script src="https://cdn.rawgit.com/atatanasov/gijgo/master/dist/combined/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://cdn.rawgit.com/atatanasov/gijgo/master/dist/combined/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-
+-->
    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/styleordersheet.css">
@@ -392,11 +394,11 @@
                                     <div class="form-group">
                                         <h3 class="title-attr"><small> Enter date</small></h3>
                                         <div class="input-group date">
-                                            <input id="datepicker" class="form-control">
+                                            <input id="dateinput" class="form-control">
                                             <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar" ></span></span>
                                             <div class="input-group">
-                                                <input class="form-control" id="single-input" value="" placeholder="time">
+                                                <input class="form-control" id="clockpicker" value="" placeholder="time">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span></span>
                                             </div>
@@ -572,7 +574,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <span aria-hidden="true"></span>
-                                                            <button type="button" class="btn btn-success" id="paybutton">Send</button>
+                                                            <button type="button" class="btn btn-success" href="index.jsp" id="paybutton">Send</button>
                                                         </div>
                                                     </div>
                                                 </div>
