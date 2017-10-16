@@ -5,7 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <!--
+    <script src="js/jquery-clock-timepicker.min.js"></script>
+    <script src="js/jquery-clock-timepicker.js"></script>
+-->
+    <!--
+    <script src="https://cdn.rawgit.com/atatanasov/gijgo/master/dist/combined/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://cdn.rawgit.com/atatanasov/gijgo/master/dist/combined/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+-->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/styleordersheet.css">
     <link rel="stylesheet" type="text/css" href="css/styleguest.css">
@@ -17,7 +29,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/guestscript.js"></script>
+    <script src="js/timepickers.js"></script>
     <script language="javascript">
+
         $(document).ready(function() {
             getDishes();
             findTable();
@@ -318,7 +332,7 @@
             var html = `                                    <tr>
         <td data-th="Product">
         <div class="row">
-        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+        <div class="col-sm-1 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
         <div class="col-sm-10">
         <h4 class="nomargin">` + dish.name + `</h4>
         <p></p>
@@ -331,8 +345,8 @@
         </td>
         <td data-th="Subtotal" id="subtot` + dish.id + `" class="text-center"></td>
         <td class="actions" data-th="">
-        <button class="btn btn-success btn-sm remove_dish" id="remove_dish_`+ dish.id +`">-<i class="fa fa-trash-o"></i></button>
-        <button class="btn btn-success btn-sm add_dish" id="add_dish_`+ dish.id +`">+<i class="fa fa-trash-o"></i></button>
+        <button class="btn btn-danger btn-sm remove_dish" id="remove_dish_`+ dish.id +`"><strong>-</strong><i class="fa fa-trash-o"></i></button>
+        <button class="btn btn-success btn-sm add_dish" id="add_dish_`+ dish.id +`"><strong>+</strong><i class="fa fa-trash-o"></i></button>
         </td>
         </tr>`
 
@@ -346,13 +360,13 @@
 
     <%@include file="include/navbar.html" %>
 
-<div class="container-fluid" style="margin-top:30px;">
+<div class="container-fluid" style="margin: auto;">
     <div class="row">
         <div class="col-md-6 col-md-offset-3" style="padding-right: 0px!important;padding-left: 0px!important;">
             <div class="panel-body" style="padding-right: 4px!important;padding-left: 4px!important;">
                 <form class="form-horizontal" method="post" id="login" name="login" role="form" onSubmit='#' action="#" AUTOCOMPLETE="off">
                     <fieldset  style="min-width: 0;padding:.35em .625em .75em!important;margin:0 2px;border: 2px solid silver!important;margin-bottom: 10em;box-shadow: -6px 15px 20px 0px;">
-                        <legend id="first3" style="width: inherit;padding:inherit;border:2px solid silver;" class="legend"> 1/3</legend>
+                        <legend id="first3" style="width: inherit;padding:inherit;border:2px solid silver;" class="legend">Sign in</legend>
                         <legend id="myId8" class="hidden legend" style="width: inherit;padding:inherit;border:2px solid silver;">Menu</legend>
                         <div class="form-group" id="above" style="margin-bottom: 5px!important;">
                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
@@ -383,12 +397,14 @@
                                 <div class='col-sm-6'>
                                     <div class="form-group">
                                         <h3 class="title-attr"><small> Enter date</small></h3>
-                                        <div class="input-group date" id="datepicker1">
-                                            <input type='text' id="dateinput" class="form-control" />
+
+                                        <div class="input-group date">
+                                            <input id="dateinput" class="form-control" placeholder="yyyy/mm/dd">
                                             <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar" id="dateIcon"></span></span>
-                                            <div class="input-group clockpicker">
-                                                <input type="text" class="form-control" value="18:00" id="timepicker">
+                                        <span class="glyphicon glyphicon-calendar" id="glyCal" ></span></span>
+
+                                        <div class="input-group">
+                                                <input class="form-control" id="timepicker" value="" placeholder="time">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span></span>
                                             </div>
@@ -428,7 +444,7 @@
                                                                 style="text-align: center; font-weight: bold;padding-top: 0px;" ></div>
                                                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
                                                         </div>	-->
-                            <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
+                            <div class="form-group hidden" id="myId1" style="margin: 10px!important;">
                                 <table id="cart" class="table table-hover table-condensed">
                                       <thead id="appetizers">
                                         <tr>
@@ -565,7 +581,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <span aria-hidden="true"></span>
-                                                            <button type="button" class="btn btn-success" id="paybutton">Send</button>
+                                                            <button type="button" class="btn btn-success" href="index.jsp" id="paybutton">Send</button>
                                                         </div>
                                                     </div>
                                                 </div>
