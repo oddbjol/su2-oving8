@@ -1,43 +1,38 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" >
     <div class="container-fluid">
-        <div class="navbar-header">
-            <!--<a class="navbar-brand" hrindex.jsphtml">FastTrack</a>-->
-
-
+        <div class="navbar-header" >
+            <!--<a class="navbar-brand" href="index.jsp">FastTrack</a>-->
             <a class="navbar-brand" href="index.jsp" >
                 <img src="img/logo_name2.png" style="display: inline-block; height: 100%; ">
                 <span style="display: inline-block;"></span>
             </a>
-
-
-
         </div>
 
         <div class="navbar-collapse collapse navbar-right">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" id="button1" role="button" data-toggle="dropdown">Log in
+                    <a class="dropdown-toggle" id="button1" role="button" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Log in
                         <span class="caret"></span></a>
 
                     <ul class="dropdown-menu" style="cursor: pointer">
-                        <li><a href="employee.jsp?employeeType=chef">Chef</a></li>
-                        <li><a href="employee.jsp?employeeType=waiter">Waiter</a></li>
+                        <li><a href="employee.jsp?employeeType=chef"> <span class="glyphicon glyphicon-piggy-bank"></span> Chef</a></li>
+                        <li><a href="employee.jsp?employeeType=waiter"> <span class="glyphicon glyphicon-cutlery"></span> Waiter</a></li>
                     </ul>
                 </li>
             </ul>
 
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" id="button2" role="button" data-toggle="dropdown">Menu
+                    <a class="dropdown-toggle" id="button2" role="button" data-toggle="dropdown"> <span class="glyphicon glyphicon-menu-hamburger"></span> Menu
                         <span class="caret"></span></a>
 
                     <ul class="dropdown-menu" style="cursor: pointer">
-                        <li><a id="myBtn">Location</a></li>
-                        <li><a id="openinghours">Opening hours</a></li>
-                        <li><a id="mail us">Mail us</a></li>
-                        <li><a id="call us">Call us</a></li>
-                        <li><a id="events">Events</a></li>
-                        <li><a id="about">About us</a></li>
+                        <li><a id="myModalBtn1" data-toggle="modal" data-target="#myModal1-1"> <span class="glyphicon glyphicon-map-marker"></span> Location</a></li>
+                        <li><a id="myModalBtn2" data-toggle="modal" data-target="#myModal1-2"> <span class="glyphicon glyphicon-time"></span> Opening hours</a></li>
+                        <li><a id="myModalBtn3" data-toggle="modal" data-target="#myModal1-3"> <span class="glyphicon glyphicon-envelope"></span> Mail us</a></li>
+                        <li><a id="myModalBtn4" data-toggle="modal" data-target="#myModal1-4"> <span class="glyphicon glyphicon-earphone"></span> Call us</a></li>
+                        <li><a id="myModalBtn5" data-toggle="modal" data-target="#myModal1-5"> <span class="glyphicon glyphicon-pushpin"></span> Events</a></li>
+                        <li><a id="myModalBtn6" data-toggle="modal" data-target="#myModal1-6"> <span class="glyphicon glyphicon-info-sign"></span> About us</a></li>
 
                     </ul>
                 </li>
@@ -45,3 +40,252 @@
         </div>
     </div>
 </nav>
+
+
+
+<!-- My modal 1 html - Location -->
+
+<div class="container">
+
+    <!-- Trigger the modal with a button -->
+    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+    <div id="myModal1" align="center" class="modal">
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal1-1" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2><span class="glyphicon glyphicon-map-marker"></span> Google maps </h2>
+                    </div>
+                    <div class="modal-body">
+                        <h5 align="center">We are located here: </h5>
+
+                        <div id="googleMap" style="width:100%; height:300px; " ></div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <br><p> Adress: Munkegata 5, 7000 TRONDHEIM</p>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Gets myModal2 html - Opening hours info -->
+
+<div class="container">
+    <!-- Trigger the modal with a button -->
+    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+    <div id="myModal2" align="center" class="modal"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1-2" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-time"></span> Opening hours</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Monday: 1000 - 2400 </p>
+                    <p>Tuesday: 1000 - 2400 </p>
+                    <p>Wednesday: 1000 - 2400 </p>
+                    <p>Thursday: 1000 - 2400 </p>
+                    <p>Friday: 1000 - 2400 </p>
+                    <p>Saturday: 1000 - 2400 </p>
+                    <p>Sunday: 1200 - 2400 </p>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Gets myModal3 html - Mail us info -->
+
+<div class="container">
+    <!-- Trigger the modal with a button -->
+    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+    <div id="myModal3" align="center" class="modal"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1-3" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-envelope"></span> Mail us </h4>
+                </div>
+                <div class="modal-body" >
+                    <p> </p>
+                    <p> <a href="mailto:mail@fasttrack.com"> mail@fasttrack.com </a> </p>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gets myModal4 html - Call us info -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+    <div id="myModal4" align="center" class="modal"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1-4" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">  <span class="glyphicon glyphicon-earphone"></span> Call us</h4>
+                </div>
+                <div class="modal-body">
+                    <p> Code spezialist - Oddbjørn Olsen: Phone: 482 52 060 </p>
+                    <p> Webdesigner - Eirik Stensen: Phone: 416 84 272 </p>
+                    <p> Webdesigner - Kim Røstgård: Phone: 976 52 710 </p>
+                    <p> Bugfixer - Frode Halvorsen: Phone: 924 11 330 </p>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Gets myModal5 html - Events info -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+    <div id="myModal5" align="center" class="modal"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1-5" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-pushpin"></span> Events </h4>
+                </div>
+                <div class="modal-body">
+                    <p>Our schedule for the fall is not quite ready, but chck out later for upcoming concerts, stand-up and litterature evenings... </p>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Gets myModal6 html - About us info -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+    <div id="myModal6" align="center" class="modal"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1-6" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-info-sign"></span> About us </h4>
+                </div>
+                <div class="modal-body">
+                    <p>Fasttrack is runned by four "young" webdesigners... Our food is the most accurate in town. </p>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<!-- Gets the modals content-->
+
+<script>
+
+    // Get the modal
+    var modal = document.getElementById('myModal1');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myModalBtn1");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none"; // Should reaize the map
+        }
+    }
+
+    // Opens a google map with predefined position of Trondheim
+    var map; // a google map
+    var marker; // a google marker
+    function myMap() {
+        var mapProp= {
+            center:new google.maps.LatLng(63.435742,10.384000),
+            zoom:15,
+        };
+        map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+        // Shows a google mark for the location of the restaurant
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(63.432742,10.394000)
+        });
+        marker.setMap(map);
+    }
+
+    // Resizes the google map after user tries to show it
+    $('#myModal1').on('shown.bs.modal', function () {
+        google.maps.event.trigger(map, "resize");
+    });
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8EbBw6zZ1bGCdUmwkVyRGZa2YtWEJLeI&callback=myMap"></script>
