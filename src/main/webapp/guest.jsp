@@ -398,7 +398,7 @@
                                             <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar" ></span></span>
                                             <div class="input-group">
-                                                <input class="form-control" id="clockpicker" value="" placeholder="time">
+                                                <input class="form-control" id="timepicker" value="" placeholder="time">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span></span>
                                             </div>
