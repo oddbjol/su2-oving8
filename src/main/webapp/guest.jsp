@@ -32,11 +32,11 @@
     <script src="js/timepickers.js"></script>
     <script language="javascript">
 
+    var selected_table = -1; // Indicates which table, if any, the user has been assigned during ordering.
+
         $(document).ready(function() {
             getDishes();
             findTable();
-
-
 
 
             $("#paybutton").click(function () {
@@ -105,7 +105,7 @@
 
                 //TODO: Remove hardcoding.
                 var fullOrder = {
-                    table_number: 1,
+                    table_number: selected_table,
                     //customer_id :
                     customer_name: $("#username").val(),
                     from_time: from_date,
@@ -113,6 +113,8 @@
                     num_guests: 2,
                     dish_orders: dish_orders
                 };
+
+                console.dir(fullOrder);
 
                 console.log("before accoutn");
                 var account = {
@@ -148,9 +150,11 @@
 
             $("#guestNumber, #appetizer, #maincourse, #dessert, #drinks").change(updateCost);
 
-            $("#serveringdate").change(findTable);
-            $("#timeSlot").change(findTable);
+            $("#dateinput").change(findTable);
+            $("#timepicker").change(findTable);
             $("#guestNumber").change(findTable);
+            $("#guest-plus").click(findTable);
+            $("#guest-minus").click(findTable);
 
         });
 
@@ -188,31 +192,6 @@
             return to_date;
         }
 
-        function getStartTime(){
-            var slotNumber = $("#timeSlot").val();
-            var dateString = $("#serveringdate").val();
-            var date = new Date(dateString);
-
-            newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0,0,0,0);
-
-            var ms = newDate.getTime();
-
-            ms += 12 * 60 * 60 * 1000;
-            ms += slotNumber * 90 * 60 * 1000;
-
-            return new Date(ms);
-        }
-
-        function getEndTime(){
-            var date = getStartTime();
-
-            var ms = date.getTime();
-
-            ms += 90 * 60 * 1000;
-
-            return new Date(ms);
-        }
-
         function updateCost(){
 
         var totalCost = 0;
@@ -236,23 +215,45 @@
 
         function findTable(){
 
+            console.log("finding table");
+
             var order={
-                from_time: getStartTime(),
-                to_time: getEndTime(),
+                from_time: getFromDate(),
+                to_time: getToDate(),
                 num_guests: $("#guestNumber").val()
             };
 
+            // Abort if the data hasn't been inputted correctly.
+            if(isNaN(order.from_time.getTime()) || isNaN(order.to_time.getTime()) || isNaN(order.num_guests))
+                return;
+
         console.log(JSON.stringify(order));
 
-            <%--$.ajax({--%>
-                <%--url: 'rest/thepath/orders/order/findTable/',--%>
-                <%--type: 'POST',--%>
-                <%--data: JSON.stringify(order),--%>
-                <%--contentType: 'application/json; charset=utf-8',--%>
-                <%--success: function(table_number){--%>
-                    <%--$("#table_number").val(table_number);--%>
-                <%--}--%>
-            <%--});--%>
+            $.ajax({
+                url: 'rest/thepath/orders/order/findTable/',
+                type: 'POST',
+                data: JSON.stringify(order),
+                contentType: 'application/json; charset=utf-8',
+                success: function(table_number){
+
+                    let found_table = (table_number != -1)
+
+                    if(!found_table){
+                        $("#table_number").html("No free table. Please try another time.");
+                        $("#table_number").removeClass("alert-success");
+                        $("#table_number").addClass("alert-danger");
+                    }
+                    else{
+                        $("#table_number").html("Free table found.");
+                        $("#table_number").removeClass("alert-danger");
+                        $("#table_number").addClass("alert-success");
+                    }
+
+                    selected_table = table_number;
+
+                    $("#valuser").prop("disabled", !found_table);
+                }
+            });
         }
 //test comment
 
@@ -418,10 +419,10 @@
                                 <div class="section" style="padding-bottom:20px;">
                                     <h3 class="title-attr"><small>How many guests</small></h3>
                                     <div>
-                                        <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-                                        <input value="1" />
-                                        <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
-                                        <span>test</span>
+                                        <div class="btn-minus" id="guest-minus"><span class="glyphicon glyphicon-minus"></span></div>
+                                        <input value="1" id="guestNumber"/>
+                                        <div class="btn-plus" id="guest-plus"><span class="glyphicon glyphicon-plus"></span></div>
+                                        <div id="table_number" style="margin-left: 10px; padding: 5px;"></div>
                                     </div>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
@@ -431,7 +432,7 @@
                             <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             <div class="col-sm-11 col-md-11 col-lg-11 col-xs-10" style="text-align:center;">
                                 <button id="valuser" type="button" onclick="valUsername()"
-                                        class="btn btn-primary customizedPrimaryBtn">Next</button>
+                                        class="btn btn-primary customizedPrimaryBtn" disabled>Next</button>
                         </div>
                         </div>
                         </div>
