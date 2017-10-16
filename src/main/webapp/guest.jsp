@@ -13,6 +13,10 @@
     <script src="https://cdn.rawgit.com/atatanasov/gijgo/master/dist/combined/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://cdn.rawgit.com/atatanasov/gijgo/master/dist/combined/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/styleordersheet.css">
@@ -393,11 +397,13 @@
                                 <div class='col-sm-6'>
                                     <div class="form-group">
                                         <h3 class="title-attr"><small> Enter date</small></h3>
+
                                         <div class="input-group date">
-                                            <input id="dateinput" class="form-control">
+                                            <input id="dateinput" class="form-control" placeholder="yyyy/mm/dd">
                                             <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar" ></span></span>
-                                            <div class="input-group">
+                                        <span class="glyphicon glyphicon-calendar" id="glyCal" ></span></span>
+
+                                        <div class="input-group">
                                                 <input class="form-control" id="timepicker" value="" placeholder="time">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span></span>
@@ -437,7 +443,7 @@
                                                                 style="text-align: center; font-weight: bold;padding-top: 0px;" ></div>
                                                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
                                                         </div>	-->
-                            <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
+                            <div class="form-group hidden" id="myId1" style="margin: 10px!important;">
                                 <table id="cart" class="table table-hover table-condensed">
                                       <thead id="appetizers">
                                         <tr>

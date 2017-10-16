@@ -1,10 +1,15 @@
 $(document).ready(function () {
-    $('#dateinput').datepicker({
-        uiLibrary: 'bootstrap'
+
+    $(function() {
+        $( "#dateinput" ).datepicker();
     });
 
-
 });
+
+
+
+
+
 
 var input = $('.clockpicker-with-callbacks').clockpicker({
     donetext: 'Done',
