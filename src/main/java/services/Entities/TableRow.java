@@ -14,31 +14,46 @@ import java.util.ArrayList;
  * dish_type should probably not be shown in table, but can be used to determine how to display the row.
  */
 public class TableRow {
+    private int order_id;
+    private int dish_id;
     private String customer_name;
     private int table_number;
     private String dish_name;
     private String serve_time;
     private int dish_type;
+    private int status;
+    private int seats;
 
-    /**
-     *
-     * @param customer_name
-     * @param table_number
-     * @param dish_name
-     * @param serve_time asdasd
-     * @param dish_type
-     */
     public TableRow() {
     }
 
 
-
-    public TableRow(String customer_name, int table_number, String dish_name, String serve_time, int dish_type) {
+    public TableRow(int order_id, int dish_id, String customer_name, int table_number, String dish_name, String serve_time, int dish_type, int status, int seats) {
+        this.order_id = order_id;
+        this.dish_id = dish_id;
         this.customer_name = customer_name;
         this.table_number = table_number;
         this.dish_name = dish_name;
         this.serve_time = serve_time;
         this.dish_type = dish_type;
+        this.status = status;
+        this.seats = seats;
+    }
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
+    }
+
+    public int getDish_id() {
+        return dish_id;
+    }
+
+    public void setDish_id(int dish_id) {
+        this.dish_id = dish_id;
     }
 
     public String getCustomer_name() {
@@ -81,6 +96,22 @@ public class TableRow {
         this.dish_type = dish_type;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getSeats() {
+        return seats;
+    }
+
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
+
     /**
      * Get all rows to be displayed in worklist for a given date.
      * @param date
@@ -95,7 +126,17 @@ public class TableRow {
 
         if(db.setUp()){
             try{
-                db.prep = db.connection.prepareStatement("SELECT * FROM Meals WHERE `date`=?");
+
+                String sql =    "SELECT *," +
+                                "CONCAT(Order_Dish.amount,' x ',Dish.name) AS dish_description \n" +
+                                "FROM AnOrder\n" +
+                                "INNER JOIN Order_Dish ON AnOrder.id=Order_Dish.order_id\n" +
+                                "INNER JOIN Dish ON Order_Dish.dish_id=Dish.id\n" +
+                                "INNER JOIN ATable ON AnOrder.table_number=ATable.number\n" +
+                                "WHERE DATE(from_time) = ? \n" +
+                                "ORDER BY Order_Dish.time, Order_Dish.order_id, Order_Dish.dish_id \n";
+
+                db.prep = db.connection.prepareStatement(sql);
                 db.prep.setDate(1, date);
                 db.res = db.prep.executeQuery();
 
@@ -117,12 +158,16 @@ public class TableRow {
 
     //Processes information fetched from database and creates a similar object.
     public static TableRow processRow(ResultSet res) throws SQLException{
-        String customer_name = res.getString("customer_name");
-        int table_number = res.getInt("table_number");
-        String dish_name = res.getString("dish_name");
-        String serve_time = res.getString("serve_time");
-        int dish_type = res.getInt("dish_type");
+        int order_id = res.getInt("AnOrder.id");
+        int dish_id = res.getInt("Dish.id");
+        String customer_name = res.getString("AnOrder.customer_name");
+        int table_number = res.getInt("ATable.number");
+        String dish_name = res.getString("dish_description");
+        String serve_time = res.getString("Order_Dish.time");
+        int dish_type = res.getInt("Dish.dish_type");
+        int status = res.getInt("Order_Dish.status");
+        int seats = res.getInt("ATable.seats");
 
-        return new TableRow(customer_name, table_number, dish_name, serve_time, dish_type);
+        return new TableRow(order_id, dish_id, customer_name, table_number, dish_name, serve_time, dish_type, status, seats);
     }
 }

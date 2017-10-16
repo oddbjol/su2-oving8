@@ -125,13 +125,24 @@ public class FullOrder implements Serializable{
                 if(db.res.next())
                     new_order_id = db.res.getInt(1);
 
-                db.prep = db.connection.prepareStatement("INSERT INTO Order_Dish (order_id, dish_id, amount, time) VALUES (?,?,?,?)");
+                db.prep = db.connection.prepareStatement("INSERT INTO Order_Dish (order_id, dish_id, amount, time, status) VALUES (?,?,?,?,?)");
 
                 for(Dish_Order dish_order : order.dish_orders){
                     db.prep.setInt(1, new_order_id);
                     db.prep.setInt(2, dish_order.getDish_id());
                     db.prep.setInt(3, dish_order.getAmount());
                     db.prep.setString(4, dish_order.getServe_time());
+
+                    int status;
+                    if(dish_order.getDish_type() == Dish.DISH_TYPE_DRINK)
+                        status = Dish_Order.STATUS_WAITING_FOR_WAITER;
+                    else
+                        status = Dish_Order.STATUS_WAITING_FOR_CHEF;
+
+                    System.out.println(status);
+
+                    db.prep.setInt(5, status);
+
 
                     db.prep.addBatch();
                 }

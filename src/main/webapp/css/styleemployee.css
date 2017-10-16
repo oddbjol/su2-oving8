@@ -1,0 +1,18 @@
+.inactive-row{
+    color: gray;
+}
+.waiting-for-you-row{
+    background-color: lightgreen;
+}
+.waiting-for-others-row{
+    background-color: #fe7;
+}
+.served-row{
+    display: none;
+}
+.inactive-row:hover, .waiting-for-others-row:hover, .waiting-for-you-row:hover{
+    filter: brightness(90%);
+}
+.waiting-for-you-row{
+    cursor: pointer;
+}

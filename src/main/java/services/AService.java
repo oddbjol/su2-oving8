@@ -71,6 +71,13 @@ public class AService {
     }
 
     @POST
+    @Path("/orders/updateStatus/{order_id}/{dish_id}/{status}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateDishOrderStatus(@PathParam("order_id") int order_id, @PathParam("dish_id") int dish_id, @PathParam("status") int status){
+        return Response.ok(Dish_Order.updateStatus(order_id, dish_id, status)).build();
+    }
+
+    @POST
     @Path("/account/check/{amount}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
