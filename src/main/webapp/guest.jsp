@@ -526,7 +526,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="panel-body">
+                                        <div class="panel-body" id="payment-body">
                                             <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
                                                 <div class="row">
                                                     <div class="col-xs-12">
@@ -542,29 +542,16 @@
                                                                         autocomplete="cc-number"
                                                                         required autofocus
                                                                 />
-                                                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-xs-7 col-md-7">
-                                                        <div class="form-group">
-                                                            <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
-                                                            <input
-                                                                    type="tel"
-                                                                    class="form-control"
-                                                                    name="cardExpiry"
-                                                                    placeholder="MM / YY"
-                                                                    autocomplete="cc-exp"
-                                                                    required
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-5 col-md-5 pull-right">
+                                                    <div class="col-xs-12">
                                                         <div class="form-group">
                                                             <label for="cardCVC">CV CODE</label>
-                                                            <input
+                                                            <div class="input-group">
+                                                                <input
                                                                     type="tel"
                                                                     class="form-control"
                                                                     name="cardCVC"
@@ -572,7 +559,8 @@
                                                                     placeholder="CVC"
                                                                     autocomplete="cc-csc"
                                                                     required
-                                                            />
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
