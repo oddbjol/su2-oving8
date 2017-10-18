@@ -5,7 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <!--
+    <script src="js/jquery-clock-timepicker.min.js"></script>
+    <script src="js/jquery-clock-timepicker.js"></script>
+-->
+    <!--
+    <script src="https://cdn.rawgit.com/atatanasov/gijgo/master/dist/combined/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://cdn.rawgit.com/atatanasov/gijgo/master/dist/combined/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+-->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/styleordersheet.css">
     <link rel="stylesheet" type="text/css" href="css/styleguest.css">
@@ -17,12 +29,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/guestscript.js"></script>
+    <script src="js/timepickers.js"></script>
     <script language="javascript">
+
+    var selected_table = -1; // Indicates which table, if any, the user has been assigned during ordering.
+
         $(document).ready(function() {
             getDishes();
             findTable();
-
-
 
 
             $("#paybutton").click(function () {
@@ -91,7 +105,7 @@
 
                 //TODO: Remove hardcoding.
                 var fullOrder = {
-                    table_number: 1,
+                    table_number: selected_table,
                     //customer_id :
                     customer_name: $("#username").val(),
                     from_time: from_date,
@@ -99,6 +113,8 @@
                     num_guests: 2,
                     dish_orders: dish_orders
                 };
+
+                console.dir(fullOrder);
 
                 console.log("before accoutn");
                 var account = {
@@ -134,9 +150,11 @@
 
             $("#guestNumber, #appetizer, #maincourse, #dessert, #drinks").change(updateCost);
 
-            $("#serveringdate").change(findTable);
-            $("#timeSlot").change(findTable);
+            $("#dateinput").change(findTable);
+            $("#timepicker").change(findTable);
             $("#guestNumber").change(findTable);
+            $("#guest-plus").click(findTable);
+            $("#guest-minus").click(findTable);
 
         });
 
@@ -174,31 +192,6 @@
             return to_date;
         }
 
-        function getStartTime(){
-            var slotNumber = $("#timeSlot").val();
-            var dateString = $("#serveringdate").val();
-            var date = new Date(dateString);
-
-            newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0,0,0,0);
-
-            var ms = newDate.getTime();
-
-            ms += 12 * 60 * 60 * 1000;
-            ms += slotNumber * 90 * 60 * 1000;
-
-            return new Date(ms);
-        }
-
-        function getEndTime(){
-            var date = getStartTime();
-
-            var ms = date.getTime();
-
-            ms += 90 * 60 * 1000;
-
-            return new Date(ms);
-        }
-
         function updateCost(){
 
         var totalCost = 0;
@@ -222,23 +215,45 @@
 
         function findTable(){
 
+            console.log("finding table");
+
             var order={
-                from_time: getStartTime(),
-                to_time: getEndTime(),
+                from_time: getFromDate(),
+                to_time: getToDate(),
                 num_guests: $("#guestNumber").val()
             };
 
+            // Abort if the data hasn't been inputted correctly.
+            if(isNaN(order.from_time.getTime()) || isNaN(order.to_time.getTime()) || isNaN(order.num_guests))
+                return;
+
         console.log(JSON.stringify(order));
 
-            <%--$.ajax({--%>
-                <%--url: 'rest/thepath/orders/order/findTable/',--%>
-                <%--type: 'POST',--%>
-                <%--data: JSON.stringify(order),--%>
-                <%--contentType: 'application/json; charset=utf-8',--%>
-                <%--success: function(table_number){--%>
-                    <%--$("#table_number").val(table_number);--%>
-                <%--}--%>
-            <%--});--%>
+            $.ajax({
+                url: 'rest/thepath/orders/order/findTable/',
+                type: 'POST',
+                data: JSON.stringify(order),
+                contentType: 'application/json; charset=utf-8',
+                success: function(table_number){
+
+                    let found_table = (table_number != -1)
+
+                    if(!found_table){
+                        $("#table_number").html("No free table. Please try another time.");
+                        $("#table_number").removeClass("alert-success");
+                        $("#table_number").addClass("alert-danger");
+                    }
+                    else{
+                        $("#table_number").html("Free table found.");
+                        $("#table_number").removeClass("alert-danger");
+                        $("#table_number").addClass("alert-success");
+                    }
+
+                    selected_table = table_number;
+
+                    $("#valuser").prop("disabled", !found_table);
+                }
+            });
         }
 //test comment
 
@@ -318,7 +333,7 @@
             var html = `                                    <tr>
         <td data-th="Product">
         <div class="row">
-        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+        <div class="col-sm-1 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
         <div class="col-sm-10">
         <h4 class="nomargin">` + dish.name + `</h4>
         <p></p>
@@ -331,8 +346,8 @@
         </td>
         <td data-th="Subtotal" id="subtot` + dish.id + `" class="text-center"></td>
         <td class="actions" data-th="">
-        <button class="btn btn-success btn-sm remove_dish" id="remove_dish_`+ dish.id +`">-<i class="fa fa-trash-o"></i></button>
-        <button class="btn btn-success btn-sm add_dish" id="add_dish_`+ dish.id +`">+<i class="fa fa-trash-o"></i></button>
+        <button class="btn btn-danger btn-sm remove_dish" id="remove_dish_`+ dish.id +`"><strong>-</strong><i class="fa fa-trash-o"></i></button>
+        <button class="btn btn-success btn-sm add_dish" id="add_dish_`+ dish.id +`"><strong>+</strong><i class="fa fa-trash-o"></i></button>
         </td>
         </tr>`
 
@@ -346,13 +361,13 @@
 
     <%@include file="include/navbar.html" %>
 
-<div class="container-fluid" style="margin-top:30px;">
+<div class="container-fluid" style="margin: auto;">
     <div class="row">
         <div class="col-md-6 col-md-offset-3" style="padding-right: 0px!important;padding-left: 0px!important;">
             <div class="panel-body" style="padding-right: 4px!important;padding-left: 4px!important;">
                 <form class="form-horizontal" method="post" id="login" name="login" role="form" onSubmit='#' action="#" AUTOCOMPLETE="off">
                     <fieldset  style="min-width: 0;padding:.35em .625em .75em!important;margin:0 2px;border: 2px solid silver!important;margin-bottom: 10em;box-shadow: -6px 15px 20px 0px;">
-                        <legend id="first3" style="width: inherit;padding:inherit;border:2px solid silver;" class="legend"> 1/3</legend>
+                        <legend id="first3" style="width: inherit;padding:inherit;border:2px solid silver;" class="legend">Sign in</legend>
                         <legend id="myId8" class="hidden legend" style="width: inherit;padding:inherit;border:2px solid silver;">Menu</legend>
                         <div class="form-group" id="above" style="margin-bottom: 5px!important;">
                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
@@ -383,12 +398,14 @@
                                 <div class='col-sm-6'>
                                     <div class="form-group">
                                         <h3 class="title-attr"><small> Enter date</small></h3>
-                                        <div class="input-group date" id="datepicker1">
-                                            <input type='text' id="dateinput" class="form-control" />
+
+                                        <div class="input-group date">
+                                            <input id="dateinput" class="form-control" placeholder="yyyy/mm/dd">
                                             <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar" id="dateIcon"></span></span>
-                                            <div class="input-group clockpicker">
-                                                <input type="text" class="form-control" value="18:00" id="timepicker">
+                                        <span class="glyphicon glyphicon-calendar" id="glyCal" ></span></span>
+
+                                        <div class="input-group">
+                                                <input class="form-control" id="timepicker" value="" placeholder="time">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span></span>
                                             </div>
@@ -400,11 +417,12 @@
                             <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10 input-group">
                                 <div class="section" style="padding-bottom:20px;">
-                                    <h3 class="title-attr"><small>How many guest</small></h3>
+                                    <h3 class="title-attr"><small>How many guests</small></h3>
                                     <div>
-                                        <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-                                        <input value="1" />
-                                        <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+                                        <div class="btn-minus" id="guest-minus"><span class="glyphicon glyphicon-minus"></span></div>
+                                        <input value="1" id="guestNumber"/>
+                                        <div class="btn-plus" id="guest-plus"><span class="glyphicon glyphicon-plus"></span></div>
+                                        <div id="table_number" style="margin-left: 10px; padding: 5px;"></div>
                                     </div>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
@@ -427,7 +445,7 @@
                                                                 style="text-align: center; font-weight: bold;padding-top: 0px;" ></div>
                                                             <div class="col-sm-1 col-md-2 col-lg-2 col-xs-1"></div>
                                                         </div>	-->
-                            <div class="form-group hidden" id="myId1" style="margin-bottom: 10px!important;">
+                            <div class="form-group hidden" id="myId1" style="margin: 10px!important;">
                                 <table id="cart" class="table table-hover table-condensed">
                                       <thead id="appetizers">
                                         <tr>
@@ -508,7 +526,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="panel-body">
+                                        <div class="panel-body" id="payment-body">
                                             <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
                                                 <div class="row">
                                                     <div class="col-xs-12">
@@ -524,29 +542,16 @@
                                                                         autocomplete="cc-number"
                                                                         required autofocus
                                                                 />
-                                                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-xs-7 col-md-7">
-                                                        <div class="form-group">
-                                                            <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
-                                                            <input
-                                                                    type="tel"
-                                                                    class="form-control"
-                                                                    name="cardExpiry"
-                                                                    placeholder="MM / YY"
-                                                                    autocomplete="cc-exp"
-                                                                    required
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-5 col-md-5 pull-right">
+                                                    <div class="col-xs-12">
                                                         <div class="form-group">
                                                             <label for="cardCVC">CV CODE</label>
-                                                            <input
+                                                            <div class="input-group">
+                                                                <input
                                                                     type="tel"
                                                                     class="form-control"
                                                                     name="cardCVC"
@@ -554,7 +559,8 @@
                                                                     placeholder="CVC"
                                                                     autocomplete="cc-csc"
                                                                     required
-                                                            />
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -564,7 +570,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <span aria-hidden="true"></span>
-                                                            <button type="button" class="btn btn-success" id="paybutton">Send</button>
+                                                            <button type="button" class="btn btn-success" href="index.jsp" id="paybutton">Send</button>
                                                         </div>
                                                     </div>
                                                 </div>

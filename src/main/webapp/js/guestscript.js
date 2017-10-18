@@ -56,6 +56,54 @@ function  valUsername(){
         document.getElementById("username").focus();
         return false;
     }
+    // Invalid date
+    else if(isNaN(new Date($("#dateinput").val()).getTime())){ // invalid date
+        $('#message').css('color','red');
+        $('#message').html('Please select a valid date.');
+
+        $('input:text').focus(
+            function(){
+                $(this).css({'border-color' : 'red'});
+                $(this).css({'box-shadow' : 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #f15f5f'});
+            });
+
+        $('input:text').blur(
+            function(){
+                $(this).css({'border-color' : '#ccc'});
+                $(this).css({'box-shadow' : 'none'});
+            });
+
+        $('#dateinput').css({'border-color' : 'red'});
+        $('#dateinput').css({'box-shadow' : 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #f15f5f'});
+        document.getElementById("dateinput").focus();
+
+        return false;
+    }
+    // Invalid time or not between 12:00-22:00
+    else if($("#timepicker").val().split(":").length != 2)
+            {
+
+        $('#message').css('color','red');
+        $('#message').html('Please select a valid time.');
+
+        $('input:text').focus(
+            function(){
+                $(this).css({'border-color' : 'red'});
+                $(this).css({'box-shadow' : 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #f15f5f'});
+            });
+
+        $('input:text').blur(
+            function(){
+                $(this).css({'border-color' : '#ccc'});
+                $(this).css({'box-shadow' : 'none'});
+            });
+
+                $('#timepicker').css({'border-color' : 'red'});
+                $('#timepicker').css({'box-shadow' : 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #f15f5f'});
+                document.getElementById("timepicker").focus();
+
+                return false;
+    }
     else{
         var name = $('#username').val();
         if(name=="admin" || name =="Admin" || name=="ADMIN"){
