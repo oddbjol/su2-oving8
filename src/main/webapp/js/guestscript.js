@@ -57,9 +57,9 @@ function  valUsername(){
         return false;
     }
     // Invalid date
-    else if(isNaN(new Date($("#dateinput").val()).getTime())){ // invalid date
+    else if(isNaN(new Date($("#dateinput").val()).getTime()) || new Date($("#dateinput").val()) < new Date(new Date().setHours(0,0,0,0))){ // invalid date or date is in the past.
         $('#message').css('color','red');
-        $('#message').html('Please select a valid date.');
+        $('#message').html('Please select a valid future date.');
 
         $('input:text').focus(
             function(){
@@ -79,7 +79,7 @@ function  valUsername(){
 
         return false;
     }
-    // Invalid time or not between 12:00-22:00
+    // Invalid time
     else if($("#timepicker").val().split(":").length != 2)
             {
 
@@ -103,6 +103,29 @@ function  valUsername(){
                 document.getElementById("timepicker").focus();
 
                 return false;
+    }
+    // Time is not between 10:00 - 23:00 inclusive
+    else if($("#timepicker").val().split(":")[0] < 10 || ($("#timepicker").val().split(":")[0] >= 23 && $("#timepicker").val().split(":")[1] > 0)){
+        $('#message').css('color','red');
+        $('#message').html('Please select a time between 10:00 and 23:00 inclusive.');
+
+        $('input:text').focus(
+            function(){
+                $(this).css({'border-color' : 'red'});
+                $(this).css({'box-shadow' : 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #f15f5f'});
+            });
+
+        $('input:text').blur(
+            function(){
+                $(this).css({'border-color' : '#ccc'});
+                $(this).css({'box-shadow' : 'none'});
+            });
+
+        $('#timepicker').css({'border-color' : 'red'});
+        $('#timepicker').css({'box-shadow' : 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #f15f5f'});
+        document.getElementById("timepicker").focus();
+
+        return false;
     }
     else{
         var name = $('#username').val();
