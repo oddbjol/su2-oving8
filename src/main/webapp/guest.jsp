@@ -432,7 +432,7 @@
                             <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
                             <div class="col-sm-11 col-md-11 col-lg-11 col-xs-10" style="text-align:center;">
                                 <button id="valuser" type="button" onclick="valUsername()"
-                                        class="btn btn-primary customizedPrimaryBtn" disabled>Next</button>
+                                        class="btn btn-primary customizedPrimaryBtn">Next</button>
                         </div>
                         </div>
                         </div>
