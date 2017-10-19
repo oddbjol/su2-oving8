@@ -89,15 +89,15 @@ public class AnOrder implements Serializable{
         this.customer_name = customer_name;
     }
 
-    public static ArrayList<AnOrder> getAll(){
+    public static ArrayList<AnOrder> getAll(String date){
         ArrayList<AnOrder> out = new ArrayList<>();
 
         DB db = new DB();
 
         if(db.setUp()){
             try{
-                db.prep = db.connection.prepareStatement("SELECT * FROM AnOrder");
-
+                db.prep = db.connection.prepareStatement("SELECT * FROM AnOrder WHERE DATE(from_time) = ? ORDER BY from_time");
+                db.prep.setString(1, date);
                 db.res = db.prep.executeQuery();
 
                 while(db.res.next())

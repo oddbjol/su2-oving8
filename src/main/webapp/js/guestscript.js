@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    reloadTimeTable();
+
+    $("#numGuests").change(function(){
+        console.log("changed");
+        reloadTimeTable();
+    });
+
     document.getElementById("username").focus();
 
     /*
@@ -352,5 +359,54 @@ var readyInterval = setInterval(function() {
         clearInterval(readyInterval);
     }
 }, 250);
+
+function reloadTimeTable(){
+    $.ajax({
+        type: "POST",
+        url: "rest/thepath/getFreeSlots",
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({date: "2017/10/15", numGuests: 3}),
+        success: function(tableFreeSlots){
+            let cur_slot = 0;
+            for(let tableFreeSlot of tableFreeSlots){
+                for(let i = 0; i < tableFreeSlot.num_slots; i++){
+                    cur_slot++;
+
+                    if(tableFreeSlot.freeTable == -1)
+                        color = "red";
+                    else
+                        color = "lightgreen";
+
+                    let div = $("<tr style='background-color: " + color + "'>");
+
+                    div.append("<td>" + getTimeFromSlot(cur_slot) + "</td>");
+                    div.append("<td>" + (tableFreeSlot.freeTable === -1 ? "busy" : "free (table " + tableFreeSlot.freeTable + ")") + "</td>");
+
+                    $("#timetable").append(div);
+                }
+            }
+        }
+    });
+}
+
+
+function getTimeFromSlot(slotNumber){
+    let time = new Date();
+    time.setHours(12);
+    time.setMinutes(0);
+
+    for(let i = 0; i < slotNumber; i++){
+        time = new Date(time.getTime() + 1000 * 60 * 15);
+    }
+
+    let hours = time.getHours();
+    let minutes = time.getMinutes();
+
+    hours = (hours < 10 ? "0"+hours : hours);
+    minutes = (minutes < 10 ? "0"+minutes : minutes);
+
+    return hours + ":" + minutes;
+}
+
 
 
